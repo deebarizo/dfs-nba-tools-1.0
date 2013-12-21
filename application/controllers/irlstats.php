@@ -23,12 +23,12 @@ class Irlstats extends CI_Controller
 
 			if ($num_urls > 0)
 			{
-				$data_to_insert[$date_segment]['num_of_games'] = $num_urls;
+				$data_to_insert[$date]['num_of_games'] = $num_urls;
 
 				for ($n=0; $n < $num_urls; $n++)
 				{
 					$url_segment = $html->find('div[class=expand-gameLinks]:eq('.$n.') a:first')->attr('href');
-					$data_to_insert[$date_segment]['games'][$n]['url'] = 'http://scores.espn.go.com'.$url_segment;
+					$data_to_insert[$date]['games'][$n]['url'] = 'http://scores.espn.go.com'.$url_segment;
 				}
 			}
 			else
@@ -63,7 +63,7 @@ class Irlstats extends CI_Controller
 								$stats[$n] = $html->find('table[class=mod-data] td:eq('.$n.')')->text();
 							}
 
-							foreach ($stats as $key => &$stat) 
+							foreach ($stats as &$stat) 
 							{
 								// get rid of weird "Â" character
 								// http://stackoverflow.com/questions/14881286/ignore-if-there-is-url
@@ -73,11 +73,11 @@ class Irlstats extends CI_Controller
 
 							unset($stat);
 
-							foreach ($stats as $key => $stat) 
+							foreach ($stats as $key4 => $stat) 
 							{
 								if (substr($stat, 0, 17) === 'Fast break points')
 								{
-									$key_to_halve_array = $key;
+									$key_to_halve_array = $key4;
 									break;
 								}
 							}
@@ -94,7 +94,44 @@ class Irlstats extends CI_Controller
 									$row['name'] = preg_replace('/(.*),(.*)/', '$1', $row[0]);
 									$row['position'] = preg_replace('/(.*),(.*)/', '$2', $row[0]);
 
-									unset($row[0]);	
+									if ($key === 'team1') { $row['team'] = $game['team1']; }
+									if ($key === 'team2') { $row['team'] = $game['team2']; }
+
+									$row['starter'] = 'yes';
+									$row['played'] = 'yes';
+
+									$row['minutes'] = $row[1];
+									$row['fgm'] = preg_replace('/(.*)-(.*)/', '$1', $row[2]);
+									$row['fga'] = preg_replace('/(.*)-(.*)/', '$2', $row[2]);
+									$row['threepm'] = preg_replace('/(.*)-(.*)/', '$1', $row[3]);
+									$row['threepa'] = preg_replace('/(.*)-(.*)/', '$1', $row[3]);
+									$row['ftm'] = preg_replace('/(.*)-(.*)/', '$1', $row[4]);
+									$row['fta'] = preg_replace('/(.*)-(.*)/', '$1', $row[4]);
+									$row['oreb'] = $row[5];
+									$row['dreb'] = $row[6];
+									$row['reb'] = $row[7];
+									$row['ast'] = $row[8];
+									$row['stl'] = $row[9];
+									$row['blk'] = $row[10];
+									$row['turnovers'] = $row[11];
+									$row['pfouls'] = $row[12];
+									$row['plus_minus'] = $row[13];
+									$row['pts'] = $row[14];;
+									$row['fpts_ds'] = 
+										$row['pts']+
+										($row['reb']*1.25)+
+										($row['ast']*1.5)-
+										$row['turnovers']+
+										(($row['fga']-$row['fgm'])*-0.5)+
+										(($row['fta']-$row['ftm'])*-0.5)+
+										($row['stl']*2)+
+										($row['blk']*2);
+									$row['date'] = $key;
+
+									for ($i=0; $i < 14; $i++) 
+									{ 
+										unset($row[$i]);
+									}
 								}
 							}
 
