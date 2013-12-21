@@ -54,6 +54,53 @@ class Irlstats extends CI_Controller
 
 							$game['score1'] = $html->find('td[class=ts]:eq(0)')->text();
 							$game['score2'] = $html->find('td[class=ts]:eq(1)')->text();
+
+							$count = $html->find('table[class=mod-data] td');
+							$num_td = count($count);
+
+							for ($n = 0; $n < $num_td; $n++)
+							{
+								$stats[$n] = $html->find('table[class=mod-data] td:eq('.$n.')')->text();
+							}
+
+							foreach ($stats as $key => &$stat) 
+							{
+								// get rid of weird "Â" character
+								// http://stackoverflow.com/questions/14881286/ignore-if-there-is-url
+								// http://www.stemkoski.com/php-remove-non-ascii-characters-from-a-string/
+								$stat = preg_replace('/[^(\x20-\x7F)]*/', "", $stat);
+							}
+
+							unset($stat);
+
+							foreach ($stats as $key => $stat) 
+							{
+								if (substr($stat, 0, 17) === 'Fast break points')
+								{
+									$key_to_halve_array = $key;
+									break;
+								}
+							}
+
+							for ($n = 0; $n < 5; $n++)
+							{
+								$starters_stats['team1'][] = array_slice($stats, $n*15, 15);
+							}
+
+							foreach ($starters_stats as &$starter) 
+							{
+								foreach ($starter as &$row) 
+								{
+									$row['name'] = preg_replace('/(.*),(.*)/', '$1', $row[0]);
+									$row['position'] = preg_replace('/(.*),(.*)/', '$2', $row[0]);
+
+									unset($row[0]);	
+								}
+							}
+
+							unset($row);
+
+							echo '<pre>'; var_dump($starters_stats); echo '</pre>'; exit();
 						}
 					}
 				}
