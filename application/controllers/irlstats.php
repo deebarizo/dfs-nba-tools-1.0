@@ -77,7 +77,7 @@ class Irlstats extends CI_Controller
 							{
 								if (substr($stat, 0, 17) === 'Fast break points')
 								{
-									$key_to_halve_array = $key4;
+									$key_to_halve_array = $key4+1;
 									break;
 								}
 							}
@@ -85,7 +85,7 @@ class Irlstats extends CI_Controller
 							for ($n = 0; $n < 5; $n++)
 							{
 								$starters_stats['team1'][] = array_slice($stats, $n*15, 15);
-								$starters_stats['team2'][] = array_slice($stats, $key_to_halve_array+($n*15)+1, 15);
+								$starters_stats['team2'][] = array_slice($stats, $key_to_halve_array+($n*15), 15);
 							}
 
 							foreach ($starters_stats as $key5 => &$starter) 
@@ -138,7 +138,33 @@ class Irlstats extends CI_Controller
 								unset($row);
 							}
 
-							echo '<pre>'; var_dump($starters_stats); echo '</pre>'; exit();
+							$bench_raw_data[1] = array_slice($stats, 75, $key_to_halve_array-75);
+							$bench_raw_data[2] = array_slice($stats, $key_to_halve_array+75);
+
+							for ($n = 1; $n <= 2; $n++) 
+							{ 
+								for ($i = 0; $i <= 200; $i = $i + 15) 
+								{ 
+									if (isset($bench_raw_data[$n][$i+1]) AND is_numeric($bench_raw_data[$n][$i+1]))
+									{
+										$bench_stats['team'.$n][] = array_slice($bench_raw_data[$n], $i, 15);
+									}
+									else
+									{
+										break;
+									}
+								}
+
+								foreach ($bench_raw_data[$n] as $key6 => $row) 
+								{
+									if (substr($row, 0, 3) === 'DNP')
+									{
+										$bench_stats['team'.$n][] = array_slice($bench_raw_data[$n], $key6-1, 2);
+									}
+								}
+							}
+
+							echo '<pre>'; var_dump($bench_stats); echo '</pre>'; exit();
 						}
 					}
 				}
