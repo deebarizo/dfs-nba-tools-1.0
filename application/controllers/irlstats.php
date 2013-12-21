@@ -51,6 +51,9 @@ class Irlstats extends CI_Controller
 
 							$game['team1'] = $html->find('tr[class=periods]')->next()->find('td[class=team]')->text();
 							$game['team2'] = $html->find('tr[class=periods]')->next()->next()->find('td[class=team]')->text();
+
+							$game['score1'] = $html->find('td[class=ts]:eq(0)')->text();
+							$game['score2'] = $html->find('td[class=ts]:eq(1)')->text();
 						}
 					}
 				}
