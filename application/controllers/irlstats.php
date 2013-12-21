@@ -5,7 +5,8 @@ class Irlstats extends CI_Controller
 
 	public function index()
 	{
-		$date_range = $this->create_date_range_array('2013-10-29', '2013-12-19');
+		$date_range = $this->create_date_range_array('2013-10-29', '2013-10-29'); 
+		// when ready to insert, change last date to 2013-12-19
 
 		// echo '<pre>'; var_dump($date_range); echo '</pre>'; exit();
 
@@ -27,7 +28,7 @@ class Irlstats extends CI_Controller
 				for ($n=0; $n < $num_urls; $n++)
 				{
 					$url_segment = $html->find('div[class=expand-gameLinks]:eq('.$n.') a:first')->attr('href');
-					$data_to_insert[$date_segment]['games'][$n] = 'http://scores.espn.go.com'.$url_segment;
+					$data_to_insert[$date_segment]['games'][$n]['url'] = 'http://scores.espn.go.com'.$url_segment;
 				}
 			}
 			else
@@ -36,24 +37,29 @@ class Irlstats extends CI_Controller
 			}
 		}
 
-		foreach ($data_to_insert as $key => $date) 
+		foreach ($data_to_insert as $key => &$date) 
 		{
 			if ($date['num_of_games'] > 0)
 			{
-				echo $key.'<br>';
-
-				foreach ($date as $key2 => $games) 
+				foreach ($date as $key2 => &$games) 
 				{
 					if ($key2 === 'games')
 					{
-						foreach ($games as $game_url) 
+						foreach ($games as $key3 => &$game) 
 						{
-							echo $game_url.'<br>';
+							$html = phpQuery::newDocumentFileHTML($game['url']);
+
+							$game['team1'] = $html->find('tr[class=periods]')->next()->find('td[class=team]')->text();
+							$game['team2'] = $html->find('tr[class=periods]')->next()->next()->find('td[class=team]')->text();
 						}
 					}
 				}
 			}
 		}
+
+		unset($date);
+		unset($games);
+		unset($game);
 
 		echo '<pre>'; var_dump($data_to_insert); echo '</pre>'; exit();
 	}
