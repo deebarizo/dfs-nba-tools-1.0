@@ -85,17 +85,18 @@ class Irlstats extends CI_Controller
 							for ($n = 0; $n < 5; $n++)
 							{
 								$starters_stats['team1'][] = array_slice($stats, $n*15, 15);
+								$starters_stats['team2'][] = array_slice($stats, $key_to_halve_array+($n*15)+1, 15);
 							}
 
-							foreach ($starters_stats as &$starter) 
+							foreach ($starters_stats as $key5 => &$starter) 
 							{
 								foreach ($starter as &$row) 
 								{
 									$row['name'] = preg_replace('/(.*),(.*)/', '$1', $row[0]);
 									$row['position'] = preg_replace('/(.*),(.*)/', '$2', $row[0]);
 
-									if ($key === 'team1') { $row['team'] = $game['team1']; }
-									if ($key === 'team2') { $row['team'] = $game['team2']; }
+									if ($key5 === 'team1') { $row['team'] = $game['team1']; }
+									if ($key5 === 'team2') { $row['team'] = $game['team2']; }
 
 									$row['starter'] = 'yes';
 									$row['played'] = 'yes';
@@ -104,9 +105,9 @@ class Irlstats extends CI_Controller
 									$row['fgm'] = preg_replace('/(.*)-(.*)/', '$1', $row[2]);
 									$row['fga'] = preg_replace('/(.*)-(.*)/', '$2', $row[2]);
 									$row['threepm'] = preg_replace('/(.*)-(.*)/', '$1', $row[3]);
-									$row['threepa'] = preg_replace('/(.*)-(.*)/', '$1', $row[3]);
+									$row['threepa'] = preg_replace('/(.*)-(.*)/', '$2', $row[3]);
 									$row['ftm'] = preg_replace('/(.*)-(.*)/', '$1', $row[4]);
-									$row['fta'] = preg_replace('/(.*)-(.*)/', '$1', $row[4]);
+									$row['fta'] = preg_replace('/(.*)-(.*)/', '$2', $row[4]);
 									$row['oreb'] = $row[5];
 									$row['dreb'] = $row[6];
 									$row['reb'] = $row[7];
@@ -128,14 +129,14 @@ class Irlstats extends CI_Controller
 										($row['blk']*2);
 									$row['date'] = $key;
 
-									for ($i=0; $i < 14; $i++) 
+									for ($i=0; $i < 15; $i++) 
 									{ 
 										unset($row[$i]);
 									}
 								}
-							}
 
-							unset($row);
+								unset($row);
+							}
 
 							echo '<pre>'; var_dump($starters_stats); echo '</pre>'; exit();
 						}
