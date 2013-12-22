@@ -5,6 +5,8 @@ class Irlstats extends CI_Controller
 
 	public function index()
 	{
+		exit();
+
 		$this->load->database();
 
 		ini_set('max_execution_time', 10800); // 10800 seconds = 3 hours
@@ -274,8 +276,6 @@ class Irlstats extends CI_Controller
 		}
 
 		unset($date);
-
-		// echo '<pre>'; var_dump($data_to_insert); echo '</pre>'; exit();
 	}
 
 	function create_date_range_array($strDateFrom,$strDateTo)
