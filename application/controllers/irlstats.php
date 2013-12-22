@@ -5,6 +5,8 @@ class Irlstats extends CI_Controller
 
 	public function index()
 	{
+		exit();
+
 		$this->load->database();
 
 		ini_set('max_execution_time', 10800); // 10800 seconds = 3 hours
