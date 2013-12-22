@@ -5,6 +5,8 @@ class Irlstats extends CI_Controller
 
 	public function index()
 	{
+		$this->load->database();
+
 		ini_set('max_execution_time', 10800); // 10800 seconds = 3 hours
 
 		$date_range = $this->create_date_range_array('2013-10-29', '2013-12-20'); 
@@ -37,6 +39,13 @@ class Irlstats extends CI_Controller
 
 		foreach ($data_to_insert as $key => &$date) 
 		{
+
+			$sql = 'INSERT INTO `date`(`date`, `num_of_games`) VALUES (:date, :num_of_games)';
+			$s = $this->db->conn_id->prepare($sql);
+			$s->bindValue(':date', $key);
+			$s->bindValue(':num_of_games', $date['num_of_games']);
+			$s->execute(); 	
+
 			if ($date['num_of_games'] > 0)
 			{
 				foreach ($date as $key2 => &$games) 
@@ -45,6 +54,17 @@ class Irlstats extends CI_Controller
 					{
 						foreach ($games as $key3 => &$game) 
 						{
+							$sql = 'INSERT INTO `games`(`url_espn`, `team1`, `team2`, `score1`, `score2`, `date`) 
+									VALUES (:url_espn, :team1, :team2, :score1, :score2, :date)';
+							$s = $this->db->conn_id->prepare($sql);
+							$s->bindValue(':url_espn', $game['url']);
+							$s->bindValue(':team1', $game['team1']);
+							$s->bindValue(':team2', $game['team2']);
+							$s->bindValue(':score1', $game['score1']);
+							$s->bindValue(':score2', $game['score2']);
+							$s->bindValue(':date', $key);
+							$s->execute(); 	
+
 							$html = phpQuery::newDocumentFileHTML($game['url']);
 
 							$game['team1'] = $html->find('tr[class=periods]')->next()->find('td[class=team]')->text();
@@ -200,6 +220,40 @@ class Irlstats extends CI_Controller
 											unset($row[0]);
 											unset($row[1]);											
 										}
+
+										$sql = 'INSERT INTO `irlstats`(`name`, `position`, `team`, `opponent`, `starter`, `played`, 
+																		`minutes`, `fgm`, `fga`, `threepm`, `threepa`, `ftm`, `fta`, `oreb`, `dreb`, `reb`, 
+																		`ast`, `stl`, `blk`, `turnovers`, `pfouls`, `plus_minus`, `pts`, `fpts_ds`, `date`) 
+												VALUES (:name, :position, :team, :opponent, :starter, :played,
+														:minutes, :fgm, :fga, :threepm, :threepa, :ftm, :fta, :oreb, :dreb, :reb,
+														:ast, :stl, :blk, :turnovers, :pfouls, :plus_minus, :pts, :fpts_ds, :date)';
+										$s = $this->db->conn_id->prepare($sql);
+										$s->bindValue(':name', $row['name']);
+										$s->bindValue(':position', $row['position']);
+										$s->bindValue(':team', $row['team']);
+										$s->bindValue(':opponent', $row['opponent']);
+										$s->bindValue(':starter', $row['starter']);
+										$s->bindValue(':played', $row['played']);
+										$s->bindValue(':minutes', $row['minutes']);
+										$s->bindValue(':fgm', $row['fgm']);
+										$s->bindValue(':fga', $row['fga']);
+										$s->bindValue(':threepm', $row['threepm']);
+										$s->bindValue(':threepa', $row['threepa']);
+										$s->bindValue(':ftm', $row['ftm']);
+										$s->bindValue(':fta', $row['fta']);
+										$s->bindValue(':oreb', $row['oreb']);
+										$s->bindValue(':dreb', $row['dreb']);
+										$s->bindValue(':reb', $row['reb']);
+										$s->bindValue(':ast', $row['ast']);
+										$s->bindValue(':stl', $row['stl']);
+										$s->bindValue(':blk', $row['blk']);
+										$s->bindValue(':turnovers', $row['turnovers']);
+										$s->bindValue(':pfouls', $row['pfouls']);
+										$s->bindValue(':plus_minus', $row['plus_minus']);
+										$s->bindValue(':pts', $row['pts']);
+										$s->bindValue(':fpts_ds', $row['fpts_ds']);
+										$s->bindValue(':date', $row['date']);
+										$s->execute(); 	
 									}
 
 									unset($row);
