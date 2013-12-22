@@ -5,7 +5,9 @@ class Irlstats extends CI_Controller
 
 	public function index()
 	{
-		$date_range = $this->create_date_range_array('2013-10-29', '2013-10-29'); 
+		ini_set('max_execution_time', 10800); // 10800 seconds = 3 hours
+
+		$date_range = $this->create_date_range_array('2013-10-29', '2013-12-20'); 
 		// when ready to insert, change last date to 2013-12-19
 
 		// echo '<pre>'; var_dump($date_range); echo '</pre>'; exit();
@@ -21,19 +23,15 @@ class Irlstats extends CI_Controller
 			$count = $html->find('.expand-gameLinks');
 			$num_urls = count($count);
 
+			$data_to_insert[$date]['num_of_games'] = $num_urls;
+
 			if ($num_urls > 0)
 			{
-				$data_to_insert[$date]['num_of_games'] = $num_urls;
-
 				for ($n=0; $n < $num_urls; $n++)
 				{
 					$url_segment = $html->find('div[class=expand-gameLinks]:eq('.$n.') a:first')->attr('href');
 					$data_to_insert[$date]['games'][$n]['url'] = 'http://scores.espn.go.com'.$url_segment;
 				}
-			}
-			else
-			{
-				$data_to_insert[$date_segment]['num_of_games'] = $num_urls;
 			}
 		}
 
@@ -84,63 +82,9 @@ class Irlstats extends CI_Controller
 
 							for ($n = 0; $n < 5; $n++)
 							{
-								$raw_player_data['team1']['starters'][] = array_slice($stats, $n*15, 15);
-								$raw_player_data['team2']['starters'][] = array_slice($stats, $key_to_halve_array+($n*15), 15);
+								$raw_player_data['team1']['starter'][] = array_slice($stats, $n*15, 15);
+								$raw_player_data['team2']['starter'][] = array_slice($stats, $key_to_halve_array+($n*15), 15);
 							}
-
-							echo '<pre>'; var_dump($raw_player_data); echo '</pre>'; exit();
-/*
-							foreach ($starters_stats as $key5 => &$starter) 
-							{
-								foreach ($starter as &$row) 
-								{
-									$row['name'] = preg_replace('/(.*),(.*)/', '$1', $row[0]);
-									$row['position'] = preg_replace('/(.*),(.*)/', '$2', $row[0]);
-
-									if ($key5 === 'team1') { $row['team'] = $game['team1']; }
-									if ($key5 === 'team2') { $row['team'] = $game['team2']; }
-
-									$row['starter'] = 'yes';
-									$row['played'] = 'yes';
-
-									$row['minutes'] = $row[1];
-									$row['fgm'] = preg_replace('/(.*)-(.*)/', '$1', $row[2]);
-									$row['fga'] = preg_replace('/(.*)-(.*)/', '$2', $row[2]);
-									$row['threepm'] = preg_replace('/(.*)-(.*)/', '$1', $row[3]);
-									$row['threepa'] = preg_replace('/(.*)-(.*)/', '$2', $row[3]);
-									$row['ftm'] = preg_replace('/(.*)-(.*)/', '$1', $row[4]);
-									$row['fta'] = preg_replace('/(.*)-(.*)/', '$2', $row[4]);
-									$row['oreb'] = $row[5];
-									$row['dreb'] = $row[6];
-									$row['reb'] = $row[7];
-									$row['ast'] = $row[8];
-									$row['stl'] = $row[9];
-									$row['blk'] = $row[10];
-									$row['turnovers'] = $row[11];
-									$row['pfouls'] = $row[12];
-									$row['plus_minus'] = $row[13];
-									$row['pts'] = $row[14];;
-									$row['fpts_ds'] = 
-										$row['pts']+
-										($row['reb']*1.25)+
-										($row['ast']*1.5)-
-										$row['turnovers']+
-										(($row['fga']-$row['fgm'])*-0.5)+
-										(($row['fta']-$row['ftm'])*-0.5)+
-										($row['stl']*2)+
-										($row['blk']*2);
-									$row['date'] = $key;
-
-									for ($i=0; $i < 15; $i++) 
-									{ 
-										unset($row[$i]);
-									}
-								}
-
-								unset($row);
-							}
-
-							*/
 
 							$bench_raw_data[1] = array_slice($stats, 75, $key_to_halve_array-75);
 							$bench_raw_data[2] = array_slice($stats, $key_to_halve_array+75);
@@ -159,25 +103,120 @@ class Irlstats extends CI_Controller
 									}
 								}
 
-								foreach ($bench_raw_data[$n] as $key6 => $row) 
+								foreach ($bench_raw_data[$n] as $key10 => $row) 
 								{
 									if (substr($row, 0, 3) === 'DNP')
 									{
-										$raw_player_data['team'.$n]['bench'][] = array_slice($bench_raw_data[$n], $key6-1, 2);
+										$raw_player_data['team'.$n]['bench'][] = array_slice($bench_raw_data[$n], $key10-1, 2);
 									}
 								}
 							}
 
-							echo '<pre>'; var_dump($raw_player_data); echo '</pre>'; exit();
+							foreach ($raw_player_data as $key5 => &$team) 
+							{
+								foreach ($team as $key6 => &$player_type) 
+								{
+									foreach ($player_type as &$row) 
+									{
+										$row['name'] = preg_replace('/(.*),(.*)/', '$1', $row[0]);
+										$row['position'] = preg_replace('/(.*),(.*)/', '$2', $row[0]);
+
+										if ($key5 === 'team1') { $row['team'] = $game['team1']; }
+										if ($key5 === 'team2') { $row['team'] = $game['team2']; }
+
+										if ($key6 === 'starter') { $row['starter'] = 'yes'; }
+										if ($key6 === 'bench') { $row['starter'] = 'no'; }
+
+										if (is_numeric($row[1]) === true)
+										{
+											$row['played'] = 'yes';
+
+											$row['minutes'] = $row[1];
+											$row['fgm'] = preg_replace('/(.*)-(.*)/', '$1', $row[2]);
+											$row['fga'] = preg_replace('/(.*)-(.*)/', '$2', $row[2]);
+											$row['threepm'] = preg_replace('/(.*)-(.*)/', '$1', $row[3]);
+											$row['threepa'] = preg_replace('/(.*)-(.*)/', '$2', $row[3]);
+											$row['ftm'] = preg_replace('/(.*)-(.*)/', '$1', $row[4]);
+											$row['fta'] = preg_replace('/(.*)-(.*)/', '$2', $row[4]);
+											$row['oreb'] = $row[5];
+											$row['dreb'] = $row[6];
+											$row['reb'] = $row[7];
+											$row['ast'] = $row[8];
+											$row['stl'] = $row[9];
+											$row['blk'] = $row[10];
+											$row['turnovers'] = $row[11];
+											$row['pfouls'] = $row[12];
+											$row['plus_minus'] = $row[13];
+											$row['pts'] = $row[14];
+											$row['fpts_ds'] = 
+												$row['pts']+
+												($row['reb']*1.25)+
+												($row['ast']*1.5)-
+												$row['turnovers']+
+												(($row['fga']-$row['fgm'])*-0.5)+
+												(($row['fta']-$row['ftm'])*-0.5)+
+												($row['stl']*2)+
+												($row['blk']*2);
+											$row['date'] = $key;
+
+											for ($i=0; $i < 15; $i++) 
+											{ 
+												unset($row[$i]);
+											}	
+										}
+										else
+										{
+											$row['played'] = $row[1];
+
+											$row['minutes'] = NULL;
+											$row['fgm'] = NULL;
+											$row['fga'] = NULL;
+											$row['threepm'] = NULL;
+											$row['threepa'] = NULL;
+											$row['ftm'] = NULL;
+											$row['fta'] = NULL;
+											$row['oreb'] = NULL;
+											$row['dreb'] = NULL;
+											$row['reb'] = NULL;
+											$row['ast'] = NULL;
+											$row['stl'] = NULL;
+											$row['blk'] = NULL;
+											$row['turnovers'] = NULL;
+											$row['pfouls'] = NULL;
+											$row['plus_minus'] = NULL;
+											$row['pts'] = NULL;
+											$row['fpts_ds'] = NULL;
+											$row['date'] = $key;
+
+											unset($row[0]);
+											unset($row[1]);											
+										}
+									}
+
+									unset($row);
+								}
+
+								unset($player_type);
+							}
+
+							unset($team);
+
+							// echo '<pre>'; var_dump($raw_player_data); echo '</pre>'; exit();
+
+							array_push($game, $raw_player_data);
+
+							unset($raw_player_data);
 						}
+
+						unset($game);
 					}
 				}
+
+				unset($games);
 			}
 		}
 
 		unset($date);
-		unset($games);
-		unset($game);
 
 		echo '<pre>'; var_dump($data_to_insert); echo '</pre>'; exit();
 	}
