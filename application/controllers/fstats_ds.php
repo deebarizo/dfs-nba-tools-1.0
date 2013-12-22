@@ -5,8 +5,6 @@ class Fstats_ds extends CI_Controller
 
 	public function index()
 	{
-		$this->load->helper('url');
-
 		date_default_timezone_set('America/Chicago');
 
 		$today = date('Y-m-d');
