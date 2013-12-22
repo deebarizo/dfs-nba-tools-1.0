@@ -276,8 +276,6 @@ class Irlstats extends CI_Controller
 		}
 
 		unset($date);
-
-		// echo '<pre>'; var_dump($data_to_insert); echo '</pre>'; exit();
 	}
 
 	function create_date_range_array($strDateFrom,$strDateTo)
