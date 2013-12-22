@@ -11,6 +11,8 @@ class Today extends CI_Controller
 		$data['subhead'] = 'DFS NBA Tools';
 
 		$this->load->view('templates/header', $data);
+		$this->load->view('today', $data);
+		$this->load->view('templates/footer', $data);
 	}
 
 }
