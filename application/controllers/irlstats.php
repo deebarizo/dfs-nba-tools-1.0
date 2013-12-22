@@ -54,6 +54,14 @@ class Irlstats extends CI_Controller
 					{
 						foreach ($games as $key3 => &$game) 
 						{
+							$html = phpQuery::newDocumentFileHTML($game['url']);
+
+							$game['team1'] = $html->find('tr[class=periods]')->next()->find('td[class=team]')->text();
+							$game['team2'] = $html->find('tr[class=periods]')->next()->next()->find('td[class=team]')->text();
+
+							$game['score1'] = $html->find('td[class=ts]:eq(0)')->text();
+							$game['score2'] = $html->find('td[class=ts]:eq(1)')->text();
+
 							$sql = 'INSERT INTO `games`(`url_espn`, `team1`, `team2`, `score1`, `score2`, `date`) 
 									VALUES (:url_espn, :team1, :team2, :score1, :score2, :date)';
 							$s = $this->db->conn_id->prepare($sql);
@@ -64,14 +72,6 @@ class Irlstats extends CI_Controller
 							$s->bindValue(':score2', $game['score2']);
 							$s->bindValue(':date', $key);
 							$s->execute(); 	
-
-							$html = phpQuery::newDocumentFileHTML($game['url']);
-
-							$game['team1'] = $html->find('tr[class=periods]')->next()->find('td[class=team]')->text();
-							$game['team2'] = $html->find('tr[class=periods]')->next()->next()->find('td[class=team]')->text();
-
-							$game['score1'] = $html->find('td[class=ts]:eq(0)')->text();
-							$game['score2'] = $html->find('td[class=ts]:eq(1)')->text();
 
 							$count = $html->find('table[class=mod-data] td');
 							$num_td = count($count);
