@@ -10,9 +10,6 @@ class Irlstats extends CI_Controller
 		ini_set('max_execution_time', 10800); // 10800 seconds = 3 hours
 
 		$date_range = $this->create_date_range_array('2013-10-29', '2013-12-20'); 
-		// when ready to insert, change last date to 2013-12-19
-
-		// echo '<pre>'; var_dump($date_range); echo '</pre>'; exit();
 
 		$this->load->helper('phpquery');
 
@@ -39,7 +36,6 @@ class Irlstats extends CI_Controller
 
 		foreach ($data_to_insert as $key => &$date) 
 		{
-
 			$sql = 'INSERT INTO `date`(`date`, `num_of_games`) VALUES (:date, :num_of_games)';
 			$s = $this->db->conn_id->prepare($sql);
 			$s->bindValue(':date', $key);
@@ -264,8 +260,6 @@ class Irlstats extends CI_Controller
 
 							unset($team);
 
-							// echo '<pre>'; var_dump($raw_player_data); echo '</pre>'; exit();
-
 							array_push($game, $raw_player_data);
 
 							unset($raw_player_data);
@@ -281,7 +275,7 @@ class Irlstats extends CI_Controller
 
 		unset($date);
 
-		echo '<pre>'; var_dump($data_to_insert); echo '</pre>'; exit();
+		// echo '<pre>'; var_dump($data_to_insert); echo '</pre>'; exit();
 	}
 
 	function create_date_range_array($strDateFrom,$strDateTo)
