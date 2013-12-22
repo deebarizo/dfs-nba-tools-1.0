@@ -121,8 +121,17 @@ class Irlstats extends CI_Controller
 										$row['name'] = preg_replace('/(.*),(.*)/', '$1', $row[0]);
 										$row['position'] = preg_replace('/(.*),(.*)/', '$2', $row[0]);
 
-										if ($key5 === 'team1') { $row['team'] = $game['team1']; }
-										if ($key5 === 'team2') { $row['team'] = $game['team2']; }
+										if ($key5 === 'team1') 
+										{ 
+											$row['team'] = $game['team1']; 
+											$row['opponent'] = $game['team2'];
+										}
+
+										if ($key5 === 'team2') 
+										{ 
+											$row['team'] = $game['team2']; 
+											$row['opponent'] = $game['team1'];
+										}
 
 										if ($key6 === 'starter') { $row['starter'] = 'yes'; }
 										if ($key6 === 'bench') { $row['starter'] = 'no'; }
