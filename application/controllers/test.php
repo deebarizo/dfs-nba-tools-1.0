@@ -71,18 +71,14 @@ class Test extends CI_Controller
 
 		$diff_squared = 0;
 
-		foreach ($schedule as &$games) 
+		foreach ($schedule as $games) 
 		{
-			foreach ($games as &$game) 
+			foreach ($games as $game) 
 			{
 				$diff_squared += pow($game['ratio1'] - $stats['ratios']['mean'], 2); 
 				$diff_squared += pow($game['ratio2'] - $stats['ratios']['mean'], 2); 
 			}
-
-			unset($game);				
 		}
-
-		unset($games);
 
 		$variance = $diff_squared / ($stats['count'] - 1);
 		$stats['stdev'] = sqrt($variance);
@@ -110,7 +106,28 @@ class Test extends CI_Controller
 
 		$stats['fpts']['mean'] = $stats['fpts']['sum'] / $stats['count'];	
 
-		echo '<pre>'; var_dump($stats); echo '</pre>'; exit();
+		$correlation['axb'] = 0;
+		$correlation['a_squared'] = 0;
+		$correlation['b_squared'] = 0;
+
+		foreach ($schedule as $games) 
+		{
+			foreach ($games as $game) 
+			{
+				$correlation['axb'] += ($game['score1'] - $stats['pts']['mean']) * ($game['fpts1'] - $stats['fpts']['mean']);
+				$correlation['axb'] += ($game['score2'] - $stats['pts']['mean']) * ($game['fpts2'] - $stats['fpts']['mean']);
+
+				$correlation['a_squared'] += pow(($game['score1'] - $stats['pts']['mean']), 2);
+				$correlation['a_squared'] += pow(($game['score2'] - $stats['pts']['mean']), 2);
+
+				$correlation['b_squared'] += pow(($game['fpts1'] - $stats['fpts']['mean']), 2);
+				$correlation['b_squared'] += pow(($game['fpts2'] - $stats['fpts']['mean']), 2);
+			}
+		}	
+
+		$correlation['answer'] = $correlation['axb'] / (sqrt($correlation['a_squared'] * $correlation['b_squared']));
+
+		echo '<pre>'; var_dump($correlation); echo '</pre>'; exit();
 	}
 
 	function create_date_range_array($strDateFrom,$strDateTo)
