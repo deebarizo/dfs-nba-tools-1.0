@@ -1,5 +1,5 @@
 <?php
-class team_model extends CI_Model 
+class teams_model extends CI_Model 
 {
 
 	public function get_all_teams()
@@ -133,7 +133,7 @@ class team_model extends CI_Model
 
 		$correlation['answer'] = $correlation['axb'] / (sqrt($correlation['a_squared'] * $correlation['b_squared']));
 
-		$sql = 'SELECT abbr_espn as team FROM `teams`';
+		$sql = 'SELECT abbr_espn, name_sao FROM `teams`';
 		$s = $this->db->conn_id->prepare($sql);
 		$s->execute(); 
 
@@ -160,7 +160,7 @@ class team_model extends CI_Model
 				{
 					for ($i = 1; $i <= 2; $i++) 
 					{ 
-						if ($game['team'.$i] == $team['team'])
+						if ($game['team'.$i] == $team['abbr_espn'])
 						{
 							$team['count'] += 1;
 
