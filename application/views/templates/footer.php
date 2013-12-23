@@ -34,6 +34,13 @@
 
 <script src='<?php echo base_url().'js/stupidtable.js'; ?>'></script>
 
+<script type="text/javascript">
+
+	$("#simple-table").stupidtable();
+	$("#simple-table2").stupidtable();
+
+</script>
+
 </body>
 
 </html>

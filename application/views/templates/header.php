@@ -12,6 +12,8 @@
 
 		<?php echo link_tag('css/base-admin.css'); ?>
 
+		<?php echo link_tag('css/style.css'); ?>
+
 		<link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
 		
 		<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">

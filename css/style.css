@@ -1,0 +1,24 @@
+/* matchups table */
+
+.inside_box table
+{
+	text-align: left;
+	border-color: gray;
+	border-spacing: 1px;
+	margin-bottom: 18px;
+}
+
+.inside_box th 
+{
+	background-color: #FFEBCC;
+	border: 1px solid #DDDDDD;
+	padding: 4px;
+	text-align: left;
+}
+
+.inside_box td
+{
+	padding: 4px;
+	text-align: left;
+	border: 1px solid #DDDDDD;
+}

@@ -15,12 +15,16 @@ class matchups_model extends CI_Model
 				{
 					if ($game['team'.$i] == $team['name_sao'])
 					{
+						$game['team_abbr'.$i] = $team['abbr_espn'];
+
 						$game['pts_plus_minus'.$i] = $game['score'.$i] - $team['pts_per_game'];
 
 						foreach ($teams as $row) 
 						{
 							if ($game['team'.$opp] == $row['name_sao']) 
 							{ 
+								$game['team_abbr'.$opp] = $row['abbr_espn'];
+
 								$ratio = ($team['ratio'] + $row['ratio_opp']) / 2;
 
 								break;
@@ -48,6 +52,8 @@ class matchups_model extends CI_Model
 				{
 					if ($game['team'.$i] == $team['name_sao'])
 					{
+						$game['team_abbr'.$i] = $team['abbr_espn'];
+
 						foreach ($teams as $row) 
 						{
 							if ($game['team'.$opp] == $row['name_sao']) 
@@ -66,6 +72,8 @@ class matchups_model extends CI_Model
 						{
 							if ($game['team'.$opp] == $row['name_sao']) 
 							{ 
+								$game['team_abbr'.$opp] = $row['abbr_espn'];
+
 								$ratio = ($team['ratio'] + $row['ratio_opp']) / 2;
 
 								break;
