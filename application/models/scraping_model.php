@@ -1,9 +1,8 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
-class Scrape_odds extends CI_Controller 
+<?php
+class scraping_model extends CI_Model 
 {
 
-	public function index()
+	public function scrape_odds()
 	{
 		ini_set('max_execution_time', 10800); // 10800 seconds = 3 hours
 
@@ -138,13 +137,15 @@ class Scrape_odds extends CI_Controller
 			}			
 		}
 
-		echo '<pre>';
+		# echo '<pre>';
 		# var_dump($raw_data);
 		# var_dump($num_of_games);
 		# var_dump($raw_data2);
 		# var_dump($odds);
-		var_dump($games);
-		echo '</pre>'; exit();		
+		# var_dump($games);
+		# echo '</pre>'; exit();	
+
+		return $games;
 	}
 
 }
