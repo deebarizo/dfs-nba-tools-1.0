@@ -1,15 +1,21 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
-class Test extends CI_Controller 
+<?php
+class team_model extends CI_Model 
 {
 
-	public function index()
+	public function get_all_teams()
 	{
 		$this->load->database();
 
 		ini_set('max_execution_time', 10800); // 10800 seconds = 3 hours
 
-		$date_range = $this->create_date_range_array('2013-10-29', '2013-12-21'); 
+		$sql = 'SELECT DISTINCT `date` FROM `irlstats` ORDER BY `date` DESC LIMIT 1';
+		$s = $this->db->conn_id->prepare($sql);
+		$s->execute(); 
+
+		$result = $s->fetchAll(PDO::FETCH_COLUMN);
+		$latest_date = $result[0];
+
+		$date_range = $this->create_date_range_array('2013-10-29', $latest_date); 
 
 		foreach ($date_range as $key => $date) 
 		{
@@ -216,13 +222,15 @@ class Test extends CI_Controller
 
 		$team_stats['cv'] = $team_stats['stdev'] / $team_stats['ratios']['mean'];
 
-		echo '<pre>'; 
+		# echo '<pre>'; 
 		# var_dump($team_stats);
-		var_dump($teams); 
+		# var_dump($teams); 
 		# var_dump($correlation); 
 		# var_dump($stats);
 		# var_dump($schedule);
-		echo '</pre>'; exit();
+		# echo '</pre>'; exit();
+
+		return $teams;
 	}
 
 	function create_date_range_array($strDateFrom,$strDateTo)

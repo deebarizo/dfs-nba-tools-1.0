@@ -2,23 +2,9 @@
 class scraping_model extends CI_Model 
 {
 
-	public function scrape_odds()
+	public function scrape_odds($date)
 	{
 		ini_set('max_execution_time', 10800); // 10800 seconds = 3 hours
-
-		date_default_timezone_set('America/Chicago');
-
-		$today = date('Y-m-d');
-
-		if (time() < strtotime($today.'6:00PM'))
-		{
-			$date = $today;
-		}
-
-		if (time() > strtotime($today.'6:00PM') AND time() < strtotime($today.'11:59PM'))
-		{
-			$date = date('Y-m-d',strtotime("1 days"));
-		}
 
 		$url_segment = preg_replace('/(\d\d\d\d)-(\d\d)-(\d\d)/', '$1$2$3', $date);
 
