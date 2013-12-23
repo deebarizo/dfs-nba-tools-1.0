@@ -41,54 +41,57 @@ class matchups_model extends CI_Model
 
 		unset($game);
 
-		foreach ($games['no_lines'] as &$game) 
+		if (empty($games['no_lines']) === false)
 		{
-			for ($i = 1; $i <= 2; $i++) 
-			{ 
-				if ($i == 1) { $opp = 2; }
-				if ($i == 2) { $opp = 1; }
+			foreach ($games['no_lines'] as &$game) 
+			{
+				for ($i = 1; $i <= 2; $i++) 
+				{ 
+					if ($i == 1) { $opp = 2; }
+					if ($i == 2) { $opp = 1; }
 
-				foreach ($teams as $team) 
-				{
-					if ($game['team'.$i] == $team['name_sao'])
+					foreach ($teams as $team) 
 					{
-						$game['team_abbr'.$i] = $team['abbr_espn'];
-
-						foreach ($teams as $row) 
+						if ($game['team'.$i] == $team['name_sao'])
 						{
-							if ($game['team'.$opp] == $row['name_sao']) 
-							{ 
-								$game['score'.$i] = ($team['pts_per_game'] + $row['pts_opp_per_game']) / 2;
+							$game['team_abbr'.$i] = $team['abbr_espn'];
 
-								if ($i == 2) { $game['score'.$i] += 3; } // home court advantage
+							foreach ($teams as $row) 
+							{
+								if ($game['team'.$opp] == $row['name_sao']) 
+								{ 
+									$game['score'.$i] = ($team['pts_per_game'] + $row['pts_opp_per_game']) / 2;
 
-								break;
+									if ($i == 2) { $game['score'.$i] += 3; } // home court advantage
+
+									break;
+								}
 							}
-						}
 
-						$game['pts_plus_minus'.$i] = $game['score'.$i] - $team['pts_per_game'];
+							$game['pts_plus_minus'.$i] = $game['score'.$i] - $team['pts_per_game'];
 
-						foreach ($teams as $row) 
-						{
-							if ($game['team'.$opp] == $row['name_sao']) 
-							{ 
-								$game['team_abbr'.$opp] = $row['abbr_espn'];
+							foreach ($teams as $row) 
+							{
+								if ($game['team'.$opp] == $row['name_sao']) 
+								{ 
+									$game['team_abbr'.$opp] = $row['abbr_espn'];
 
-								$ratio = ($team['ratio'] + $row['ratio_opp']) / 2;
+									$ratio = ($team['ratio'] + $row['ratio_opp']) / 2;
 
-								break;
+									break;
+								}
 							}
+
+							$game['fpts_plus_minus'.$i] = $game['pts_plus_minus'.$i] * $ratio;
+
+							break;
 						}
-
-						$game['fpts_plus_minus'.$i] = $game['pts_plus_minus'.$i] * $ratio;
-
-						break;
 					}
 				}
 			}
-		}
 
-		unset($game);
+			unset($game);			
+		}
 
 		foreach ($games as &$type) 
 		{

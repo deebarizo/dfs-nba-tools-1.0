@@ -15,7 +15,7 @@
 	
 		  <div class="row">
 
-		  	<div class="span4">
+		  	<div class="span3">
 
 				<div class="widget">
 
@@ -33,7 +33,7 @@
 
 		    </div> <!-- /span -->
 
-		  	<div class="span4">
+		  	<div class="span3">
 
 				<div class="widget widget-table">
 
@@ -87,7 +87,7 @@
 
 			</div>
 
-		  	<div class="span4">
+		  	<div class="span3">
 
 				<div class="widget widget-table">
 
@@ -111,22 +111,25 @@
 								
 									<?php 
 
-									foreach ($matchups['no_lines'] as $game) 
+									if (empty($matchups['no_lines']) === false)
 									{
-										for ($i = 1; $i <= 2; $i++) 
+										foreach ($matchups['no_lines'] as $game) 
 										{
-											if ($i == 1) { $opp = 2; }
-											if ($i == 2) { $opp = 1; }
+											for ($i = 1; $i <= 2; $i++) 
+											{
+												if ($i == 1) { $opp = 2; }
+												if ($i == 2) { $opp = 1; }
 
-											echo '<tr>';
+												echo '<tr>';
 
-											echo '<td>'.$game['team_abbr'.$i].'</td>';
-											if ($opp == 2) { $home_game = '@'; } else { $home_game = ''; }
-											echo '<td>'.$home_game.$game['team_abbr'.$opp].'</td>';
-											echo '<td>'.$game['fpts_plus_minus'.$i].'</td>';
+												echo '<td>'.$game['team_abbr'.$i].'</td>';
+												if ($opp == 2) { $home_game = '@'; } else { $home_game = ''; }
+												echo '<td>'.$home_game.$game['team_abbr'.$opp].'</td>';
+												echo '<td>'.$game['fpts_plus_minus'.$i].'</td>';
 
-											echo '</tr>';
-										}	
+												echo '</tr>';
+											}	
+										}
 									}
 
 									?> 

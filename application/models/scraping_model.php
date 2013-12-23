@@ -23,7 +23,7 @@ class scraping_model extends CI_Model
 
 			$raw_data2['odd']['line_ou'][] = $html->find('div[id=nba]')->next()->
 									find('table[class=data]')->find('tr[class=team odd]')->
-									find('td[class=currentline ]:eq('.$n.')')->text();
+									find('td[class*=currentline]:eq('.$n.')')->text();
 
 			$raw_data2['even']['team'][] = $html->find('div[id=nba]')->next()->
 									find('table[class=data]')->find('tr[class=team even]')->
@@ -32,7 +32,7 @@ class scraping_model extends CI_Model
 
 			$raw_data2['even']['line_ou'][] = $html->find('div[id=nba]')->next()->
 									find('table[class=data]')->find('tr[class=team even]')->
-									find('td[class=currentline ]:eq('.$n.')')->text();
+									find('td[class*=currentline]:eq('.$n.')')->text();
 		}
 
 		// clean up results
