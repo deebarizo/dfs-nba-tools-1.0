@@ -127,7 +127,102 @@ class Test extends CI_Controller
 
 		$correlation['answer'] = $correlation['axb'] / (sqrt($correlation['a_squared'] * $correlation['b_squared']));
 
-		echo '<pre>'; var_dump($correlation); echo '</pre>'; exit();
+		$sql = 'SELECT abbr_espn as team FROM `teams`';
+		$s = $this->db->conn_id->prepare($sql);
+		$s->execute(); 
+
+		$teams = $s->fetchAll(PDO::FETCH_ASSOC);
+
+		foreach ($teams as &$team) 
+		{
+			$team['count'] = 0;
+
+			$team['pts'] = 0;
+			$team['fpts'] = 0;
+
+			$team['pts_opp'] = 0;
+			$team['fpts_opp'] = 0;
+		}
+
+		unset($team);
+
+		foreach ($teams as &$team) 
+		{
+			foreach ($schedule as $games) 
+			{
+				foreach ($games as $game) 
+				{
+					for ($i = 1; $i <= 2; $i++) 
+					{ 
+						if ($game['team'.$i] == $team['team'])
+						{
+							$team['count'] += 1;
+
+							$team['pts'] += $game['score'.$i];
+							$team['fpts'] += $game['fpts'.$i];
+
+							if ($i == 1) { $n = 2; }
+							if ($i == 2) { $n = 1; }
+
+							$team['pts_opp'] += $game['score'.$n]; 
+							$team['fpts_opp'] += $game['fpts'.$n];
+						}
+					}
+				}
+			}
+		}
+
+		unset($team);
+
+		foreach ($teams as &$team) 
+		{
+			$team['ratio'] = $team['fpts'] / $team['pts'];
+
+			$team['pts_per_game'] = $team['pts'] / $team['count'];
+			$team['fpts_per_game'] = $team['fpts'] / $team['count'];
+
+			$team['ratio_opp'] = $team['fpts_opp'] / $team['pts_opp'];
+
+			$team['pts_opp_per_game'] = $team['pts_opp'] / $team['count'];
+			$team['fpts_opp_per_game'] = $team['fpts_opp'] / $team['count'];
+		}
+
+		unset($team);
+
+		// calculate stdev and cv for teams
+
+		$team_stats['count'] = 0;
+
+		$team_stats['ratios']['sum'] = 0;
+
+		foreach ($teams as $team) 
+		{
+			$team_stats['count'] += 1;
+
+			$team_stats['ratios']['sum'] += $team['ratio'];
+		}
+
+		$team_stats['ratios']['mean'] = $team_stats['ratios']['sum'] / $team_stats['count'];
+
+		$diff_squared = 0;
+
+		foreach ($teams as $team) 
+		{
+			$diff_squared += pow($team['ratio'] - $team_stats['ratios']['mean'], 2); 
+		}
+
+		$variance = $diff_squared / ($team_stats['count'] - 1);
+		$team_stats['stdev'] = sqrt($variance);
+
+		$team_stats['cv'] = $team_stats['stdev'] / $team_stats['ratios']['mean'];
+
+		echo '<pre>'; 
+		# var_dump($team_stats);
+		var_dump($teams); 
+		# var_dump($correlation); 
+		# var_dump($stats);
+		# var_dump($schedule);
+		echo '</pre>'; exit();
 	}
 
 	function create_date_range_array($strDateFrom,$strDateTo)
