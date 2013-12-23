@@ -41,9 +41,7 @@ class Test extends CI_Controller
 					$result = $s->fetchAll(PDO::FETCH_COLUMN, 0);
 					$game['fpts'.$i] = $result[0];	
 
-					$game['ratio'.$i] = number_format($game['fpts'.$i] / $game['score'.$i], 2);
-
-					if ($game['score'.$i] == 0) { echo '<pre>'; var_dump($game); echo '</pre>'; }
+					$game['ratio'.$i] = $game['fpts'.$i] / $game['score'.$i];
 				}
 			}
 
@@ -52,7 +50,67 @@ class Test extends CI_Controller
 
 		unset($games);
 
-		echo '<pre>'; var_dump($schedule); echo '</pre>'; exit();
+		// calculate standard deviation and coefficient of variation
+
+		$stats['count'] = 0;
+
+		$stats['ratios']['sum'] = 0;
+
+		foreach ($schedule as $games) 
+		{
+			foreach ($games as $game) 
+			{
+				$stats['count'] += 2;
+
+				$stats['ratios']['sum'] += $game['ratio1'];
+				$stats['ratios']['sum'] += $game['ratio2'];
+			}
+		}
+
+		$stats['ratios']['mean'] = $stats['ratios']['sum'] / $stats['count'];
+
+		$diff_squared = 0;
+
+		foreach ($schedule as &$games) 
+		{
+			foreach ($games as &$game) 
+			{
+				$diff_squared += pow($game['ratio1'] - $stats['ratios']['mean'], 2); 
+				$diff_squared += pow($game['ratio2'] - $stats['ratios']['mean'], 2); 
+			}
+
+			unset($game);				
+		}
+
+		unset($games);
+
+		$variance = $diff_squared / ($stats['count'] - 1);
+		$stats['stdev'] = sqrt($variance);
+
+		$stats['cv'] = $stats['stdev'] / $stats['ratios']['mean'];
+
+		// calculate correlation
+
+		$stats['pts']['sum'] = 0;
+		$stats['fpts']['sum'] = 0;
+
+		foreach ($schedule as $games) 
+		{
+			foreach ($games as $game) 
+			{
+				$stats['pts']['sum'] += $game['score1'];
+				$stats['pts']['sum'] += $game['score2'];
+
+				$stats['fpts']['sum'] += $game['fpts1'];
+				$stats['fpts']['sum'] += $game['fpts2'];
+			}
+		}
+
+		$stats['pts']['mean'] = $stats['pts']['sum'] / $stats['count'];	
+
+		$stats['fpts']['mean'] = $stats['fpts']['sum'] / $stats['count'];	
+
+		echo '<pre>'; var_dump($stats); echo '</pre>'; exit();
 	}
 
 	function create_date_range_array($strDateFrom,$strDateTo)
