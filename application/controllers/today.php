@@ -11,12 +11,12 @@ class Today extends CI_Controller
 
 		$today = date('Y-m-d');
 
-		if (time() < strtotime($today.'6:00PM'))
+		if (time() < strtotime($today.'11:58PM'))
 		{
 			$this->date = $today;
 		}
 
-		if (time() > strtotime($today.'6:00PM') AND time() < strtotime($today.'11:59PM'))
+		if (time() >= strtotime($today.'11:58PM') AND time() < strtotime($today.'11:59PM'))
 		{
 			$this->date = date('Y-m-d',strtotime("1 days"));
 		}

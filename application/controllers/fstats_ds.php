@@ -222,6 +222,29 @@ class Fstats_ds extends CI_Controller
 
 		unset($player);
 
+		// get last game stats
+
+		foreach ($stats as $key => &$player) 
+		{
+			$modified_name = $this->modify_name_ds($player['name']);
+
+			$sql = 'SELECT `minutes`, `fpts_ds` FROM `irlstats` 
+					WHERE name = :name ORDER BY `date` DESC LIMIT 1';
+			$s = $this->db->conn_id->prepare($sql);
+			$s->bindValue(':name', $modified_name);
+			$s->execute(); 
+
+			$result = $s->fetchAll(PDO::FETCH_ASSOC);
+
+			$player['mpg_last_game'] = $result[0]['minutes'];
+			$player['fppg_last_game'] = $result[0]['fpts_ds'];
+
+			$modified_salary = $player['salary'] / 1000;
+			$player['vr_last_game'] = number_format($player['fppg_last_game'] / $modified_salary, 2);
+		}
+
+		unset($player);
+
 		echo '<pre>'; 
 		var_dump($stats); 
 		# var_dump($mpg);
@@ -251,11 +274,11 @@ class Fstats_ds extends CI_Controller
 			{ 
 				$variance = $total_diff_squared /  $total_games - 1;
 				$stdev = sqrt($variance);
-				$player['cv'] = $stdev / $player['fppg'][0];
+				$player['cv'] = number_format(($stdev / $player['fppg'][0]) * 100, 2);
 			}
 			else
 			{
-				$player['cv'] = 0;
+				$player['cv'] = number_format(0, 2);
 			}
 		}
 
@@ -284,11 +307,11 @@ class Fstats_ds extends CI_Controller
 
 			if ($total_games > 0) 
 			{ 
-				$player['mpg'] = $total_minutes /  $total_games;
+				$player['mpg'] = number_format($total_minutes /  $total_games, 2);
 			}
 			else
 			{
-				$player['mpg'] = 0;
+				$player['mpg'] = number_format(0, 2);
 			}
 		}
 
