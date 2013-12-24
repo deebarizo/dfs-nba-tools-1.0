@@ -6,7 +6,7 @@ class Today extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-
+/*
 		date_default_timezone_set('America/Chicago');
 
 		$today = date('Y-m-d');
@@ -20,6 +20,9 @@ class Today extends CI_Controller
 		{
 			$this->date = date('Y-m-d',strtotime("1 days"));
 		}
+		*/
+
+		$this->date = '2013-12-23';
 	}
 
 	public function index()
@@ -49,7 +52,9 @@ class Today extends CI_Controller
 				{
 					for ($i = 1; $i <= 2; $i++) 
 					{ 
-						if ($player['team'] == $row['team_abbr'.$i]) 
+						$modified_team = $this->modify_team_abbr($player['team']);
+
+						if ($modified_team == $row['team_abbr'.$i]) 
 						{
 							$player['fpts_plus_minus'] = $row['fpts_plus_minus'.$i];
 
@@ -79,6 +84,19 @@ class Today extends CI_Controller
 		$this->load->view('templates/header', $data);
 		$this->load->view('today', $data);
 		$this->load->view('templates/footer', $data);
+	}
+
+	public function modify_team_abbr($team)
+	{
+		switch ($team) 
+		{
+		    case 'PHO':
+		        return 'PHX';
+		    case 'UTA':
+		        return 'UTAH';
+		}
+
+		return $team;
 	}
 
 }

@@ -38,6 +38,7 @@
 
 	$("#simple-table").stupidtable();
 	$("#simple-table2").stupidtable();
+	$("#simple-table3").stupidtable();
 
 </script>
 
