@@ -9,12 +9,12 @@ class Fstats_ds extends CI_Controller
 
 		$today = date('Y-m-d');
 
-		if (time() < strtotime($today.'11:00PM'))
+		if (time() < strtotime($today.'11:58PM'))
 		{
 			$date = $today;
 		}
 
-		if (time() >= strtotime($today.'11:00PM') AND time() < strtotime($today.'11:59PM'))
+		if (time() >= strtotime($today.'11:58PM') AND time() < strtotime($today.'11:59PM'))
 		{
 			$date = date('Y-m-d',strtotime("1 days"));
 		}
@@ -106,22 +106,73 @@ class Fstats_ds extends CI_Controller
 		$result = $s->fetchAll(PDO::FETCH_COLUMN);
 		$latest_date = $result[0];
 
+		$date_15_days_ago = date('Y-m-d', strtotime('15 days ago'));
+
 		foreach ($stats as $key => $player) 
 		{
 			$modified_name = $this->modify_name_ds($player['name']);
 
 			$sql = 'SELECT `minutes` FROM `irlstats` 
-					WHERE `name` = :name AND `date` BETWEEN :first_date AND :latest_date';
+					WHERE `name` = :name AND `date` BETWEEN :opening_day AND :latest_date';
 			$s = $this->db->conn_id->prepare($sql);
 			$s->bindValue(':name', $modified_name);
-			$s->bindValue(':first_date', '2013-10-29');
+			$s->bindValue(':opening_day', '2013-10-29');
 			$s->bindValue(':latest_date', $latest_date);
 			$s->execute(); 
 
-			$mpg[$player['name']] = $s->fetchAll(PDO::FETCH_ASSOC);
+			$data_mpg_2013[$player['name']] = $s->fetchAll(PDO::FETCH_ASSOC);
+
+			$sql = 'SELECT `minutes` FROM `irlstats` 
+					WHERE `name` = :name AND `date` BETWEEN :date_15_days_ago AND :latest_date';
+			$s = $this->db->conn_id->prepare($sql);
+			$s->bindValue(':name', $modified_name);
+			$s->bindValue(':date_15_days_ago', $date_15_days_ago);
+			$s->bindValue(':latest_date', $latest_date);
+			$s->execute(); 
+
+			$data_mpg_last_15_days[$player['name']] = $s->fetchAll(PDO::FETCH_ASSOC);
 		}
 
-		foreach ($mpg as $key => &$player) 
+		$mpg['2013'] = $this->get_mpg_per_player($data_mpg_2013);
+
+		$mpg['last_15_days'] = $this->get_mpg_per_player($data_mpg_last_15_days);
+
+		foreach ($stats as &$player) 
+		{
+			foreach ($mpg['2013'] as $key => $value) 
+			{
+				if ($player['name'] == $key)
+				{
+					$player['mpg_2013'] = $value['mpg']; 
+
+					break;
+				}
+			}
+
+			foreach ($mpg['last_15_days'] as $key => $value) 
+			{
+				if ($player['name'] == $key)
+				{
+					$player['mpg_last_15_days'] = $value['mpg']; 
+
+					break;
+				}
+			}
+		}
+
+		unset($player);
+
+		// get cv
+
+		echo '<pre>'; 
+		var_dump($stats); 
+		var_dump($mpg_2013);
+		echo '</pre>'; exit();
+	}
+
+	public function get_mpg_per_player($data_mpg)
+	{
+		foreach ($data_mpg as $key => &$player) 
 		{
 			$total_games = 0;
 
@@ -153,10 +204,7 @@ class Fstats_ds extends CI_Controller
 
 		unset($player);
 
-		echo '<pre>'; 
-		# var_dump($stats); 
-		var_dump($mpg);
-		echo '</pre>'; exit();
+		return $data_mpg;
 	}
 
 	function create_date_range_array($strDateFrom,$strDateTo)
