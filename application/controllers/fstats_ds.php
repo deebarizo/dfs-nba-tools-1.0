@@ -133,9 +133,9 @@ class Fstats_ds extends CI_Controller
 			$data_mpg_last_15_days[$player['name']] = $s->fetchAll(PDO::FETCH_ASSOC);
 		}
 
-		$mpg['2013'] = $this->get_mpg_per_player($data_mpg_2013);
+		$mpg['2013'] = $this->get_mpg_for_players($data_mpg_2013);
 
-		$mpg['last_15_days'] = $this->get_mpg_per_player($data_mpg_last_15_days);
+		$mpg['last_15_days'] = $this->get_mpg_for_players($data_mpg_last_15_days);
 
 		foreach ($stats as &$player) 
 		{
@@ -164,13 +164,107 @@ class Fstats_ds extends CI_Controller
 
 		// get cv
 
+		foreach ($stats as $key => $player) 
+		{
+			$modified_name = $this->modify_name_ds($player['name']);
+
+			$sql = 'SELECT (fpts_ds - :fppg_2013)*(fpts_ds - :fppg_2013) as diff_squared FROM `irlstats` 
+					WHERE `name` = :name AND `date` BETWEEN :opening_day AND :latest_date';
+			$s = $this->db->conn_id->prepare($sql);
+			$s->bindValue(':fppg_2013', $player['fppg_2013']);
+			$s->bindValue(':name', $modified_name);
+			$s->bindValue(':opening_day', '2013-10-29');
+			$s->bindValue(':latest_date', $latest_date);
+			$s->execute(); 
+
+			$data_cv_2013[$player['name']] = $s->fetchAll(PDO::FETCH_ASSOC);
+			$data_cv_2013[$player['name']]['fppg'][] = $player['fppg_2013'];
+
+			$sql = 'SELECT (fpts_ds - :fppg_last_15_days)*(fpts_ds - :fppg_last_15_days) as diff_squared FROM `irlstats` 
+					WHERE `name` = :name AND `date` BETWEEN :date_15_days_ago AND :latest_date';
+			$s = $this->db->conn_id->prepare($sql);
+			$s->bindValue(':fppg_last_15_days', $player['fppg_last_15_days']);
+			$s->bindValue(':name', $modified_name);
+			$s->bindValue(':date_15_days_ago', $date_15_days_ago);
+			$s->bindValue(':latest_date', $latest_date);
+			$s->execute(); 
+
+			$data_cv_last_15_days[$player['name']] = $s->fetchAll(PDO::FETCH_ASSOC);
+			$data_cv_last_15_days[$player['name']]['fppg'][] = $player['fppg_last_15_days'];
+		}
+
+		$cv['2013'] = $this->get_cv_for_players($data_cv_2013);
+
+		$cv['last_15_days'] = $this->get_cv_for_players($data_cv_last_15_days);
+
+		foreach ($stats as &$player) 
+		{
+			foreach ($cv['2013'] as $key => $value) 
+			{
+				if ($player['name'] == $key)
+				{
+					$player['cv_2013'] = $value['cv']; 
+
+					break;
+				}
+			}
+
+			foreach ($cv['last_15_days'] as $key => $value) 
+			{
+				if ($player['name'] == $key)
+				{
+					$player['cv_last_15_days'] = $value['cv']; 
+
+					break;
+				}
+			}
+		}
+
+		unset($player);
+
 		echo '<pre>'; 
 		var_dump($stats); 
-		var_dump($mpg_2013);
+		# var_dump($mpg);
+		# var_dump($cv);
 		echo '</pre>'; exit();
 	}
 
-	public function get_mpg_per_player($data_mpg)
+	public function get_cv_for_players($data_cv)
+	{
+		foreach ($data_cv as $key => &$player) 
+		{
+			$total_games = 0;
+
+			$total_diff_squared = 0;
+
+			foreach ($player as $value) 
+			{
+				if (isset($value['diff_squared']) AND $value['diff_squared'] != NULL) 
+				{ 
+					$total_games += 1;
+
+					$total_diff_squared += $value['diff_squared'];
+				}
+			}
+
+			if ($total_games -1 > 0 AND $player['fppg'][0] > 0) 
+			{ 
+				$variance = $total_diff_squared /  $total_games - 1;
+				$stdev = sqrt($variance);
+				$player['cv'] = $stdev / $player['fppg'][0];
+			}
+			else
+			{
+				$player['cv'] = 0;
+			}
+		}
+
+		unset($player);
+
+		return $data_cv;
+	}
+
+	public function get_mpg_for_players($data_mpg)
 	{
 		foreach ($data_mpg as $key => &$player) 
 		{
@@ -187,10 +281,6 @@ class Fstats_ds extends CI_Controller
 					$total_minutes += $value['minutes'];
 				}
 			}
-
-			$player['total_games'] = $total_games;
-
-			$player['total_minutes'] = $total_minutes;
 
 			if ($total_games > 0) 
 			{ 
