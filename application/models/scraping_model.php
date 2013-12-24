@@ -45,6 +45,7 @@ class scraping_model extends CI_Model
 				{
 					if ($key2 == 'team')
 					{
+						$value = trim($value);
 						$value = preg_replace('/\d+ /', '', $value);
 					}
 

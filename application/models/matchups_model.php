@@ -4,42 +4,46 @@ class matchups_model extends CI_Model
 
 	public function get_todays_matchups($games, $teams)
 	{
-		foreach ($games['has_lines'] as &$game) 
-		{
-			for ($i = 1; $i <= 2; $i++) 
-			{ 
-				if ($i == 1) { $opp = 2; }
-				if ($i == 2) { $opp = 1; }
+		if (empty($games['has_lines']) === false)
+		{				
+			foreach ($games['has_lines'] as &$game) 
+			{
+				for ($i = 1; $i <= 2; $i++) 
+				{ 
+					if ($i == 1) { $opp = 2; }
+					if ($i == 2) { $opp = 1; }
 
-				foreach ($teams as $team) 
-				{
-					if ($game['team'.$i] == $team['name_sao'])
+					foreach ($teams as $team) 
 					{
-						$game['team_abbr'.$i] = $team['abbr_espn'];
-
-						$game['pts_plus_minus'.$i] = $game['score'.$i] - $team['pts_per_game'];
-
-						foreach ($teams as $row) 
+						if ($game['team'.$i] == $team['name_sao'])
 						{
-							if ($game['team'.$opp] == $row['name_sao']) 
-							{ 
-								$game['team_abbr'.$opp] = $row['abbr_espn'];
+							$game['team_abbr'.$i] = $team['abbr_espn'];
 
-								$ratio = ($team['ratio'] + $row['ratio_opp']) / 2;
+							$game['pts_plus_minus'.$i] = $game['score'.$i] - $team['pts_per_game'];
 
-								break;
+							foreach ($teams as $row) 
+							{
+								if ($game['team'.$opp] == $row['name_sao']) 
+								{ 
+									$game['team_abbr'.$opp] = $row['abbr_espn'];
+
+									$ratio = ($team['ratio'] + $row['ratio_opp']) / 2;
+
+									break;
+								}
 							}
+
+							$game['fpts_plus_minus'.$i] = $game['pts_plus_minus'.$i] * $ratio;
+
+							break;
 						}
-
-						$game['fpts_plus_minus'.$i] = $game['pts_plus_minus'.$i] * $ratio;
-
-						break;
 					}
 				}
 			}
-		}
 
-		unset($game);
+			unset($game);
+
+		}
 
 		if (empty($games['no_lines']) === false)
 		{

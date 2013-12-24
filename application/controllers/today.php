@@ -22,7 +22,7 @@ class Today extends CI_Controller
 		}
 		*/
 
-		$this->date = '2013-12-23';
+		$this->date = '2013-12-25';
 	}
 
 	public function index()
