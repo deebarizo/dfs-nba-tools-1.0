@@ -1,24 +1,9 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
-class Fstats_ds extends CI_Controller 
+<?php
+class players_model extends CI_Model 
 {
 
-	public function index()
+	public function get_todays_players($date)
 	{
-		date_default_timezone_set('America/Chicago');
-
-		$today = date('Y-m-d');
-
-		if (time() < strtotime($today.'11:58PM'))
-		{
-			$date = $today;
-		}
-
-		if (time() >= strtotime($today.'11:58PM') AND time() < strtotime($today.'11:59PM'))
-		{
-			$date = date('Y-m-d',strtotime("1 days"));
-		}
-
 		$url_segment = preg_replace('/\d\d(\d\d)-(\d\d)-(\d\d)/', '$2$3$1', $date);
 
 		$csv_files = array(
@@ -245,11 +230,13 @@ class Fstats_ds extends CI_Controller
 
 		unset($player);
 
-		echo '<pre>'; 
-		var_dump($stats); 
+		# echo '<pre>'; 
+		# var_dump($stats); 
 		# var_dump($mpg);
 		# var_dump($cv);
-		echo '</pre>'; exit();
+		# echo '</pre>'; exit();
+
+		return $stats;
 	}
 
 	public function get_cv_for_players($data_cv)

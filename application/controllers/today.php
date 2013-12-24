@@ -30,21 +30,50 @@ class Today extends CI_Controller
 		$data['subhead'] = 'DFS NBA Tools';
 
 		$this->load->model('scraping_model');
-
 		$data['games'] = $this->scraping_model->scrape_odds($this->date);
 
 		$this->load->model('teams_model');
-
 		$data['teams'] = $this->teams_model->get_all_teams();
 
 		$this->load->model('matchups_model');
-
 		$data['matchups'] = $this->matchups_model->get_todays_matchups($data['games'], $data['teams']);
+
+		$this->load->model('players_model');
+		$data['players'] = $this->players_model->get_todays_players($this->date);
+
+		foreach ($data['players'] as &$player) 
+		{
+			foreach ($data['matchups'] as $key => $type) 
+			{
+				foreach ($type as $row) 
+				{
+					for ($i = 1; $i <= 2; $i++) 
+					{ 
+						if ($player['team'] == $row['team_abbr'.$i]) 
+						{
+							$player['fpts_plus_minus'] = $row['fpts_plus_minus'.$i];
+
+							if ($key == 'has_lines') { $player['line'] = 'Y'; }
+							if ($key == 'no_lines') { $player['line'] = 'N'; }
+						
+							break;
+						}
+					}
+
+					if (isset($player['fpts_plus_minus'])) { break; }
+				}
+
+				if (isset($player['fpts_plus_minus'])) { break; }
+			}
+		}
+
+		unset($player);
 
 		# echo '<pre>';
 		# var_dump($data['games']);
 		# var_dump($data['teams']);
 		# var_dump($data['matchups']);
+		# var_dump($data['players']);
 		# echo '</pre>'; exit();
 
 		$this->load->view('templates/header', $data);

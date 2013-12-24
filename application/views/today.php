@@ -12,28 +12,10 @@
 	      	</div>
 
       	  </div>
+
+      	  <div class="row">
 	
-		  <div class="row">
-
-		  	<div class="span3">
-
-				<div class="widget">
-
-					<div class="widget-header">
-						<h3><i class="fa fa-medkit"></i> Player News</h3>
-					</div> <!-- /widget-header -->
-					
-					<div class="widget-content">						
-
-						<p><a target='_blank' href='http://www.rotoworld.com/playernews/nba/basketball-player-news'>Rotoworld.com</a></p>
-						
-					</div> <!-- /widget-content -->
-
-				</div> <!-- /widget -->
-
-		    </div> <!-- /span -->
-
-		  	<div class="span3">
+		  	<div class="span6">
 
 				<div class="widget widget-table">
 
@@ -87,7 +69,7 @@
 
 			</div>
 
-		  	<div class="span3">
+		  	<div class="span6">
 
 				<div class="widget widget-table">
 
