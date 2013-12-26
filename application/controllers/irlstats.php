@@ -11,7 +11,7 @@ class Irlstats extends CI_Controller
 
 		ini_set('max_execution_time', 10800); // 10800 seconds = 3 hours
 
-		$date_range = $this->create_date_range_array('2013-12-23', '2013-12-23'); 
+		$date_range = $this->create_date_range_array('2013-12-25', '2013-12-25'); 
 
 		$this->load->helper('phpquery');
 

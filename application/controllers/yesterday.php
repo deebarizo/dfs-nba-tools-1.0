@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Today extends CI_Controller 
+class Yesterday extends CI_Controller 
 {
 	
 	public function __construct()
@@ -13,20 +13,22 @@ class Today extends CI_Controller
 
 		if (time() < strtotime($today.'6:00PM'))
 		{
-			$this->date = $today;
+			$yesterday = date('Y-m-d',strtotime("1 days ago"));
+
+			$this->date = $yesterday;
 		}
 
 		if (time() >= strtotime($today.'6:00PM') AND time() < strtotime($today.'11:59PM'))
 		{
-			$this->date = date('Y-m-d',strtotime("1 days"));
+			$this->date = $today;
 		}
 	}
 
 	public function index()
 	{
-		$data['page_type'] = 'Today';
-		$data['page_title'] = 'Today - DFS NBA Tools';
-		$data['h2_tag'] = 'Today';
+		$data['page_type'] = 'Yesterday';
+		$data['page_title'] = 'Yesterday - DFS NBA Tools';
+		$data['h2_tag'] = 'Yesterday';
 		$data['subhead'] = 'DFS NBA Tools';
 
 		$this->load->model('scraping_model');
