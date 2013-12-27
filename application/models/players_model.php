@@ -84,14 +84,16 @@ class players_model extends CI_Model
 
 		ini_set('max_execution_time', 10800); // 10800 seconds = 3 hours
 
-		$sql = 'SELECT DISTINCT `date` FROM `irlstats` ORDER BY `date` DESC LIMIT 1';
-		$s = $this->db->conn_id->prepare($sql);
-		$s->execute(); 
+		# $sql = 'SELECT DISTINCT `date` FROM `irlstats` ORDER BY `date` DESC LIMIT 1';
+		# $s = $this->db->conn_id->prepare($sql);
+		# $s->execute(); 
 
-		$result = $s->fetchAll(PDO::FETCH_COLUMN);
-		$latest_date = $result[0];
+		# $result = $s->fetchAll(PDO::FETCH_COLUMN);
+		# $latest_date = $result[0];
 
-		$date_15_days_ago = date('Y-m-d', strtotime('15 days ago'));
+		$latest_date = date('Y-m-d', strtotime('1 days ago', strtotime($date)));
+
+		$date_15_days_ago = date('Y-m-d', strtotime('15 days ago', strtotime($date)));
 
 		foreach ($stats as $key => $player) 
 		{
