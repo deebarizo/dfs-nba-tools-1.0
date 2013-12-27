@@ -35,14 +35,16 @@
 									<th data-sort='float'>FPTS +/-</th>
 									<th data-sort='int'>Salary</th>
 
-									<th data-sort='int'>2013 GP</th>
+									<th data-sort='int'>GP</th>
 									<th data-sort='float'>MPG</th>
 									<th data-sort='float'>FPPG</th>
 									<th data-sort='float'>CV</th>
 									<th data-sort='float'>VR</th>
 
+									<th data-sort='float'>Last 15 Days MPG</th>
+									<!--
 									<th data-sort='int'>Last 15 GP</th>
-									<th data-sort='float'>MPG</th>
+									
 									<th data-sort='float'>FPPG</th>
 									<th data-sort='float'>CV</th>
 									<th data-sort='float'>VR</th>
@@ -50,6 +52,7 @@
 									<th data-sort='int'>Last Game MIN</th>
 									<th data-sort='float'>FPTS</th>
 									<th data-sort='float'>VR</th>
+									-->
 								</tr>
 							</thead>
 
@@ -73,15 +76,17 @@
 											echo '<td>'.$player['cv_2013'].'</td>';
 											echo '<td>'.$player['vr_2013'].'</td>';
 
-											echo '<td>'.$player['gp_last_15_days'].'</td>';
 											echo '<td>'.$player['mpg_last_15_days'].'</td>';
-											echo '<td>'.$player['fppg_last_15_days'].'</td>';
-											echo '<td>'.$player['cv_last_15_days'].'</td>';
-											echo '<td>'.$player['vr_last_15_days'].'</td>';
 
-											echo '<td>'.$player['mpg_last_game'].'</td>';
-											echo '<td>'.$player['fppg_last_game'].'</td>';
-											echo '<td>'.$player['vr_last_game'].'</td>';
+											# echo '<td>'.$player['gp_last_15_days'].'</td>';
+
+											# echo '<td>'.$player['fppg_last_15_days'].'</td>';
+											# echo '<td>'.$player['cv_last_15_days'].'</td>';
+											# echo '<td>'.$player['vr_last_15_days'].'</td>';
+
+											# echo '<td>'.$player['mpg_last_game'].'</td>';
+											# echo '<td>'.$player['fppg_last_game'].'</td>';
+											# echo '<td>'.$player['vr_last_game'].'</td>';
 
 										echo '</tr>';
 									} 
