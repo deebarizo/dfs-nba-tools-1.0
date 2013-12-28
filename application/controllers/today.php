@@ -11,15 +11,7 @@ class Today extends CI_Controller
 
 		$today = date('Y-m-d');
 
-		if (time() < strtotime($today.'6:00PM'))
-		{
-			$this->date = $today;
-		}
-
-		if (time() >= strtotime($today.'6:00PM') AND time() < strtotime($today.'11:59PM'))
-		{
-			$this->date = date('Y-m-d',strtotime("1 days"));
-		}
+		$this->date = $today;
 	}
 
 	public function index()

@@ -9,19 +9,9 @@ class Yesterday extends CI_Controller
 
 		date_default_timezone_set('America/Chicago');
 
-		$today = date('Y-m-d');
+		$yesterday = date('Y-m-d',strtotime("1 days ago"));
 
-		if (time() < strtotime($today.'6:00PM'))
-		{
-			$yesterday = date('Y-m-d',strtotime("1 days ago"));
-
-			$this->date = $yesterday;
-		}
-
-		if (time() >= strtotime($today.'6:00PM') AND time() < strtotime($today.'11:59PM'))
-		{
-			$this->date = $today;
-		}
+		$this->date = $yesterday;
 	}
 
 	public function index()
