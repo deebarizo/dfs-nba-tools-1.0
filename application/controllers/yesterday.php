@@ -83,6 +83,8 @@ class Yesterday extends CI_Controller
 		        return 'PHX';
 		    case 'UTA':
 		        return 'UTAH';
+		    case 'WAS':
+		        return 'WSH';
 		}
 
 		return $team;

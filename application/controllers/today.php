@@ -49,7 +49,13 @@ class Today extends CI_Controller
 
 							if ($key == 'has_lines') { $player['line'] = 'Y'; }
 							if ($key == 'no_lines') { $player['line'] = 'N'; }
-						
+
+							$player['fppg_2013_la'] = 
+								number_format(($player['fppg_2013'] * $row['line_adj'.$i]) + $player['fppg_2013'], 2);
+
+							$player['vr_2013_la'] =
+								number_format(($player['vr_2013'] * $row['line_adj'.$i]) + $player['vr_2013'], 2);
+					 	
 							break;
 						}
 					}

@@ -35,6 +35,8 @@ class matchups_model extends CI_Model
 
 							$game['fpts_plus_minus'.$i] = $game['pts_plus_minus'.$i] * $ratio;
 
+							$game['line_adj'.$i] = $game['fpts_plus_minus'.$i] / $team['fpts_per_game'];
+
 							break;
 						}
 					}
@@ -88,6 +90,8 @@ class matchups_model extends CI_Model
 
 							$game['fpts_plus_minus'.$i] = $game['pts_plus_minus'.$i] * $ratio;
 
+							$game['line_adj'.$i] = $game['fpts_plus_minus'.$i] / $team['fpts_per_game'];
+
 							break;
 						}
 					}
@@ -101,9 +105,9 @@ class matchups_model extends CI_Model
 		{
 			foreach ($type as &$game) 
 			{
-				foreach ($game as &$row) 
+				foreach ($game as $key => &$row) 
 				{
-					if (is_numeric($row))
+					if (is_numeric($row) AND $key != 'line_adj1' AND $key != 'line_adj2')
 					{
 						$row = number_format($row, 2);
 					}
