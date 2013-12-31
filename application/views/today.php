@@ -27,12 +27,41 @@
 
 			      		<div class="game-buttons">
 
+			      			<h4>Games</h4>
+
 			      			<?php foreach ($matchups['has_lines'] as $key => $game) { ?>
 
-			      				<button type='button' class="btn game-button" data-toggle="button" name='' id=''><?php echo $game['team_abbr1'].' vs '.$game['team_abbr2'];?></button>
+			      				<button type='button' class="btn game-button show-game" data-toggle="button" name='' id=''><?php echo $game['team_abbr1'].' vs '.$game['team_abbr2'];?></button>
 			      				
 			      			<?php } ?>
 			      			
+			      		</div>
+
+			      		<div>
+
+			      			<h4>Position</h4>
+
+							<form action="">
+								<select id="position-drop-down" name="position-drop-down">
+									<option value="all" selected>All</option>
+									<option value="forward">F</option>
+									<option value="guard">G</option>
+									<option value="center">C</option>
+								</select>
+							</form>
+
+							<h4>Team</h4>
+
+							<form action="">
+								<select id="team-drop-down" name="team-drop-down">
+									<option value="all" selected>All</option>
+
+									<?php foreach ($teams_today as $key => $team) { ?>
+									<option value="<?php echo $team; ?>"><?php echo $team; ?></option>
+									<?php } ?>
+								</select>
+							</form>
+
 			      		</div>
 
 					</div>
@@ -90,7 +119,7 @@
 
 									foreach ($players as $player) 
 									{
-										echo '<tr class="'.$player['team'].' position-'.$player['position'].'">';
+										echo '<tr class="'.$player['team'].' position-'.$player['position'].' show-row">';
 
 											echo '<td>'.$player['name_team_position'].'</td>';
 											echo '<td>'.$player['opponent'].'</td>';

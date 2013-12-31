@@ -69,11 +69,20 @@ class Today extends CI_Controller
 
 		unset($player);
 
+		foreach ($data['matchups']['has_lines'] as $key => $game) 
+		{ 
+			$data['teams_today'][] = $game['team_abbr1'];
+			$data['teams_today'][] = $game['team_abbr2'];
+		}
+
+		sort($data['teams_today']);
+
 		# echo '<pre>';
 		# var_dump($data['games']);
 		# var_dump($data['teams']);
 		# var_dump($data['matchups']);
 		# var_dump($data['players']);
+		# var_dump($data['teams_today']);
 		# echo '</pre>'; exit();
 
 		$this->load->view('templates/header', $data);

@@ -36,33 +36,64 @@
 
 <script type="text/javascript">
 
-	$(document).ready(function() {
-
+	$(document).ready(function() 
+	{
 		$('#daily-stats').stupidtable();
 
-		$('.game-button').click(function() {
+		$('select[name=position-drop-down]').change(function () 
+		{
 
+		}); 
+	
+		$('.game-button').click(function() 
+		{
 			var teams_in_game = $(this).text();
 			var team1 = teams_in_game.split(/ vs /)[0];
 			var team2 = teams_in_game.split(/ vs /)[1];
 
+			var position = $('#position-drop-down').val();
+			if (position == 'all') { position_class = 'all'; }
+			if (position == 'forward') { position_class = 'position-F'; }
+			if (position == 'guard') { position_class = 'position-G'; }
+			if (position == 'center') { position_class = 'position-C'; }
+
 			if ($(this).hasClass('hide-game'))
 			{
-				$(this).removeClass('hide-game');				
+				if (position_class == 'all')
+				{
+					$('.'+team1).addClass('show-row');
+					$('.'+team1).removeClass('hide-row');
 
-				$('.'+team1).show();
-				$('.'+team2).show();
-			}
-			else
+					$('.'+team2).addClass('show-row');
+					$('.'+team2).removeClass('hide-row');		
+				}
+				else
+				{
+					$('.'+team1+'.'+position_class).addClass('show-row');
+					$('.'+team1+'.'+position_class).removeClass('hide-row');
+
+					$('.'+team2+'.'+position_class).addClass('show-row');
+					$('.'+team2+'.'+position_class).removeClass('hide-row');
+				}
+
+				$(this).addClass('show-game');
+				$(this).removeClass('hide-game');
+			} 
+			else if ($(this).hasClass('show-game'))
 			{
+				$('.'+team1).addClass('hide-row');
+				$('.'+team1).removeClass('show-row');
+
+				$('.'+team2).addClass('hide-row');
+				$('.'+team2).removeClass('show-row');
+
 				$(this).addClass('hide-game');
-
-				$('.'+team1).hide();
-				$('.'+team2).hide();
+				$(this).removeClass('show-game');
 			}
-	
-		});
 
+			$('.show-row').show();
+			$('.hide-row').hide();
+		});
 	});
 
 </script>

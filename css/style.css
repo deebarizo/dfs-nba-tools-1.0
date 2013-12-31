@@ -1,4 +1,9 @@
-/* matchups table */
+.game-buttons
+{
+	padding-bottom: 25px;
+}
+
+/* matchups table for pop-up */
 
 .inside_box table
 {
