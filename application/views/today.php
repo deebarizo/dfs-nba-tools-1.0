@@ -17,6 +17,36 @@
 	
 		  	<div class="span12">
 
+				<div class="widget">
+
+					<div class="widget-header">
+						<h3><i class="fa fa-th-list"></i> Options</h3>
+					</div> <!-- /widget-header -->
+					
+					<div class="widget-content">
+
+			      		<div class="game-buttons">
+
+			      			<?php foreach ($matchups['has_lines'] as $key => $game) { ?>
+
+			      				<button type='button' class="btn game-button" data-toggle="button" name='' id=''><?php echo $game['team_abbr1'].' vs '.$game['team_abbr2'];?></button>
+			      				
+			      			<?php } ?>
+			      			
+			      		</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		  </div>
+
+      	  <div class="row">
+	
+		  	<div class="span12">
+
 				<div class="widget widget-table">
 
 					<div class="widget-header">
@@ -25,7 +55,7 @@
 					
 					<div class="widget-content">
 
-						<table id='simple-table3' class="table table-bordered table-striped">
+						<table id='daily-stats' class="table table-bordered table-striped">
 							
 							<thead>
 								<tr>
@@ -60,7 +90,7 @@
 
 									foreach ($players as $player) 
 									{
-										echo '<tr>';
+										echo '<tr class="'.$player['team'].' position-'.$player['position'].'">';
 
 											echo '<td>'.$player['name_team_position'].'</td>';
 											echo '<td>'.$player['opponent'].'</td>';
@@ -100,121 +130,6 @@
 			</div>
 
 		  </div>
-
-      	  <div class="row">
-	
-		  	<div class="span6">
-
-				<div class="widget widget-table">
-
-					<div class="widget-header">
-						<h3><i class="fa fa-crosshairs"></i> Games With Lines</h3>
-					</div> <!-- /widget-header -->
-					
-					<div class="widget-content">
-
-						<table id='simple-table' class="table table-bordered table-striped">
-							
-							<thead>
-								<tr>
-									<th data-sort='string'>Team</th>
-									<th data-sort='string'>Opponent</th>
-									<th data-sort='float'>FPTS +/-</th>
-								</tr>
-							</thead>
-
-							<tbody>
-								
-									<?php 
-
-									foreach ($matchups['has_lines'] as $game) 
-									{
-										for ($i = 1; $i <= 2; $i++) 
-										{
-											if ($i == 1) { $opp = 2; }
-											if ($i == 2) { $opp = 1; }
-
-											echo '<tr>';
-
-											echo '<td>'.$game['team_abbr'.$i].'</td>';
-											if ($opp == 2) { $home_game = '@'; } else { $home_game = ''; }
-											echo '<td>'.$home_game.$game['team_abbr'.$opp].'</td>';
-											echo '<td>'.$game['fpts_plus_minus'.$i].'</td>';
-
-											echo '</tr>';
-										}	
-									}
-
-									?> 
-								
-							</tbody>
-						
-						</table>
-
-					</div>
-
-				</div>
-
-			</div>
-
-		  	<div class="span6">
-
-				<div class="widget widget-table">
-
-					<div class="widget-header">
-						<h3><i class="fa fa-crosshairs"></i> Games Without Lines</h3>
-					</div> <!-- /widget-header -->
-					
-					<div class="widget-content">
-
-						<table id='simple-table2' class="table table-bordered table-striped">
-							
-							<thead>
-								<tr>
-									<th data-sort='string'>Team</th>
-									<th data-sort='string'>Opponent</th>
-									<th data-sort='float'>FPTS +/-</th>
-								</tr>
-							</thead>
-
-							<tbody>
-								
-									<?php 
-
-									if (empty($matchups['no_lines']) === false)
-									{
-										foreach ($matchups['no_lines'] as $game) 
-										{
-											for ($i = 1; $i <= 2; $i++) 
-											{
-												if ($i == 1) { $opp = 2; }
-												if ($i == 2) { $opp = 1; }
-
-												echo '<tr>';
-
-												echo '<td>'.$game['team_abbr'.$i].'</td>';
-												if ($opp == 2) { $home_game = '@'; } else { $home_game = ''; }
-												echo '<td>'.$home_game.$game['team_abbr'.$opp].'</td>';
-												echo '<td>'.$game['fpts_plus_minus'.$i].'</td>';
-
-												echo '</tr>';
-											}	
-										}
-									}
-
-									?> 
-								
-							</tbody>
-						
-						</table>
-
-					</div> <!-- /widget-content -->
-
-				</div> <!-- /widget -->
-
-		    </div> <!-- /span -->
-
-	      </div> <!-- /row -->
 
 	    </div> <!-- /container -->
 	    

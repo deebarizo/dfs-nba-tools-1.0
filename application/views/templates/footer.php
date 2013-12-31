@@ -36,9 +36,34 @@
 
 <script type="text/javascript">
 
-	$("#simple-table").stupidtable();
-	$("#simple-table2").stupidtable();
-	$("#simple-table3").stupidtable();
+	$(document).ready(function() {
+
+		$('#daily-stats').stupidtable();
+
+		$('.game-button').click(function() {
+
+			var teams_in_game = $(this).text();
+			var team1 = teams_in_game.split(/ vs /)[0];
+			var team2 = teams_in_game.split(/ vs /)[1];
+
+			if ($(this).hasClass('hide-game'))
+			{
+				$(this).removeClass('hide-game');				
+
+				$('.'+team1).show();
+				$('.'+team2).show();
+			}
+			else
+			{
+				$(this).addClass('hide-game');
+
+				$('.'+team1).hide();
+				$('.'+team2).hide();
+			}
+	
+		});
+
+	});
 
 </script>
 
