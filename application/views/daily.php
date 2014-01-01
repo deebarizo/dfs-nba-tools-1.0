@@ -113,6 +113,7 @@
 									<th data-sort='int'>GP</th>
 									<th data-sort='float'>MPG</th>
 									<th data-sort='float'>LA FPPG</th>
+									<th data-sort='float'>LA FPPM</th>
 									<th data-sort='float'>CV</th>
 									<th data-sort='float'>LA VR</th>
 
@@ -146,6 +147,7 @@
 											echo '<td>'.$player['gp_2013'].'</td>';
 											echo '<td>'.$player['mpg_2013'].'</td>';
 											echo '<td>'.$player['fppg_2013_la'].'</td>';
+											echo '<td>'.$player['fppm_2013_la'].'</td>';											
 											echo '<td>'.$player['cv_2013'].'</td>';
 											echo '<td style="background-color: #FFE6C2">'.$player['vr_2013_la'].'</td>';
 
