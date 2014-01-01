@@ -25,14 +25,26 @@
 					
 					<div class="widget-content">
 
+						<div>
+
+							<h4>Date</h4>
+
+							<form action="">
+								<select id="date-drop-down" name="date-drop-down">
+					      			<?php foreach ($dates as $key => $date) { ?>
+					      				<option value="<?php echo $date; ?>"<?php echo $chosen_date == $date ? ' selected' : ''; ?>><?php echo $date; ?></option>
+					      			<?php } ?>
+								</select>
+							</form>
+
+						</div>
+
 			      		<div class="game-buttons">
 
 			      			<h4>Games</h4>
 
 			      			<?php foreach ($matchups['has_lines'] as $key => $game) { ?>
-
 			      				<button type='button' class="btn game-button show-game" data-toggle="button"><?php echo $game['team_abbr1'].' vs '.$game['team_abbr2'];?></button>
-			      				
 			      			<?php } ?>
 			      			
 			      		</div>

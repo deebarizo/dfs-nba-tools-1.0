@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Today extends CI_Controller 
+class Daily extends CI_Controller 
 {
 	
 	public function __construct()
@@ -9,20 +9,23 @@ class Today extends CI_Controller
 
 		date_default_timezone_set('America/Chicago');
 
-		$today = date('Y-m-d');
-
-		$this->date = $today;
+		$this->today_date = date('Y-m-d');
 	}
 
 	public function index()
 	{
-		$data['page_type'] = 'Today';
-		$data['page_title'] = 'Today - DFS NBA Tools';
-		$data['h2_tag'] = 'Today';
+		$this->get_stats($this->today_date);
+	}
+
+	public function get_stats($date)
+	{
+		$data['page_type'] = 'Daily';
+		$data['page_title'] = 'Daily - DFS NBA Tools';
+		$data['h2_tag'] = 'Daily';
 		$data['subhead'] = 'DFS NBA Tools';
 
 		$this->load->model('scraping_model');
-		$data['games'] = $this->scraping_model->scrape_odds($this->date);
+		$data['games'] = $this->scraping_model->scrape_odds($date);
 
 		$this->load->model('teams_model');
 		$data['teams'] = $this->teams_model->get_all_teams();
@@ -31,7 +34,7 @@ class Today extends CI_Controller
 		$data['matchups'] = $this->matchups_model->get_todays_matchups($data['games'], $data['teams']);
 
 		$this->load->model('players_model');
-		$data['players'] = $this->players_model->get_todays_players($this->date);
+		$data['players'] = $this->players_model->get_todays_players($date);
 
 		foreach ($data['players'] as &$player) 
 		{
@@ -77,6 +80,13 @@ class Today extends CI_Controller
 
 		sort($data['teams_today']);
 
+		for ($i = 1; $i <= 5; $i++) 
+		{ 
+			$data['dates'][] = date('Y-m-d',strtotime($i." days ago"));
+		}
+
+		$data['chosen_date'] = $date;
+
 		# echo '<pre>';
 		# var_dump($data['games']);
 		# var_dump($data['teams']);
@@ -86,7 +96,7 @@ class Today extends CI_Controller
 		# echo '</pre>'; exit();
 
 		$this->load->view('templates/header', $data);
-		$this->load->view('today', $data);
+		$this->load->view('daily', $data);
 		$this->load->view('templates/footer', $data);
 	}
 

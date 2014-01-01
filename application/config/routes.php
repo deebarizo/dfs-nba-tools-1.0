@@ -38,7 +38,7 @@
 |
 */
 
-$route['default_controller'] = "today";
+$route['default_controller'] = 'daily';
 $route['404_override'] = '';
 
 

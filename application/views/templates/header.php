@@ -48,18 +48,18 @@
 
 			<ul class="mainnav">
 				
-				<li class="<?php echo ($page_type === 'Today' ? 'active' : ''); ?>">
+				<li class="<?php echo ($page_type === 'Daily' ? 'active' : ''); ?>">
 					<a href="<?php echo base_url(); ?>">
 						<i class="fa fa-dashboard"></i>
-						<span>Today</span>
+						<span>Daily</span>
 					</a>	    				
 				</li>
 		
-				<li class="<?php echo ($page_type === 'Yesterday' ? 'active' : ''); ?>">
-					<a href="<?php echo base_url() . 'yesterday'; ?>">
-						<i class="fa fa-folder-open"></i>
-						<span>Yesterday</span>
-					</a>	    				
+				<li class="<?php echo ($page_type === 'Update' ? 'active' : ''); ?>">
+					<a href="<?php echo base_url() . 'update'; ?>">
+						<i class="fa fa-upload"></i>
+						<span>Update</span>
+					</a> 				
 				</li>
 
 			</ul>
