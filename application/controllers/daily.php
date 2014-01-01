@@ -58,6 +58,12 @@ class Daily extends CI_Controller
 
 							$player['vr_2013_la'] =
 								number_format(($player['vr_2013'] * $row['line_adj'.$i]) + $player['vr_2013'], 2);
+
+							$player['fppg_2012_la'] = 
+								number_format(($player['fppg_2012'] * $row['line_adj'.$i]) + $player['fppg_2012'], 2);
+
+							$player['vr_2012_la'] =
+								number_format(($player['vr_2012'] * $row['line_adj'.$i]) + $player['vr_2012'], 2);
 					 	
 							break;
 						}

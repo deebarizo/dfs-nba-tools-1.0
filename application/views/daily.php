@@ -112,16 +112,16 @@
 									<th data-sort='float'>CV</th>
 									<th data-sort='float'>LA VR</th>
 
-									<th data-sort='int'>Last 15 GP</th>
+									<th data-sort='int'>L15 GP</th>
 									<th data-sort='float'>MPG</th>
 									<th data-sort='float'>FPPG</th>
 									<th data-sort='float'>CV</th>
 									<th data-sort='float'>VR</th>
-									<!--
-									<th data-sort='int'>Last Game MIN</th>
-									<th data-sort='float'>FPTS</th>
-									<th data-sort='float'>VR</th>
-									-->
+									
+									<th data-sort='int'>2012 GP</th>
+									<th data-sort='float'>LA FPPG</th>
+									<th data-sort='float'>LA VR</th>
+									
 								</tr>
 							</thead>
 
@@ -151,9 +151,9 @@
 											echo '<td>'.$player['cv_last_15_days'].'</td>';
 											echo '<td>'.$player['vr_last_15_days'].'</td>';
 
-											# echo '<td>'.$player['mpg_last_game'].'</td>';
-											# echo '<td>'.$player['fppg_last_game'].'</td>';
-											# echo '<td>'.$player['vr_last_game'].'</td>';
+											echo '<td>'.$player['gp_2012'].'</td>';
+											echo '<td>'.$player['fppg_2012_la'].'</td>';
+											echo '<td>'.$player['vr_2012_la'].'</td>';
 
 										echo '</tr>';
 									} 
