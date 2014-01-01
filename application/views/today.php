@@ -49,7 +49,7 @@
 									<option value="center">C</option>
 								</select>
 							</form>
-
+						<!--
 							<h4>Team</h4>
 
 							<form action="">
@@ -60,7 +60,7 @@
 									<option value="<?php echo $team; ?>"><?php echo $team; ?></option>
 									<?php } ?>
 								</select>
-							</form>
+							</form> -->
 
 			      		</div>
 

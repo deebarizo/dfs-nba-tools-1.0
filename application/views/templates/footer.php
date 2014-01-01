@@ -40,40 +40,82 @@
 	{
 		$('#daily-stats').stupidtable();
 
+		function get_position()
+		{
+			var position = $('#position-drop-down').val();
+			if (position == 'all') { return 'all'; }
+			if (position == 'forward') { return 'position-F'; }
+			if (position == 'guard') { return 'position-G'; }
+			if (position == 'center') { return 'position-C'; }			
+		}
+
+		function get_games()
+		{
+			var teams = new Array();
+
+			$(".game-button.show-game").each(function(index) 
+			{
+				var two_teams = $(this).text();
+
+				var team = get_teams_in_game(two_teams);
+
+				teams.push(team[1]);
+				teams.push(team[2]);
+			});	
+
+			console.log(teams);
+		}
+
+		get_games();
+
+		function get_teams_in_game(two_teams)
+		{
+			var team = new Object();
+			team[1] = two_teams.split(/ vs /)[0];
+			team[2] = two_teams.split(/ vs /)[1];
+
+			console.log(team);
+
+			return team;
+		}
+
+		function get_options()
+		{
+			var options = new Object();
+			options['position'] = get_position();
+			return options;
+		}
+
 		$('select[name=position-drop-down]').change(function () 
 		{
-
+			
 		}); 
 	
 		$('.game-button').click(function() 
 		{
-			var teams_in_game = $(this).text();
-			var team1 = teams_in_game.split(/ vs /)[0];
-			var team2 = teams_in_game.split(/ vs /)[1];
+			var two_teams = $(this).text();
 
-			var position = $('#position-drop-down').val();
-			if (position == 'all') { position_class = 'all'; }
-			if (position == 'forward') { position_class = 'position-F'; }
-			if (position == 'guard') { position_class = 'position-G'; }
-			if (position == 'center') { position_class = 'position-C'; }
+			var team = get_teams_in_game(two_teams);
+
+			var options = get_options();
 
 			if ($(this).hasClass('hide-game'))
 			{
-				if (position_class == 'all')
+				if (options['position'] == 'all')
 				{
-					$('.'+team1).addClass('show-row');
-					$('.'+team1).removeClass('hide-row');
+					$('.'+team[1]).addClass('show-row');
+					$('.'+team[1]).removeClass('hide-row');
 
-					$('.'+team2).addClass('show-row');
-					$('.'+team2).removeClass('hide-row');		
+					$('.'+team[2]).addClass('show-row');
+					$('.'+team[2]).removeClass('hide-row');		
 				}
 				else
 				{
-					$('.'+team1+'.'+position_class).addClass('show-row');
-					$('.'+team1+'.'+position_class).removeClass('hide-row');
+					$('.'+team[1]+'.'+options['position']).addClass('show-row');
+					$('.'+team[1]+'.'+options['position']).removeClass('hide-row');
 
-					$('.'+team2+'.'+position_class).addClass('show-row');
-					$('.'+team2+'.'+position_class).removeClass('hide-row');
+					$('.'+team[2]+'.'+options['position']).addClass('show-row');
+					$('.'+team[2]+'.'+options['position']).removeClass('hide-row');
 				}
 
 				$(this).addClass('show-game');
@@ -81,11 +123,11 @@
 			} 
 			else if ($(this).hasClass('show-game'))
 			{
-				$('.'+team1).addClass('hide-row');
-				$('.'+team1).removeClass('show-row');
+				$('.'+team[1]).addClass('hide-row');
+				$('.'+team[1]).removeClass('show-row');
 
-				$('.'+team2).addClass('hide-row');
-				$('.'+team2).removeClass('show-row');
+				$('.'+team[2]).addClass('hide-row');
+				$('.'+team[2]).removeClass('show-row');
 
 				$(this).addClass('hide-game');
 				$(this).removeClass('show-game');
