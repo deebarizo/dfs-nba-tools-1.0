@@ -75,21 +75,7 @@
 			return teams;
 		}
 
-		function get_options()
-		{
-			var options = new Object();
-			options['position'] = get_position();
-			options['teams'] = get_teams();
-			return options;
-		}
-
-		function show_or_hide_rows()
-		{
-			$('.show-row').show();
-			$('.hide-row').hide();			
-		}
-
-		$('select[name=position-drop-down]').change(function() 
+		function options_change()
 		{
 			var options = get_options();
 
@@ -104,57 +90,87 @@
 				var position_class = '.'+options['position'];
 			}
 
-			for (var i=0; i < options['teams'].length; i++) 
+			if (options['chosen_team'] == 'all')
 			{
-				$('.'+options['teams'][i]+position_class).addClass('show-row').removeClass('hide-row');
-			};	
+				for (var i=0; i < options['teams'].length; i++) 
+				{
+					$('.'+options['teams'][i]+position_class).addClass('show-row').removeClass('hide-row');
+				};	
+			}
+			else
+			{
+				$('.'+options['chosen_team']+position_class).addClass('show-row').removeClass('hide-row');
+			}
 
 			show_or_hide_rows();
+		}
+
+		function get_options()
+		{
+			var options = new Object();
+			options['position'] = get_position();
+			options['teams'] = get_teams();
+			options['chosen_team'] = $('#team-drop-down').val();
+			return options;
+		}
+
+		function show_or_hide_rows()
+		{
+			$('.show-row').show();
+			$('.hide-row').hide();			
+		}
+
+		function show_hide_team_drop_down_options(toggle, team)
+		{
+			$("#team-drop-down option").each(function()
+			{
+			    var team_in_drop_down = $(this).val();
+
+			    for (var i = 1; i <= 2; i++) 
+			    {
+			    	if (team[i] == team_in_drop_down)
+			    	{
+			    		if (toggle == 'show') { $(this).show(); }
+			    		if (toggle == 'hide') { $(this).hide(); }
+			    	}
+			    }
+			});			
+		}
+
+		$('select[name=position-drop-down]').change(function() 
+		{
+			options_change();
+		}); 
+
+		$('select[name=team-drop-down]').change(function() 
+		{
+			options_change();
 		}); 
 	
 		$('.game-button').click(function() 
 		{
+			$('#team-drop-down').val('all');
+
 			var two_teams = $(this).text();
 
 			var team = get_teams_in_game(two_teams);
 
-			var options = get_options();
+            if ($(this).hasClass('hide-game'))
+            {
+				show_hide_team_drop_down_options('show', team);
 
-			for (var i=1; i <= 2; i++) 
-			{
-				if ($(this).hasClass('hide-game'))
-				{
-					if (options['position'] == 'all')
-					{
-						$('.'+team[i]).addClass('show-row');
-						$('.'+team[i]).removeClass('hide-row');
-					}
-					else
-					{
-						$('.'+team[i]+'.'+options['position']).addClass('show-row');
-						$('.'+team[i]+'.'+options['position']).removeClass('hide-row');
-					}
+				$(this).addClass('show-game');
+                $(this).removeClass('hide-game');                                                
+            } 
+            else if ($(this).hasClass('show-game'))
+            {
+				show_hide_team_drop_down_options('hide', team);
 
-					if (i == 2)
-					{
-						$(this).addClass('show-game');
-						$(this).removeClass('hide-game');						
-					}
-				} 
-				else if ($(this).hasClass('show-game'))
-				{
-					$('.'+team[i]).addClass('hide-row');
-					$('.'+team[i]).removeClass('show-row');
+				$(this).addClass('hide-game');
+                $(this).removeClass('show-game');
+            }
 
-					if (i == 2)
-					{
-						$(this).addClass('hide-game');
-						$(this).removeClass('show-game');
-					}
-				}
-			}
-
-			show_or_hide_rows();
+			options_change();
 		});
 	});
 

@@ -3,6 +3,12 @@
 	padding-bottom: 25px;
 }
 
+.options-drop-down
+{
+	display: inline-block;
+	margin-right: 20px;
+}
+
 /* matchups table for pop-up */
 
 .inside_box table

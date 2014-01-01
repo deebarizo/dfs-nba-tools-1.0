@@ -78,11 +78,16 @@ class Daily extends CI_Controller
 
 		unset($player);
 
-		foreach ($data['matchups']['has_lines'] as $key => $game) 
+		foreach ($data['matchups']['has_lines'] as $key => &$game) 
 		{ 
-			$data['teams_today'][] = $game['team_abbr1'];
-			$data['teams_today'][] = $game['team_abbr2'];
+			for ($i=1; $i<=2; $i++) 
+			{ 
+				$game['team_abbr'.$i] = $this->modify_team_abbr_match_ds($game['team_abbr'.$i]);
+				$data['teams_today'][] = $game['team_abbr'.$i];
+			}
 		}
+
+		unset($game);
 
 		sort($data['teams_today']);
 
@@ -116,6 +121,21 @@ class Daily extends CI_Controller
 		        return 'UTAH';
 		    case 'WAS':
 		        return 'WSH';
+		}
+
+		return $team;
+	}
+
+	public function modify_team_abbr_match_ds($team)
+	{
+		switch ($team) 
+		{
+		    case 'PHX':
+		        return 'PHO';
+		    case 'UTAH':
+		        return 'UTA';
+		    case 'WSH':
+		        return 'WAS';
 		}
 
 		return $team;

@@ -25,7 +25,17 @@
 					
 					<div class="widget-content">
 
-						<div>
+			      		<div class='game-buttons'>
+
+			      			<h4>Games</h4>
+
+			      			<?php foreach ($matchups['has_lines'] as $key => $game) { ?>
+			      				<button type='button' class="btn game-button show-game" data-toggle="button"><?php echo $game['team_abbr1'].' vs '.$game['team_abbr2'];?></button>
+			      			<?php } ?>
+			      			
+			      		</div>
+
+						<div class='options-drop-down'>
 
 							<h4>Date</h4>
 
@@ -39,17 +49,7 @@
 
 						</div>
 
-			      		<div class="game-buttons">
-
-			      			<h4>Games</h4>
-
-			      			<?php foreach ($matchups['has_lines'] as $key => $game) { ?>
-			      				<button type='button' class="btn game-button show-game" data-toggle="button"><?php echo $game['team_abbr1'].' vs '.$game['team_abbr2'];?></button>
-			      			<?php } ?>
-			      			
-			      		</div>
-
-			      		<div>
+			      		<div class='options-drop-down'>
 
 			      			<h4>Position</h4>
 
@@ -61,7 +61,11 @@
 									<option value="center">C</option>
 								</select>
 							</form>
-						<!--
+
+			      		</div>
+
+						<div class='options-drop-down'>
+
 							<h4>Team</h4>
 
 							<form action="">
@@ -72,9 +76,9 @@
 									<option value="<?php echo $team; ?>"><?php echo $team; ?></option>
 									<?php } ?>
 								</select>
-							</form> -->
+							</form>
 
-			      		</div>
+						</div>
 
 					</div>
 
@@ -143,17 +147,17 @@
 											echo '<td>'.$player['mpg_2013'].'</td>';
 											echo '<td>'.$player['fppg_2013_la'].'</td>';
 											echo '<td>'.$player['cv_2013'].'</td>';
-											echo '<td>'.$player['vr_2013_la'].'</td>';
+											echo '<td style="background-color: #FFE6C2">'.$player['vr_2013_la'].'</td>';
 
 											echo '<td>'.$player['gp_last_15_days'].'</td>';
 											echo '<td>'.$player['mpg_last_15_days'].'</td>';
 											echo '<td>'.$player['fppg_last_15_days'].'</td>';
 											echo '<td>'.$player['cv_last_15_days'].'</td>';
-											echo '<td>'.$player['vr_last_15_days'].'</td>';
+											echo '<td style="background-color: #FFE6C2">'.$player['vr_last_15_days'].'</td>';
 
 											echo '<td>'.$player['gp_2012'].'</td>';
 											echo '<td>'.$player['fppg_2012_la'].'</td>';
-											echo '<td>'.$player['vr_2012_la'].'</td>';
+											echo '<td style="background-color: #FFE6C2">'.$player['vr_2012_la'].'</td>';
 
 										echo '</tr>';
 									} 
