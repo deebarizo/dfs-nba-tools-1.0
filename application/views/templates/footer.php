@@ -83,14 +83,33 @@
 			return options;
 		}
 
-		options = get_options();
-
-		console.log(options['position']);
-		console.log(options['teams']);
+		function show_or_hide_rows()
+		{
+			$('.show-row').show();
+			$('.hide-row').hide();			
+		}
 
 		$('select[name=position-drop-down]').change(function() 
 		{
-			
+			var options = get_options();
+
+			$('.show-row').removeClass('show-row').addClass('hide-row');
+
+			if (options['position'] == 'all')
+			{
+				var position_class = '';
+			}
+			else
+			{
+				var position_class = '.'+options['position'];
+			}
+
+			for (var i=0; i < options['teams'].length; i++) 
+			{
+				$('.'+options['teams'][i]+position_class).addClass('show-row').removeClass('hide-row');
+			};	
+
+			show_or_hide_rows();
 		}); 
 	
 		$('.game-button').click(function() 
@@ -101,42 +120,41 @@
 
 			var options = get_options();
 
+			for (var i=1; i <= 2; i++) 
+			{
 				if ($(this).hasClass('hide-game'))
 				{
 					if (options['position'] == 'all')
 					{
-						$('.'+team[1]).addClass('show-row');
-						$('.'+team[1]).removeClass('hide-row');
-
-						$('.'+team[2]).addClass('show-row');
-						$('.'+team[2]).removeClass('hide-row');		
+						$('.'+team[i]).addClass('show-row');
+						$('.'+team[i]).removeClass('hide-row');
 					}
 					else
 					{
-						$('.'+team[1]+'.'+options['position']).addClass('show-row');
-						$('.'+team[1]+'.'+options['position']).removeClass('hide-row');
-
-						$('.'+team[2]+'.'+options['position']).addClass('show-row');
-						$('.'+team[2]+'.'+options['position']).removeClass('hide-row');
+						$('.'+team[i]+'.'+options['position']).addClass('show-row');
+						$('.'+team[i]+'.'+options['position']).removeClass('hide-row');
 					}
 
-					$(this).addClass('show-game');
-					$(this).removeClass('hide-game');
+					if (i == 2)
+					{
+						$(this).addClass('show-game');
+						$(this).removeClass('hide-game');						
+					}
 				} 
 				else if ($(this).hasClass('show-game'))
 				{
-					$('.'+team[1]).addClass('hide-row');
-					$('.'+team[1]).removeClass('show-row');
+					$('.'+team[i]).addClass('hide-row');
+					$('.'+team[i]).removeClass('show-row');
 
-					$('.'+team[2]).addClass('hide-row');
-					$('.'+team[2]).removeClass('show-row');
-
-					$(this).addClass('hide-game');
-					$(this).removeClass('show-game');
+					if (i == 2)
+					{
+						$(this).addClass('hide-game');
+						$(this).removeClass('show-game');
+					}
 				}
+			}
 
-			$('.show-row').show();
-			$('.hide-row').hide();
+			show_or_hide_rows();
 		});
 	});
 

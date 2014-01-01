@@ -31,7 +31,7 @@
 
 			      			<?php foreach ($matchups['has_lines'] as $key => $game) { ?>
 
-			      				<button type='button' class="btn game-button show-game" data-toggle="button" name='' id=''><?php echo $game['team_abbr1'].' vs '.$game['team_abbr2'];?></button>
+			      				<button type='button' class="btn game-button show-game" data-toggle="button"><?php echo $game['team_abbr1'].' vs '.$game['team_abbr2'];?></button>
 			      				
 			      			<?php } ?>
 			      			
