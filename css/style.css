@@ -11,7 +11,17 @@
 
 #daily-stats
 {
-	font-size: 90%;
+	font-size: 10px;
+}
+
+.vr-row 
+{
+	background-color: #FFE6C2;
+}
+
+.table tbody tr:hover td, .table tbody tr:hover th 
+{
+	background-color: #DCDCDC;
 }
 
 /* matchups table for pop-up */

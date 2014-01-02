@@ -107,7 +107,7 @@ class Daily extends CI_Controller
 
 		sort($data['teams_today']);
 
-		for ($i = 1; $i <= 5; $i++) 
+		for ($i = 0; $i <= 4; $i++) 
 		{ 
 			$data['dates'][] = date('Y-m-d',strtotime($i." days ago"));
 		}

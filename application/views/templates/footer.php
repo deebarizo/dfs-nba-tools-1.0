@@ -40,6 +40,11 @@
 	{
 		$('#daily-stats').stupidtable();
 
+		$('#date-drop-down').change(function() 
+		{
+			window.location = $(this).val();
+		});
+
 		function get_position()
 		{
 			var position = $('#position-drop-down').val();

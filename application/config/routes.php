@@ -41,6 +41,8 @@
 $route['default_controller'] = 'daily';
 $route['404_override'] = '';
 
+$route['(:any)'] = "daily/get_stats/$1";
+
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

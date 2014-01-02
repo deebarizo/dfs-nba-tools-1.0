@@ -42,7 +42,7 @@
 							<form action="">
 								<select id="date-drop-down" name="date-drop-down">
 					      			<?php foreach ($dates as $key => $date) { ?>
-					      				<option value="<?php echo $date; ?>"<?php echo $chosen_date == $date ? ' selected' : ''; ?>><?php echo $date; ?></option>
+					      				<option value="<?php echo base_url().$date; ?>"<?php echo $chosen_date == $date ? ' selected' : ''; ?>><?php echo $date; ?></option>
 					      			<?php } ?>
 								</select>
 							</form>
@@ -150,18 +150,18 @@
 											echo '<td>'.$player['fppg_2013_la'].'</td>';
 											echo '<td>'.$player['fppm_2013_la'].'</td>';											
 											echo '<td>'.$player['cv_2013'].'</td>';
-											echo '<td style="background-color: #FFE6C2">'.$player['vr_2013_la'].'</td>';
+											echo '<td class="vr-row">'.$player['vr_2013_la'].'</td>';
 
 											echo '<td>'.$player['gp_last_15_days'].'</td>';
 											echo '<td>'.$player['mpg_last_15_days'].'</td>';
 											echo '<td>'.$player['fppg_last_15_days'].'</td>';
 											echo '<td>'.$player['fppm_last_15_days_la'].'</td>';
 											echo '<td>'.$player['cv_last_15_days'].'</td>';
-											echo '<td style="background-color: #FFE6C2">'.$player['vr_last_15_days_la'].'</td>';
+											echo '<td class="vr-row">'.$player['vr_last_15_days_la'].'</td>';
 
 											echo '<td>'.$player['gp_2012'].'</td>';
 											echo '<td>'.$player['fppg_2012_la'].'</td>';
-											echo '<td style="background-color: #FFE6C2">'.$player['vr_2012_la'].'</td>';
+											echo '<td class="vr-row">'.$player['vr_2012_la'].'</td>';
 
 										echo '</tr>';
 									} 
