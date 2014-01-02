@@ -19,7 +19,7 @@
 	background-color: #FFE6C2;
 }
 
-.table tbody tr:hover td, .table tbody tr:hover th 
+.table tbody tr:hover td
 {
 	background-color: #DCDCDC;
 }

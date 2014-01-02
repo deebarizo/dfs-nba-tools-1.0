@@ -100,7 +100,7 @@
 					
 					<div class="widget-content">
 
-						<table id='daily-stats' class="table table-bordered table-striped">
+						<table id='daily-stats' class="table table-bordered">
 							
 							<thead>
 								<tr>
