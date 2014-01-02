@@ -7,8 +7,7 @@
       	  <div class="row">
 
       	  	<div class="span12">
-	      	  	<h2><?php echo $h2_tag; ?></h2>
-	      	  	<p>Advanced DFS Stats</p>
+	      	  	<h3><?php echo $h2_tag; ?></h3>
 	      	</div>
 
       	  </div>
