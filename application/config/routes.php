@@ -41,6 +41,7 @@
 $route['default_controller'] = 'daily';
 $route['404_override'] = '';
 
+$route['update'] = "update";
 $route['(:any)'] = "daily/get_stats/$1";
 
 
