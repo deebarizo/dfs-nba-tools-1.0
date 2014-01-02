@@ -110,7 +110,7 @@
 									<th data-sort='float'>FPTS +/-</th>
 									<th data-sort='int'>Salary</th>
 
-									<th data-sort='int'>GP</th>
+									<th data-sort='int'>2013 GP</th>
 									<th data-sort='float'>MPG</th>
 									<th data-sort='float'>LA FPPG</th>
 									<th data-sort='float'>LA FPPM</th>
@@ -120,6 +120,7 @@
 									<th data-sort='int'>L15 GP</th>
 									<th data-sort='float'>MPG</th>
 									<th data-sort='float'>FPPG</th>
+									<th data-sort='float'>LA FPPM</th>
 									<th data-sort='float'>CV</th>
 									<th data-sort='float'>LA VR</th>
 									
@@ -154,6 +155,7 @@
 											echo '<td>'.$player['gp_last_15_days'].'</td>';
 											echo '<td>'.$player['mpg_last_15_days'].'</td>';
 											echo '<td>'.$player['fppg_last_15_days'].'</td>';
+											echo '<td>'.$player['fppm_last_15_days_la'].'</td>';
 											echo '<td>'.$player['cv_last_15_days'].'</td>';
 											echo '<td style="background-color: #FFE6C2">'.$player['vr_last_15_days_la'].'</td>';
 
