@@ -8,6 +8,16 @@
 
       	  	<div class="span12">
 	      	  	<h3><?php echo $h2_tag; ?></h3>
+				<div style='display:inline-block'><strong>Date:</strong></div>
+				<div style='display:inline-block'>
+					<form action="">
+						<select id="date-drop-down" name="date-drop-down">
+			      			<?php foreach ($dates as $key => $date) { ?>
+			      				<option value="<?php echo base_url().$date; ?>"<?php echo $chosen_date == $date ? ' selected' : ''; ?>><?php echo $date; ?></option>
+			      			<?php } ?>
+						</select>
+					</form>
+				</div>
 	      	</div>
 
       	  </div>
@@ -33,20 +43,6 @@
 			      			<?php } ?>
 			      			
 			      		</div>
-
-						<div class='options-drop-down'>
-
-							<h4>Date</h4>
-
-							<form action="">
-								<select id="date-drop-down" name="date-drop-down">
-					      			<?php foreach ($dates as $key => $date) { ?>
-					      				<option value="<?php echo base_url().$date; ?>"<?php echo $chosen_date == $date ? ' selected' : ''; ?>><?php echo $date; ?></option>
-					      			<?php } ?>
-								</select>
-							</form>
-
-						</div>
 
 			      		<div class='options-drop-down'>
 

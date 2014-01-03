@@ -9,9 +9,7 @@ class Daily extends CI_Controller
 
 		date_default_timezone_set('America/Chicago');
 
-		// $this->today_date = date('Y-m-d');
-
-		$this->today_date = '2014-01-01';
+		$this->today_date = date('Y-m-d');
 	}
 
 	public function index()
