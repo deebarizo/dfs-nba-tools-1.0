@@ -1,13 +1,17 @@
 $(document).ready(function() 
 {
-	$('#daily-stats').stupidtable();
+	// Daily table sorter
+
+	$('#daily-stats').stupidtable(); 
+
+	// Redirect link on date drop down menu
 
 	$('.date-drop-down').change(function() 
 	{
 		window.location = $(this).val();
 	});
 
-	// Daily Options
+	// Daily options
 
 	function get_options()
 	{
@@ -106,6 +110,23 @@ $(document).ready(function()
 		else
 		{
 			$('.'+options['chosen_team']+position_class+'.valid-salary').removeClass('valid-salary').addClass('show-row').removeClass('hide-row');
+
+			// Line chart for NBA rotations
+
+			var chosen_date = $('.date-drop-down option:selected').text();
+
+		    $.ajax({
+		            url: 'http://localhost/dfsnbatools/daily/get_team_rotation/'+options['chosen_team']+'/'+chosen_date,
+		            type: 'POST',
+		            dataType: 'json',
+		            success: function(games)
+		            {
+		            	for (var i = 0; i < games.length; i++) 
+		            	{
+		            		console.log(games[i][0].date);
+		            	};
+		            }	
+				}); 	
 		}
 
 		show_or_hide_rows();
@@ -156,7 +177,7 @@ $(document).ready(function()
 
 	$('.salary-reset').click(function() 
 	{
-		$('.salary-input').val('0');
+		$('.salary-input').val('');
 		$('#greater-than').prop('checked', true);
 
 		options_change();

@@ -41,8 +41,10 @@
 $route['default_controller'] = 'daily';
 $route['404_override'] = '';
 
-$route['update'] = "update";
-$route['(:any)'] = "daily/get_stats/$1";
+$route['update'] = 'update';
+$route['daily/get_team_rotation/(:any)'] = 'daily/get_team_rotation/$1';
+$route['daily/get_base_url'] = 'daily/get_base_url';
+$route['(:any)'] = 'daily/get_stats/$1';
 
 
 /* End of file routes.php */

@@ -27,6 +27,12 @@ class Daily extends CI_Controller
 		$this->get_stats($this->date);
 	}
 
+	public function get_team_rotation($team, $date)
+	{
+		$this->load->model('players_model');
+		$data['players'] = $this->players_model->get_team_rotation($team, $date);		
+	}
+
 	public function get_stats($date)
 	{
 		$data['page_type'] = 'Daily';
@@ -117,6 +123,8 @@ class Daily extends CI_Controller
 
 		sort($data['teams_today']);
 
+		$data['chosen_date'] = $date;
+
 		for ($i = 0; $i <= 4; $i++) 
 		{ 
 			$date = new DateTime($this->date);
@@ -124,8 +132,6 @@ class Daily extends CI_Controller
 
 			$data['dates'][] = $date->format('Y-m-d');
 		}
-
-		$data['chosen_date'] = $date;
 
 		# echo '<pre>';
 		# var_dump($data['games']);

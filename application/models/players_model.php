@@ -2,6 +2,53 @@
 class players_model extends CI_Model 
 {
 
+	public function get_team_rotation($team, $date)
+	{
+		$team = $this->modify_team_abbr($team);
+
+		$sql = 'SELECT DISTINCT `date` FROM `irlstats` 
+				WHERE `team` = :team AND `date` < :date 
+				ORDER BY `date` DESC LIMIT 5';
+		$s = $this->db->conn_id->prepare($sql);
+		$s->bindValue(':team', $team);
+		$s->bindValue(':date', $date);
+		$s->execute(); 
+
+		$dates = $s->fetchAll(PDO::FETCH_COLUMN);
+
+		foreach ($dates as $key => $date) 
+		{
+			$sql = 'SELECT * FROM `irlstats` 
+					WHERE `team` = :team AND `date` = :date
+					ORDER BY `date` DESC';
+			$s = $this->db->conn_id->prepare($sql);
+			$s->bindValue(':team', $team);
+			$s->bindValue(':date', $date);
+			$s->execute();	
+
+			$games[] = $s->fetchAll(PDO::FETCH_ASSOC);	
+		}
+
+		header('Content-Type: application/json');
+
+		echo json_encode($games);
+	}
+
+	public function modify_team_abbr($team)
+	{
+		switch ($team) 
+		{
+		    case 'PHO':
+		        return 'PHX';
+		    case 'UTA':
+		        return 'UTAH';
+		    case 'WAS':
+		        return 'WSH';
+		}
+
+		return $team;
+	}
+
 	public function get_todays_players($date)
 	{
 		$url_segment = preg_replace('/\d\d(\d\d)-(\d\d)-(\d\d)/', '$2$3$1', $date);
