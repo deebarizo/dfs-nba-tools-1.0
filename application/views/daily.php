@@ -11,7 +11,7 @@
 				<div style='display:inline-block'><strong>Date:</strong></div>
 				<div style='display:inline-block'>
 					<form action="">
-						<select id="date-drop-down" name="date-drop-down">
+						<select class="date-drop-down" name="date-drop-down">
 			      			<?php foreach ($dates as $key => $date) { ?>
 			      				<option value="<?php echo base_url().$date; ?>"<?php echo $chosen_date == $date ? ' selected' : ''; ?>><?php echo $date; ?></option>
 			      			<?php } ?>
@@ -44,12 +44,12 @@
 			      			
 			      		</div>
 
-			      		<div class='options-drop-down'>
+			      		<div class='options-inline'>
 
 			      			<h4>Position</h4>
 
 							<form action="">
-								<select id="position-drop-down" name="position-drop-down">
+								<select class="position-drop-down" name="position-drop-down">
 									<option value="all" selected>All</option>
 									<option value="forward">F</option>
 									<option value="guard">G</option>
@@ -59,18 +59,36 @@
 
 			      		</div>
 
-						<div class='options-drop-down'>
+						<div class='options-inline'>
 
 							<h4>Team</h4>
 
 							<form action="">
-								<select id="team-drop-down" name="team-drop-down">
+								<select class="team-drop-down" name="team-drop-down">
 									<option value="all" selected>All</option>
 
 									<?php foreach ($teams_today as $key => $team) { ?>
 									<option value="<?php echo $team; ?>"><?php echo $team; ?></option>
 									<?php } ?>
 								</select>
+							</form>
+
+						</div>
+
+						<div class='options-inline'>
+
+							<h4>Salary</h4>
+
+							<form action="">
+								<input class="salary-input" type="number" placeholder="0">
+								<label class="radio inline">
+									<input type="radio" name="salary-toggle" id="greater-than" value="greater-than" checked>
+									&gt;=
+								</label>
+								<label class="radio inline">
+									<input type="radio" name="salary-toggle" id="less-than" value="less-than">
+									&lt;=
+								</label>
 							</form>
 
 						</div>
@@ -95,7 +113,7 @@
 					
 					<div class="widget-content">
 
-						<table id='daily-stats' class="table table-bordered">
+						<table id='daily-stats' class="table table-bordered daily-stats">
 							
 							<thead>
 								<tr>
@@ -132,7 +150,7 @@
 
 									foreach ($players as $player) 
 									{
-										echo '<tr class="'.$player['team'].' position-'.$player['position'].' show-row">';
+										echo '<tr class="'.$player['team'].' position-'.$player['position'].' show-row row-info" data-salary="'.$player['salary'].'">';
 
 											echo '<td>'.$player['name_team_position'].'</td>';
 											echo '<td>'.$player['opponent'].'</td>';

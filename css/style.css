@@ -3,10 +3,21 @@
 	padding-bottom: 25px;
 }
 
-.options-drop-down
+.options-inline
 {
 	display: inline-block;
 	margin-right: 20px;
+}
+
+.options-inline select
+{
+	width: 100px;
+}
+
+.salary-input
+{
+	margin-right: 10px;
+	width: 150px;
 }
 
 #daily-stats

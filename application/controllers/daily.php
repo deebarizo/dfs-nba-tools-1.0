@@ -7,14 +7,24 @@ class Daily extends CI_Controller
 	{
 		parent::__construct();
 
-		date_default_timezone_set('America/Chicago');
+		$this->load->database();
 
-		$this->today_date = date('Y-m-d');
+		$sql = 'SELECT DISTINCT `date` FROM `irlstats` ORDER BY `date` DESC LIMIT 1';
+		$s = $this->db->conn_id->prepare($sql);
+		$s->execute(); 
+
+		$result = $s->fetchAll(PDO::FETCH_COLUMN);
+		$latest_date_in_db = $result[0];
+
+		$date = new DateTime($latest_date_in_db);
+		$date->modify('+1 day');
+
+		$this->date = $date->format('Y-m-d');
 	}
 
 	public function index()
 	{
-		$this->get_stats($this->today_date);
+		$this->get_stats($this->date);
 	}
 
 	public function get_stats($date)
@@ -109,7 +119,10 @@ class Daily extends CI_Controller
 
 		for ($i = 0; $i <= 4; $i++) 
 		{ 
-			$data['dates'][] = date('Y-m-d',strtotime($i." days ago"));
+			$date = new DateTime($this->date);
+			$date->modify('-'.$i.' day');
+
+			$data['dates'][] = $date->format('Y-m-d');
 		}
 
 		$data['chosen_date'] = $date;
