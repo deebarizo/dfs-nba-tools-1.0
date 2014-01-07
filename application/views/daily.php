@@ -89,6 +89,7 @@
 									<input type="radio" name="salary-toggle" id="less-than" value="less-than">
 									&lt;=
 								</label>
+								<input type="button" name="salary-reset" class="salary-reset" value="Salary Reset">
 							</form>
 
 						</div>

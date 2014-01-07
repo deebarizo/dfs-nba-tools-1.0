@@ -75,24 +75,37 @@ $(document).ready(function()
 		    return $(this).data('salary');
 		}).get();
 
-		console.log(row_data.join('|'));
+		for (var i = 0; i < row_data.length; i++) 
+		{
+			if (options['salary-toggle'] == 'greater-than')
+			{
+				if (row_data[i] >= options['salary'])
+				{
+					$('[data-salary="'+row_data[i]+'"]').addClass('valid-salary');
+				}
 
-//		if (options['salary-toggle'] == 'greater-than')
-//		{
-//			$('')
-//		}
+				continue;
+			}
 
+			if (options['salary-toggle'] == 'less-than')
+			{
+				if (row_data[i] <= options['salary'])
+				{
+					$('[data-salary="'+row_data[i]+'"]').addClass('valid-salary');
+				}
+			}			
+		};
 
 		if (options['chosen_team'] == 'all')
 		{
 			for (var i=0; i < options['teams'].length; i++) 
 			{
-				$('.'+options['teams'][i]+position_class).addClass('show-row').removeClass('hide-row');
+				$('.'+options['teams'][i]+position_class+'.valid-salary').removeClass('valid-salary').addClass('show-row').removeClass('hide-row');
 			};	
 		}
 		else
 		{
-			$('.'+options['chosen_team']+position_class).addClass('show-row').removeClass('hide-row');
+			$('.'+options['chosen_team']+position_class+'.valid-salary').removeClass('valid-salary').addClass('show-row').removeClass('hide-row');
 		}
 
 		show_or_hide_rows();
@@ -131,13 +144,21 @@ $(document).ready(function()
 		options_change();
 	}); 
 
-	$('input.salary-input').keyup(function() 
+	$('.salary-input').on('input', function()
 	{
 		options_change();
 	});
 
 	$("input[name=salary-toggle]:radio").change(function () 
 	{
+		options_change();
+	});
+
+	$('.salary-reset').click(function() 
+	{
+		$('.salary-input').val('0');
+		$('#greater-than').prop('checked', true);
+
 		options_change();
 	});
 
