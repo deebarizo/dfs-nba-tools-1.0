@@ -102,6 +102,9 @@ $(document).ready(function()
 
 		if (options['chosen_team'] == 'all')
 		{
+			$('.line-chart-rotations').hide();
+			$('.chosen-team-rotation h4').text('')
+
 			for (var i=0; i < options['teams'].length; i++) 
 			{
 				$('.'+options['teams'][i]+position_class+'.valid-salary').removeClass('valid-salary').addClass('show-row').removeClass('hide-row');
@@ -113,6 +116,9 @@ $(document).ready(function()
 
 			// Line chart for NBA rotations
 
+			$('.line-chart-rotations').show();
+			$('h4.chosen-team-rotation').text(options['chosen_team']+' Rotations')
+
 			var chosen_date = $('.date-drop-down option:selected').text();
 
 		    $.ajax({
@@ -121,10 +127,48 @@ $(document).ready(function()
 		            dataType: 'json',
 		            success: function(games)
 		            {
-		            	for (var i = 0; i < games.length; i++) 
-		            	{
-		            		console.log(games[i][0].date);
+		            	var rotation_dates = [];
+		            	var player_data = [];
+
+						for (var i = games.length - 1; i >= 0; i--) 
+						{
+		            		rotation_dates.push(games[i][0].date);
+
+		            		for (var n = 0; n < games[i].length; n++) 
+		            		{
+		            			player_data.push({name: games[i][n].name, 
+		            								minutes: games[i][n].minutes,
+		            								date: games[i][n].date,
+		            								starter: games[i][n].starter});
+		            		};
 		            	};
+
+		            	console.log(games);
+		            	console.log(player_data);
+
+				        $('div.chosen-team-rotation').highcharts({
+				            chart: {
+				                type: 'line'
+				            },
+				            title: {
+				                text: options['chosen_team']+' Rotations'
+				            },
+				            xAxis: {
+				                categories: rotation_dates
+				            },
+			                yAxis: {
+			                    title: {
+			                        text: 'Minutes'
+			                    }
+			                },
+				            series: [{
+				                name: 'Tokyo',
+				                data: [7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+				            }, {
+				                name: 'London',
+				                data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+				            }]
+				        });
 		            }	
 				}); 	
 		}

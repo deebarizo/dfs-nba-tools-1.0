@@ -94,6 +94,14 @@
 
 						</div>
 
+				  		<div class="line-chart-rotations">
+
+				  			<h4 class="chosen-team-rotation"></h4>
+
+				  			<div class="chosen-team-rotation"></div>
+
+				  		</div>
+
 					</div>
 
 				</div>

@@ -19,8 +19,7 @@ class players_model extends CI_Model
 		foreach ($dates as $key => $date) 
 		{
 			$sql = 'SELECT * FROM `irlstats` 
-					WHERE `team` = :team AND `date` = :date
-					ORDER BY `date` DESC';
+					WHERE `team` = :team AND `date` = :date';
 			$s = $this->db->conn_id->prepare($sql);
 			$s->bindValue(':team', $team);
 			$s->bindValue(':date', $date);
