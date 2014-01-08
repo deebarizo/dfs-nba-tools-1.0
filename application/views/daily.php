@@ -107,7 +107,9 @@
 
 						</div>
 
-				  		<div class="line-chart-rotations">
+				  		<div class="team-info">
+
+				  			<span class="team-links"></span>
 
 				  			<div class="chosen-team-rotation"></div>
 
