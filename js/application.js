@@ -146,8 +146,6 @@ $(document).ready(function()
 		            		};
 		            	};
 
-		            	console.log(games);
-
 		            	var player_data = [];
 
 						for (var num = 0; num < distinct_players.length; num++) 
@@ -223,20 +221,25 @@ $(document).ready(function()
 							}
 						};
 
-						var espn_game_links = {};
+						var game_data = {};
 
 						for (var i = 0; i < games.length; i++) 
 						{
-							espn_game_links[games[i][0].date] = {};
+							game_data[games[i][0].date] = {};
 
-						 	espn_game_links[games[i][0].date]['link'] = games[i][0].url_espn;
-						 	espn_game_links[games[i][0].date]['team1'] = games[i][0].team1;
-						 	espn_game_links[games[i][0].date]['score1'] = games[i][0].score1;
-						 	espn_game_links[games[i][0].date]['team2'] = games[i][0].team2;
-						 	espn_game_links[games[i][0].date]['score2'] = games[i][0].score2;
+						 	game_data[games[i][0].date]['espn_link'] = games[i][0].url_espn;
+						 	game_data[games[i][0].date]['team1'] = games[i][0].team1;
+						 	game_data[games[i][0].date]['score1'] = games[i][0].score1;
+						 	game_data[games[i][0].date]['team2'] = games[i][0].team2;
+						 	game_data[games[i][0].date]['score2'] = games[i][0].score2;
+
+						 	var pm_date = games[i][0].date.replace(/-/g,'');
+
+						 	var pm_team1 = change_abbr_for_pm(games[i][0].team1);
+						 	var pm_team2 = change_abbr_for_pm(games[i][0].team2);
+
+						 	game_data[games[i][0].date]['pm_link'] = 'http://popcornmachine.net/cgi-bin/gameflow.cgi?date='+pm_date+'&game='+pm_team1+pm_team2;
 						};
-
-						console.log(espn_game_links);
 
 				        $('div.chosen-team-rotation').highcharts({
 				            chart: {
@@ -249,7 +252,7 @@ $(document).ready(function()
 				                categories: rotation_dates,
 					            labels: {
 					                formatter: function() {
-					                    return this.value+'<br><a target="_blank" href="'+espn_game_links[this.value]['link']+'">'+espn_game_links[this.value]['team1']+' '+espn_game_links[this.value]['score1']+', '+espn_game_links[this.value]['team2']+' '+espn_game_links[this.value]['score2']+'</a>';
+					                    return this.value+'<br>'+game_data[this.value]['team1']+' '+game_data[this.value]['score1']+', '+game_data[this.value]['team2']+' '+game_data[this.value]['score2']+'<br><a target="_blank" href="'+game_data[this.value]['espn_link']+'">ESPN</a><br><a target="_blank" href="'+game_data[this.value]['pm_link']+'">PM</a>';
 					                },
 					                useHTML: true
 					            }
@@ -293,6 +296,29 @@ $(document).ready(function()
 	{
 		$('.show-row').show();
 		$('.hide-row').hide();			
+	}
+
+	function change_abbr_for_pm(team_abbr)
+	{
+		switch(team_abbr)
+		{
+		case 'GS':
+			return 'GSW';
+		case 'NO':
+			return 'NOR';
+		case 'NY':
+			return 'NYK';
+		case 'PHX':
+			return 'PHO';
+		case 'SA':
+			return 'SAS';
+		case 'UTAH':
+			return 'UTH';
+		case 'WSH':
+			return 'WAS';
+		default:
+			return team_abbr;
+		}
 	}
 
 	$('select[name=position-drop-down]').change(function() 
