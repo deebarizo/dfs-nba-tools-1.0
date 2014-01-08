@@ -61,22 +61,6 @@
 
 						<div class='options-inline'>
 
-							<h4>Team</h4>
-
-							<form action="">
-								<select class="team-drop-down" name="team-drop-down">
-									<option value="all" selected>All</option>
-
-									<?php foreach ($teams_today as $key => $team) { ?>
-									<option value="<?php echo $team; ?>"><?php echo $team; ?></option>
-									<?php } ?>
-								</select>
-							</form>
-
-						</div>
-
-						<div class='options-inline'>
-
 							<h4>Salary</h4>
 
 							<form action="">
@@ -90,6 +74,31 @@
 									&lt;=
 								</label>
 								<input type="button" name="salary-reset" class="salary-reset" value="Salary Reset">
+							</form>
+
+						</div>
+
+						<div class='options-inline'>
+
+							<h4>Team</h4>
+
+							<form action="">
+								<select class="team-drop-down" name="team-drop-down">
+									<option value="all" selected>All</option>
+
+									<?php foreach ($teams_today as $key => $team) { ?>
+									<option value="<?php echo $team; ?>"><?php echo $team; ?></option>
+									<?php } ?>
+								</select>
+
+								<label class="radio inline">
+									<input type="radio" name="starters-toggle" id="only-starters" value="only-starters" checked>
+									Only Starters
+								</label>
+								<label class="radio inline">
+									<input type="radio" name="starters-toggle" id="starters-and-bench" value="starters-and-bench">
+									Starters and Bench
+								</label>
 							</form>
 
 						</div>

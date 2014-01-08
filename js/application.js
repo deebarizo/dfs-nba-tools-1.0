@@ -16,11 +16,14 @@ $(document).ready(function()
 	function get_options()
 	{
 		var options = new Object();
+
 		options['position'] = get_position();
 		options['teams'] = get_teams();
 		options['chosen_team'] = $('.team-drop-down').val();
 		options['salary'] = $('.salary-input').val();
 		options['salary-toggle'] = $('input:radio[name=salary-toggle]:checked').val();
+		options['starters-toggle'] = $('input:radio[name=starters-toggle]:checked').val();
+
 		return options;
 	}
 
@@ -144,7 +147,6 @@ $(document).ready(function()
 		            	};
 
 		            	console.log(games);
-		            	console.log(distinct_players);
 
 		            	var player_data = [];
 
@@ -159,17 +161,27 @@ $(document).ready(function()
 			            		{
 				            		if (distinct_players[num] == games[i][n].name && games[i][n].minutes != null)
 									{
-										if (games[i][n].starter == 'yes')
+										if (options['starters-toggle'] == 'starters-and-bench')
 										{
-											minutes.push({y: parseFloat(games[i][n].minutes),
-																marker: {symbol: 'url(http://localhost/dfsnbatools/img/sport-basketball-icon.png)'}
-															})
+											if (games[i][n].starter == 'yes')
+											{
+												minutes.push({y: parseFloat(games[i][n].minutes),
+																	marker: {symbol: 'url(http://localhost/dfsnbatools/img/sport-basketball-icon.png)'}
+																})
+											}
+											else
+											{
+												minutes.push(parseFloat(games[i][n].minutes));
+											}
 										}
-										else
+										else if (options['starters-toggle'] == 'only-starters')
 										{
-											minutes.push(parseFloat(games[i][n].minutes));
+											if (games[i][n].starter == 'yes')
+											{
+												minutes.push(parseFloat(games[i][n].minutes));
+											}
 										}
-									
+
 										break;
 									}				            			
 								}
@@ -183,8 +195,6 @@ $(document).ready(function()
 							player_data.push({name: distinct_players[num], 
 		            							data: minutes});
 						};
-
-						console.log(player_data);
 
 						var series_data = [];
 
@@ -206,7 +216,11 @@ $(document).ready(function()
 							}
 						};
 
-						console.log(series_data);
+					    var espn_game_links = 
+					    {
+					        '2013-12-27': 'http://www.google.com/search?q=foo',
+					        '2013-12-28': 'http://www.google.com/search?q=foo+bar'
+					    };
 
 				        $('div.chosen-team-rotation').highcharts({
 				            chart: {
@@ -216,7 +230,14 @@ $(document).ready(function()
 				                text: options['chosen_team']+' Rotations'
 				            },
 				            xAxis: {
-				                categories: rotation_dates
+				                categories: rotation_dates,
+					            labels: {
+					                formatter: function() {
+					                    return '<a target="_blank" href="'+ espn_game_links[this.value] +'">'+
+					                        this.value +'</a>';
+					                },
+					                useHTML: true
+					            }
 				            },
 			                yAxis: {
 			                    title: {
@@ -226,6 +247,7 @@ $(document).ready(function()
 		                    	tickPixelInterval: 400,
 		                    	min: 0
 			                },
+
 				            series: series_data
 				        });
 		            }	
@@ -276,6 +298,16 @@ $(document).ready(function()
 	$("input[name=salary-toggle]:radio").change(function () 
 	{
 		options_change();
+	});
+
+	$("input[name=starters-toggle]:radio").change(function () 
+	{
+		var chosen_team = $('.team-drop-down').val();
+
+		if (chosen_team != 'All')
+		{
+			options_change();
+		}
 	});
 
 	$('.salary-reset').click(function() 

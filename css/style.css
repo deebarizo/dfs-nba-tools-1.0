@@ -29,7 +29,8 @@ div.chosen-team-rotation
 	width: 100px;
 }
 
-.salary-input
+.salary-input,
+.team-drop-down
 {
 	margin-right: 10px;
 	width: 150px;
