@@ -119,165 +119,12 @@ $(document).ready(function()
 			// Team links
 
 			var rotoworld_team_abbr = change_abbr_for_rotoworld(options['chosen_team']);
-			var rotoworld_team_link = '<a target="_blank" href="http://www.rotoworld.com/teams/clubhouse/nba/'+rotoworld_team_abbr+'">Rotoworld</a>';
+			var rotoworld_team_link = 'http://www.rotoworld.com/teams/clubhouse/nba/'+rotoworld_team_abbr;
 
-			var espn_team_schedule_link = '<a target="_blank" href="http://espn.go.com/nba/teams/schedule?team='+options['chosen_team']+'">ESPN Schedule</a>';
+			var espn_team_schedule_link = 'http://espn.go.com/nba/teams/schedule?team='+options['chosen_team'];
 
-			$('.team-links').html(rotoworld_team_link+' | '+espn_team_schedule_link);
-
-			// Line chart for NBA rotations
-
-			var chosen_date = $('.date-drop-down option:selected').text();
-
-		    $.ajax
-		    ({
-	            url: 'http://localhost/dfsnbatools/daily/get_team_rotation/'+options['chosen_team']+'/'+chosen_date,
-	            type: 'POST',
-	            dataType: 'json',
-	            success: function(games)
-	            {
-	            	var rotation_dates = [];
-	            	var distinct_players = [];
-
-	            	for (var i = 0; i < games.length; i++) 
-	            	{
-	            		rotation_dates.push(games[i][0].date);
-
-	            		for (var n = 0; n < games[i].length; n++) 
-	            		{
-	            			var index = distinct_players.indexOf(games[i][n].name);
-
-	            			if (index == -1)
-	            			{
-	            				distinct_players.push(games[i][n].name);
-	            			}
-	            		};
-	            	};
-
-	            	var player_data = [];
-
-					for (var num = 0; num < distinct_players.length; num++) 
-					{
-						var minutes = [];
-						var starter = [];
-
-		            	for (var i = 0; i < games.length; i++) 
-		            	{
-		            		for (var n = 0; n < games[i].length; n++) 
-		            		{
-			            		if (distinct_players[num] == games[i][n].name && games[i][n].minutes != null)
-								{
-									if (options['starters-toggle'] == 'starters-and-bench')
-									{
-										if (games[i][n].starter == 'yes')
-										{
-											minutes.push({y: parseFloat(games[i][n].minutes),
-																marker: {symbol: 'url(http://localhost/dfsnbatools/img/sport-basketball-icon.png)'}
-															})
-										}
-										else
-										{
-											minutes.push(parseFloat(games[i][n].minutes));
-										}
-									}
-									else if (options['starters-toggle'] == 'only-starters')
-									{
-										if (games[i][n].starter == 'yes')
-										{
-											minutes.push(parseFloat(games[i][n].minutes));
-										}
-									}
-									else if (options['starters-toggle'] == 'only-bench')
-									{
-										if (games[i][n].starter == 'no')
-										{
-											minutes.push(parseFloat(games[i][n].minutes));
-										}											
-									}
-
-									break;
-								}				            			
-							}
-
-							if (i == minutes.length)
-							{
-								minutes.push(null);
-							}
-						}
-
-						player_data.push({name: distinct_players[num], 
-	            							data: minutes});
-					};
-
-					var series_data = [];
-
-					for (var i = 0; i < player_data.length; i++) 
-					{
-						var count = 0;
-
-						for (var n = 0; n < player_data[i].data.length; n++) 
-						{
-							if (player_data[i].data[n] == null || player_data[i].data[n] < 15)
-							{
-								count += 1;
-							}
-						};
-
-						if (count != player_data[i].data.length)
-						{
-							series_data.push(player_data[i]);
-						}
-					};
-
-					var game_data = {};
-
-					for (var i = 0; i < games.length; i++) 
-					{
-						game_data[games[i][0].date] = {};
-
-					 	game_data[games[i][0].date]['espn_link'] = games[i][0].url_espn;
-					 	game_data[games[i][0].date]['team1'] = games[i][0].team1;
-					 	game_data[games[i][0].date]['score1'] = games[i][0].score1;
-					 	game_data[games[i][0].date]['team2'] = games[i][0].team2;
-					 	game_data[games[i][0].date]['score2'] = games[i][0].score2;
-
-					 	var pm_date = games[i][0].date.replace(/-/g,'');
-
-					 	var pm_team1 = change_abbr_for_pm(games[i][0].team1);
-					 	var pm_team2 = change_abbr_for_pm(games[i][0].team2);
-
-					 	game_data[games[i][0].date]['pm_link'] = 'http://popcornmachine.net/cgi-bin/gameflow.cgi?date='+pm_date+'&game='+pm_team1+pm_team2;
-					};
-
-			        $('div.chosen-team-rotation').highcharts({
-			            chart: {
-			                type: 'line'
-			            },
-			            title: {
-			                text: options['chosen_team']+' Rotations'
-			            },
-			            xAxis: {
-			                categories: rotation_dates,
-				            labels: {
-				                formatter: function() {
-				                    return this.value+'<br>'+game_data[this.value]['team1']+' '+game_data[this.value]['score1']+', '+game_data[this.value]['team2']+' '+game_data[this.value]['score2']+'<br><a target="_blank" href="'+game_data[this.value]['espn_link']+'">ESPN</a><br><a target="_blank" href="'+game_data[this.value]['pm_link']+'">PM</a>';
-				                },
-				                useHTML: true
-				            }
-			            },
-		                yAxis: {
-		                    title: {
-		                        text: 'Minutes'
-		                    },
-		                    tickInterval: 5,
-	                    	tickPixelInterval: 400,
-	                    	min: 0
-		                },
-
-			            series: series_data
-			        });
-	            }	
-			}); 
+			$('a.rotoworld-team-link').attr('href', rotoworld_team_link);
+			$('a.espn-team-link').attr('href', espn_team_schedule_link );
 
 			$('.team-info').show();		
 		}
@@ -300,6 +147,163 @@ $(document).ready(function()
 		    	}
 		    }
 		});			
+	}
+
+	function show_or_update_rotations()
+	{
+		var options = get_options();
+
+		var chosen_date = $('.date-drop-down option:selected').text();
+
+    	$.ajax
+	    ({
+            url: 'http://localhost/dfsnbatools/daily/get_team_rotation/'+options['chosen_team']+'/'+chosen_date,
+            type: 'POST',
+            dataType: 'json',
+            success: function(games)
+            {
+            	var rotation_dates = [];
+            	var distinct_players = [];
+
+            	for (var i = 0; i < games.length; i++) 
+            	{
+            		rotation_dates.push(games[i][0].date);
+
+            		for (var n = 0; n < games[i].length; n++) 
+            		{
+            			var index = distinct_players.indexOf(games[i][n].name);
+
+            			if (index == -1)
+            			{
+            				distinct_players.push(games[i][n].name);
+            			}
+            		};
+            	};
+
+            	var player_data = [];
+
+				for (var num = 0; num < distinct_players.length; num++) 
+				{
+					var minutes = [];
+					var starter = [];
+
+	            	for (var i = 0; i < games.length; i++) 
+	            	{
+	            		for (var n = 0; n < games[i].length; n++) 
+	            		{
+		            		if (distinct_players[num] == games[i][n].name && games[i][n].minutes != null)
+							{
+								if (options['starters-toggle'] == 'starters-and-bench')
+								{
+									if (games[i][n].starter == 'yes')
+									{
+										minutes.push({y: parseFloat(games[i][n].minutes),
+															marker: {symbol: 'url(http://localhost/dfsnbatools/img/sport-basketball-icon.png)'}
+														})
+									}
+									else
+									{
+										minutes.push(parseFloat(games[i][n].minutes));
+									}
+								}
+								else if (options['starters-toggle'] == 'only-starters')
+								{
+									if (games[i][n].starter == 'yes')
+									{
+										minutes.push(parseFloat(games[i][n].minutes));
+									}
+								}
+								else if (options['starters-toggle'] == 'only-bench')
+								{
+									if (games[i][n].starter == 'no')
+									{
+										minutes.push(parseFloat(games[i][n].minutes));
+									}											
+								}
+
+								break;
+							}				            			
+						}
+
+						if (i == minutes.length)
+						{
+							minutes.push(null);
+						}
+					}
+
+					player_data.push({name: distinct_players[num], 
+            							data: minutes});
+				};
+
+				var series_data = [];
+
+				for (var i = 0; i < player_data.length; i++) 
+				{
+					var count = 0;
+
+					for (var n = 0; n < player_data[i].data.length; n++) 
+					{
+						if (player_data[i].data[n] == null || player_data[i].data[n] < 15)
+						{
+							count += 1;
+						}
+					};
+
+					if (count != player_data[i].data.length)
+					{
+						series_data.push(player_data[i]);
+					}
+				};
+
+				var game_data = {};
+
+				for (var i = 0; i < games.length; i++) 
+				{
+					game_data[games[i][0].date] = {};
+
+				 	game_data[games[i][0].date]['espn_link'] = games[i][0].url_espn;
+				 	game_data[games[i][0].date]['team1'] = games[i][0].team1;
+				 	game_data[games[i][0].date]['score1'] = games[i][0].score1;
+				 	game_data[games[i][0].date]['team2'] = games[i][0].team2;
+				 	game_data[games[i][0].date]['score2'] = games[i][0].score2;
+
+				 	var pm_date = games[i][0].date.replace(/-/g,'');
+
+				 	var pm_team1 = change_abbr_for_pm(games[i][0].team1);
+				 	var pm_team2 = change_abbr_for_pm(games[i][0].team2);
+
+				 	game_data[games[i][0].date]['pm_link'] = 'http://popcornmachine.net/cgi-bin/gameflow.cgi?date='+pm_date+'&game='+pm_team1+pm_team2;
+				};
+
+		        $('div.chosen-team-rotation').highcharts({
+		            chart: {
+		                type: 'line'
+		            },
+		            title: {
+		                text: options['chosen_team']+' Rotations'
+		            },
+		            xAxis: {
+		                categories: rotation_dates,
+			            labels: {
+			                formatter: function() {
+			                    return this.value+'<br>'+game_data[this.value]['team1']+' '+game_data[this.value]['score1']+', '+game_data[this.value]['team2']+' '+game_data[this.value]['score2']+'<br><a target="_blank" href="'+game_data[this.value]['espn_link']+'">ESPN</a><br><a target="_blank" href="'+game_data[this.value]['pm_link']+'">PM</a>';
+			                },
+			                useHTML: true
+			            }
+		            },
+	                yAxis: {
+	                    title: {
+	                        text: 'Minutes'
+	                    },
+	                    tickInterval: 5,
+                    	tickPixelInterval: 400,
+                    	min: 0
+	                },
+
+		            series: series_data
+		        });
+            }	
+		}); 				
 	}
 
 	function show_or_hide_rows()
@@ -376,7 +380,35 @@ $(document).ready(function()
 
 		if (chosen_team != 'All')
 		{
+			var rotations_toggle_anchor_text = $(".rotations-toggle").text();
+
+			if (rotations_toggle_anchor_text == 'Hide Rotations')
+			{
+				show_or_update_rotations();
+			}
+
 			options_change();
+		}
+	});
+
+	$("a.rotations-toggle").click(function(event)
+	{
+		event.preventDefault();
+
+		var rotations_toggle_anchor_text = $(".rotations-toggle").text();
+
+		if (rotations_toggle_anchor_text == 'Show Rotations')
+		{
+			$(".rotations-toggle").text('Hide Rotations');
+
+			show_or_update_rotations();
+
+			$("div.chosen-team-rotation").show();
+		}
+		else if (rotations_toggle_anchor_text == 'Hide Rotations')
+		{
+			$(".rotations-toggle").text('Show Rotations');
+			$("div.chosen-team-rotation").hide();
 		}
 	});
 

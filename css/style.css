@@ -1,11 +1,12 @@
 .team-info
 {
-	display:none;
+	display: none;
 }
 
 div.chosen-team-rotation
 {
 	height: 800px;
+	display: none;
 }
 
 .game-buttons
