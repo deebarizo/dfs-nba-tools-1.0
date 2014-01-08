@@ -15,6 +15,7 @@ class players_model extends CI_Model
 		$s->execute(); 
 
 		$dates = $s->fetchAll(PDO::FETCH_COLUMN);
+		$dates = array_reverse($dates);
 
 		foreach ($dates as $key => $date) 
 		{

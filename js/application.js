@@ -103,7 +103,6 @@ $(document).ready(function()
 		if (options['chosen_team'] == 'all')
 		{
 			$('.line-chart-rotations').hide();
-			$('.chosen-team-rotation h4').text('')
 
 			for (var i=0; i < options['teams'].length; i++) 
 			{
@@ -117,7 +116,6 @@ $(document).ready(function()
 			// Line chart for NBA rotations
 
 			$('.line-chart-rotations').show();
-			$('h4.chosen-team-rotation').text(options['chosen_team']+' Rotations')
 
 			var chosen_date = $('.date-drop-down option:selected').text();
 
@@ -128,23 +126,87 @@ $(document).ready(function()
 		            success: function(games)
 		            {
 		            	var rotation_dates = [];
-		            	var player_data = [];
+		            	var distinct_players = [];
 
-						for (var i = games.length - 1; i >= 0; i--) 
-						{
+		            	for (var i = 0; i < games.length; i++) 
+		            	{
 		            		rotation_dates.push(games[i][0].date);
 
 		            		for (var n = 0; n < games[i].length; n++) 
 		            		{
-		            			player_data.push({name: games[i][n].name, 
-		            								minutes: games[i][n].minutes,
-		            								date: games[i][n].date,
-		            								starter: games[i][n].starter});
+		            			var index = distinct_players.indexOf(games[i][n].name);
+
+		            			if (index == -1)
+		            			{
+		            				distinct_players.push(games[i][n].name);
+		            			}
 		            		};
 		            	};
 
 		            	console.log(games);
-		            	console.log(player_data);
+		            	console.log(distinct_players);
+
+		            	var player_data = [];
+
+						for (var num = 0; num < distinct_players.length; num++) 
+						{
+							var minutes = [];
+							var starter = [];
+
+			            	for (var i = 0; i < games.length; i++) 
+			            	{
+			            		for (var n = 0; n < games[i].length; n++) 
+			            		{
+				            		if (distinct_players[num] == games[i][n].name && games[i][n].minutes != null)
+									{
+										if (games[i][n].starter == 'yes')
+										{
+											minutes.push({y: parseFloat(games[i][n].minutes),
+																marker: {symbol: 'url(http://localhost/dfsnbatools/img/sport-basketball-icon.png)'}
+															})
+										}
+										else
+										{
+											minutes.push(parseFloat(games[i][n].minutes));
+										}
+									
+										break;
+									}				            			
+								}
+
+								if (i == minutes.length)
+								{
+									minutes.push(null);
+								}
+							}
+
+							player_data.push({name: distinct_players[num], 
+		            							data: minutes});
+						};
+
+						console.log(player_data);
+
+						var series_data = [];
+
+						for (var i = 0; i < player_data.length; i++) 
+						{
+							var count = 0;
+
+							for (var n = 0; n < player_data[i].data.length; n++) 
+							{
+								if (player_data[i].data[n] == null || player_data[i].data[n] < 15)
+								{
+									count += 1;
+								}
+							};
+
+							if (count != player_data[i].data.length)
+							{
+								series_data.push(player_data[i]);
+							}
+						};
+
+						console.log(series_data);
 
 				        $('div.chosen-team-rotation').highcharts({
 				            chart: {
@@ -159,15 +221,12 @@ $(document).ready(function()
 			                yAxis: {
 			                    title: {
 			                        text: 'Minutes'
-			                    }
+			                    },
+			                    tickInterval: 5,
+		                    	tickPixelInterval: 400,
+		                    	min: 0
 			                },
-				            series: [{
-				                name: 'Tokyo',
-				                data: [7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
-				            }, {
-				                name: 'London',
-				                data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
-				            }]
+				            series: series_data
 				        });
 		            }	
 				}); 	
