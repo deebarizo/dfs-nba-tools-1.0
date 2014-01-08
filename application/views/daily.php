@@ -96,6 +96,10 @@
 									Only Starters
 								</label>
 								<label class="radio inline">
+									<input type="radio" name="starters-toggle" id="only-bench" value="only-bench">
+									Only Bench
+								</label>
+								<label class="radio inline">
 									<input type="radio" name="starters-toggle" id="starters-and-bench" value="starters-and-bench">
 									Starters and Bench
 								</label>

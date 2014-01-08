@@ -181,6 +181,13 @@ $(document).ready(function()
 												minutes.push(parseFloat(games[i][n].minutes));
 											}
 										}
+										else if (options['starters-toggle'] == 'only-bench')
+										{
+											if (games[i][n].starter == 'no')
+											{
+												minutes.push(parseFloat(games[i][n].minutes));
+											}											
+										}
 
 										break;
 									}				            			
@@ -216,11 +223,20 @@ $(document).ready(function()
 							}
 						};
 
-					    var espn_game_links = 
-					    {
-					        '2013-12-27': 'http://www.google.com/search?q=foo',
-					        '2013-12-28': 'http://www.google.com/search?q=foo+bar'
-					    };
+						var espn_game_links = {};
+
+						for (var i = 0; i < games.length; i++) 
+						{
+							espn_game_links[games[i][0].date] = {};
+
+						 	espn_game_links[games[i][0].date]['link'] = games[i][0].url_espn;
+						 	espn_game_links[games[i][0].date]['team1'] = games[i][0].team1;
+						 	espn_game_links[games[i][0].date]['score1'] = games[i][0].score1;
+						 	espn_game_links[games[i][0].date]['team2'] = games[i][0].team2;
+						 	espn_game_links[games[i][0].date]['score2'] = games[i][0].score2;
+						};
+
+						console.log(espn_game_links);
 
 				        $('div.chosen-team-rotation').highcharts({
 				            chart: {
@@ -233,8 +249,7 @@ $(document).ready(function()
 				                categories: rotation_dates,
 					            labels: {
 					                formatter: function() {
-					                    return '<a target="_blank" href="'+ espn_game_links[this.value] +'">'+
-					                        this.value +'</a>';
+					                    return this.value+'<br><a target="_blank" href="'+espn_game_links[this.value]['link']+'">'+espn_game_links[this.value]['team1']+' '+espn_game_links[this.value]['score1']+', '+espn_game_links[this.value]['team2']+' '+espn_game_links[this.value]['score2']+'</a>';
 					                },
 					                useHTML: true
 					            }

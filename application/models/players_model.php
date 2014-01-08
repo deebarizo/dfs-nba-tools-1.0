@@ -8,7 +8,7 @@ class players_model extends CI_Model
 
 		$sql = 'SELECT DISTINCT `date` FROM `irlstats` 
 				WHERE `team` = :team AND `date` < :date 
-				ORDER BY `date` DESC LIMIT 5';
+				ORDER BY `date` DESC LIMIT 7';
 		$s = $this->db->conn_id->prepare($sql);
 		$s->bindValue(':team', $team);
 		$s->bindValue(':date', $date);
@@ -20,7 +20,9 @@ class players_model extends CI_Model
 		foreach ($dates as $key => $date) 
 		{
 			$sql = 'SELECT * FROM `irlstats` 
-					WHERE `team` = :team AND `date` = :date';
+					INNER JOIN  `games` ON irlstats.date = games.date
+					WHERE `team` = :team AND games.date = :date
+					AND (games.team1 = :team OR games.team2 = :team)';
 			$s = $this->db->conn_id->prepare($sql);
 			$s->bindValue(':team', $team);
 			$s->bindValue(':date', $date);
