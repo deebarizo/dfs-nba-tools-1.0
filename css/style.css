@@ -40,6 +40,11 @@
 	width: 150px;
 }
 
+.team-drop-down
+{	
+	margin-bottom: 0;
+}
+
 #daily-stats
 {
 	font-size: 10px;

@@ -18,11 +18,15 @@ $(document).ready(function()
 		var options = new Object();
 
 		options['position'] = get_position();
+
 		options['teams'] = get_teams();
 		options['chosen_team'] = $('.team-drop-down').val();
+
 		options['salary'] = $('.salary-input').val();
 		options['salary-toggle'] = $('input:radio[name=salary-toggle]:checked').val();
+
 		options['starters-toggle'] = $('input:radio[name=starters-toggle]:checked').val();
+		options['starters-toggle-headline'] = get_starters_toggle_headline(options['starters-toggle']);
 
 		return options;
 	}
@@ -280,7 +284,7 @@ $(document).ready(function()
 		                type: 'line'
 		            },
 		            title: {
-		                text: options['chosen_team']+' Rotations'
+		                text: options['chosen_team']+' Rotations '+options['starters-toggle-headline']
 		            },
 		            xAxis: {
 		                categories: rotation_dates,
@@ -316,22 +320,22 @@ $(document).ready(function()
 	{
 		switch(team_abbr)
 		{
-		case 'GS':
-			return 'GSW';
-		case 'NO':
-			return 'NOR';
-		case 'NY':
-			return 'NYK';
-		case 'PHX':
-			return 'PHO';
-		case 'SA':
-			return 'SAS';
-		case 'UTAH':
-			return 'UTH';
-		case 'WSH':
-			return 'WAS';
-		default:
-			return team_abbr;
+			case 'GS':
+				return 'GSW';
+			case 'NO':
+				return 'NOR';
+			case 'NY':
+				return 'NYK';
+			case 'PHX':
+				return 'PHO';
+			case 'SA':
+				return 'SAS';
+			case 'UTAH':
+				return 'UTH';
+			case 'WSH':
+				return 'WAS';
+			default:
+				return team_abbr;
 		}
 	}
 
@@ -339,19 +343,32 @@ $(document).ready(function()
 	{
 		switch(team_abbr)
 		{
-		case 'LAL':
-			return 'LAK';
-		case 'MIL':
-			return 'MLW';
-		case 'PHX':
-			return 'PHO';
-		case 'UTAH':
-			return 'UTA';
-		case 'WSH':
-			return 'WAS';
-		default:
-			return team_abbr;
+			case 'LAL':
+				return 'LAK';
+			case 'MIL':
+				return 'MLW';
+			case 'PHX':
+				return 'PHO';
+			case 'UTAH':
+				return 'UTA';
+			case 'WSH':
+				return 'WAS';
+			default:
+				return team_abbr;
 		}
+	}
+
+	function get_starters_toggle_headline(value)
+	{
+		switch(value)
+		{
+			case 'only-starters':
+				return '(Starters)';
+			case 'only-bench':
+				return '(Bench)';
+			case 'starters-and-bench':
+				return '(Starters and Bench)';
+		}		
 	}
 
 	$('select[name=position-drop-down]').change(function() 
@@ -373,27 +390,12 @@ $(document).ready(function()
 	{
 		var chosen_team = $('.team-drop-down').val();
 
-		if (chosen_team != 'all')
-		{
-			var rotations_toggle_anchor_text = $(".rotations-toggle").text();
-
-			if (rotations_toggle_anchor_text == 'Hide Rotations')
-			{
-				show_or_update_rotations();
-			}
-			else if (rotations_toggle_anchor_text == 'Show Rotations')
-			{
-				$("div.chosen-team-rotation").hide();
-			}
-
-			options_change();
-		}
-		else
-		{
-			options_change();
-
-			$(".rotations-toggle").text("Show Rotations");
-		}
+		$(".chosen-team-rotation").hide();
+			
+		options_change();
+			
+		$(".rotations-toggle").text("Show Rotations");
+		$('#only-starters').prop('checked', true);
 	}); 
 
 	$("input[name=starters-toggle]:radio").change(function () 
@@ -413,7 +415,7 @@ $(document).ready(function()
 		}
 	});
 
-	$("a.rotations-toggle").click(function(event)
+	$(".rotations-toggle").click(function(event)
 	{
 		event.preventDefault();
 
