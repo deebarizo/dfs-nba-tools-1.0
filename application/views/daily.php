@@ -109,7 +109,7 @@
 
 				  		<div class="team-info">
 
-				  			<span class="team-links"><a target="_blank" class="rotoworld-team-link" href="">Rotoworld</a> | <a class="rotations-toggle" href="#">Show Rotations</a> | <a target="_blank" class="espn-team-schedule-link" href="http://espn.go.com/nba/teams/schedule?team=WAS">ESPN Schedule</a></span>
+				  			<span class="team-links"><a target="_blank" class="rotoworld-team-link" href="">Rotoworld</a> | <a class="rotations-toggle" href="#">Show Rotations</a> | <a target="_blank" class="espn-team-schedule-link" href="">ESPN Schedule</a></span>
 
 				  			<div class="chosen-team-rotation"></div>
 

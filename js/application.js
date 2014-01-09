@@ -124,7 +124,7 @@ $(document).ready(function()
 			var espn_team_schedule_link = 'http://espn.go.com/nba/teams/schedule?team='+options['chosen_team'];
 
 			$('a.rotoworld-team-link').attr('href', rotoworld_team_link);
-			$('a.espn-team-link').attr('href', espn_team_schedule_link );
+			$('a.espn-team-schedule-link').attr('href', espn_team_schedule_link);
 
 			$('.team-info').show();		
 		}
@@ -359,11 +359,6 @@ $(document).ready(function()
 		options_change();
 	}); 
 
-	$('select[name=team-drop-down]').change(function() 
-	{
-		options_change();
-	}); 
-
 	$('.salary-input').on('input', function()
 	{
 		options_change();
@@ -374,11 +369,38 @@ $(document).ready(function()
 		options_change();
 	});
 
+	$('select[name=team-drop-down]').change(function() 
+	{
+		var chosen_team = $('.team-drop-down').val();
+
+		if (chosen_team != 'all')
+		{
+			var rotations_toggle_anchor_text = $(".rotations-toggle").text();
+
+			if (rotations_toggle_anchor_text == 'Hide Rotations')
+			{
+				show_or_update_rotations();
+			}
+			else
+			{
+				$("div.chosen-team-rotation").hide();
+			}
+
+			options_change();
+		}
+		else
+		{
+			options_change();
+
+			$("a.rotations-toggle").text("Show Rotations");
+		}
+	}); 
+
 	$("input[name=starters-toggle]:radio").change(function () 
 	{
 		var chosen_team = $('.team-drop-down').val();
 
-		if (chosen_team != 'All')
+		if (chosen_team != 'all')
 		{
 			var rotations_toggle_anchor_text = $(".rotations-toggle").text();
 
