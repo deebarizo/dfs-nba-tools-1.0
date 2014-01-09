@@ -78,7 +78,7 @@
 
 						</div>
 
-						<div class='options-inline'>
+						<div>
 
 							<h4>Team</h4>
 
@@ -90,30 +90,46 @@
 									<option value="<?php echo $team; ?>"><?php echo $team; ?></option>
 									<?php } ?>
 								</select>
-
-								<label class="radio inline">
-									<input type="radio" name="starters-toggle" id="only-starters" value="only-starters" checked>
-									Only Starters
-								</label>
-								<label class="radio inline">
-									<input type="radio" name="starters-toggle" id="only-bench" value="only-bench">
-									Only Bench
-								</label>
-								<label class="radio inline">
-									<input type="radio" name="starters-toggle" id="starters-and-bench" value="starters-and-bench">
-									Starters and Bench
-								</label>
 							</form>
 
 						</div>
 
-				  		<div class="team-info">
+						<div class="team-info">
 
-				  			<span class="team-links"><a target="_blank" class="rotoworld-team-link" href="">Rotoworld</a> | <a class="rotations-toggle" href="#">Show Rotations</a> | <a target="_blank" class="espn-team-schedule-link" href="">ESPN Schedule</a></span>
+							<div class="team-links">
 
-				  			<div class="chosen-team-rotation"></div>
+								<a target="_blank" class="rotoworld-team-link" href="http://www.rotoworld.com/teams/clubhouse/nba/DEN">Rotoworld</a>
+								 | 
+								<a target="_blank" class="espn-team-schedule-link" href="http://espn.go.com/nba/teams/schedule?team=DEN">ESPN Schedule</a>
 
-				  		</div>
+								<br>
+								<a class="rotations-toggle" href="#">Show Rotations</a>
+
+							</div>
+
+							<div class="chosen-team-rotation">
+
+								<form action="">
+									<label class="radio inline">
+										<input type="radio" name="starters-toggle" id="only-starters" value="only-starters" checked>
+										Only Starters
+									</label>
+									<label class="radio inline">
+										<input type="radio" name="starters-toggle" id="only-bench" value="only-bench">
+										Only Bench
+									</label>
+									<label class="radio inline">
+										<input type="radio" name="starters-toggle" id="starters-and-bench" value="starters-and-bench">
+										Starters and Bench
+									</label>
+								</form>
+
+					  			<div class="team-rotation-line-chart">
+					  			</div>
+
+					  		</div>
+
+					  	</div>
 
 					</div>
 

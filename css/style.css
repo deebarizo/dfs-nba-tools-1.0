@@ -3,12 +3,15 @@
 	display: none;
 }
 
-div.chosen-team-rotation
+.chosen-team-rotation
 {
-	height: 800px;
 	display: none;
 }
 
+.team-rotation-line-chart
+{
+	height: 800px;
+}
 .game-buttons
 {
 	padding-bottom: 25px;

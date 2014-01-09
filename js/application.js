@@ -275,7 +275,7 @@ $(document).ready(function()
 				 	game_data[games[i][0].date]['pm_link'] = 'http://popcornmachine.net/cgi-bin/gameflow.cgi?date='+pm_date+'&game='+pm_team1+pm_team2;
 				};
 
-		        $('div.chosen-team-rotation').highcharts({
+		        $('.team-rotation-line-chart').highcharts({
 		            chart: {
 		                type: 'line'
 		            },
@@ -381,7 +381,7 @@ $(document).ready(function()
 			{
 				show_or_update_rotations();
 			}
-			else
+			else if (rotations_toggle_anchor_text == 'Show Rotations')
 			{
 				$("div.chosen-team-rotation").hide();
 			}
@@ -392,7 +392,7 @@ $(document).ready(function()
 		{
 			options_change();
 
-			$("a.rotations-toggle").text("Show Rotations");
+			$(".rotations-toggle").text("Show Rotations");
 		}
 	}); 
 
@@ -425,12 +425,12 @@ $(document).ready(function()
 
 			show_or_update_rotations();
 
-			$("div.chosen-team-rotation").show();
+			$(".chosen-team-rotation").show();
 		}
 		else if (rotations_toggle_anchor_text == 'Hide Rotations')
 		{
 			$(".rotations-toggle").text('Show Rotations');
-			$("div.chosen-team-rotation").hide();
+			$(".chosen-team-rotation").hide();
 		}
 	});
 
