@@ -55,9 +55,14 @@
 	font-size: 10px;
 }
 
-.vr-row 
+.vr-column
 {
 	background-color: #FFE6C2;
+}
+
+.actual-stats-column
+{
+	background-color: #B2DBF0;
 }
 
 .table tbody tr:hover td

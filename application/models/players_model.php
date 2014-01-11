@@ -209,7 +209,63 @@ class players_model extends CI_Model
 
 		unset($player);
 
+		// get actual results
 
+		$sql = 'SELECT DISTINCT `date` FROM `irlstats` ORDER BY `date` DESC LIMIT 1';
+		$s = $this->db->conn_id->prepare($sql);
+		$s->execute(); 
+
+		$result = $s->fetchAll(PDO::FETCH_COLUMN);
+		$latest_date_in_db = $result[0];
+
+		if (strtotime($date) <= strtotime($latest_date_in_db)) 
+		{
+			foreach ($stats as $key => &$player) 
+			{
+				$modified_name = $this->modify_name_ds($player['name']);
+
+				$sql = 'SELECT * FROM `irlstats` 
+						WHERE name = :name AND `date` = :date LIMIT 1';
+				$s = $this->db->conn_id->prepare($sql);
+				$s->bindValue(':name', $modified_name);
+				$s->bindValue(':date', $date);
+				$s->execute(); 
+
+				$result = $s->fetchAll(PDO::FETCH_ASSOC);
+
+				if (empty($result))
+				{
+					$player['actual_min'] = 0;
+					$player['actual_fpts'] = 0;
+					$player['actual_fppm'] = 0;
+
+					$player['actual_vr'] = 0;						
+				}
+				else
+				{
+					$player['actual_min'] = $result[0]['minutes'];
+
+					if ($player['actual_min'] === NULL OR $player['actual_min'] == 0)
+					{
+						$player['actual_min'] = 0;
+						$player['actual_fpts'] = 0;
+						$player['actual_fppm'] = 0;
+
+						$player['actual_vr'] = 0;	
+					}
+					else
+					{
+						$player['actual_fpts'] = $result[0]['fpts_ds'];
+						$player['actual_fppm'] = number_format($player['actual_fpts'] / $player['actual_min'], 2);
+
+						$modified_salary = $player['salary'] / 1000;
+						$player['actual_vr'] = number_format($player['actual_fpts'] / $modified_salary, 2);	
+					}
+				}
+			}
+
+			unset($player);
+		}
 
 		# echo '<pre>'; 
 		# var_dump($stats); 
