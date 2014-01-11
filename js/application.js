@@ -391,11 +391,32 @@ $(document).ready(function()
 		var chosen_team = $('.team-drop-down').val();
 
 		$(".chosen-team-rotation").hide();
+
+		var two_teams = $('.show-game:contains('+chosen_team+')').text();
+		
+		var opposing_team = two_teams.replace(chosen_team+' vs ', '');
+		opposing_team = opposing_team.replace(' vs '+chosen_team, '');
+
+		var chosen_date = $('.date-drop-down option:selected').text();
+
+    	$.ajax
+	    ({
+            url: 'http://localhost/dfsnbatools/daily/get_team_dvp/'+opposing_team+'/'+chosen_date,
+            type: 'POST',
+            dataType: 'json',
+            success: function(dvp)
+            {		
+            	console.log(dvp);
+
+            	$(".dvp").html('<table class="inside-box"><tr><th>Opponent DvP</th><th>PG</th><th>PG-Mod</th><th>SG</th><th>SG-Mod</th><th>SF</th><th>SF-Mod</th><th>PF</th><th>PF-Mod</th><th>C</th><th>C-Mod</th></tr><tr><td>'+dvp[0].name_dvp+'</td><td class="rank">'+dvp[0].pg_rank+'</td><td>'+dvp[0].pg_rank_mod+'</td><td class="rank">'+dvp[0].sg_rank+'</td><td>'+dvp[0].sg_rank_mod+'</td><td class="rank">'+dvp[0].sf_rank+'</td><td>'+dvp[0].sf_rank_mod+'</td><td class="rank">'+dvp[0].pf_rank+'</td><td>'+dvp[0].pf_rank_mod+'</td><td class="rank">'+dvp[0].c_rank+'</td><td>'+dvp[0].c_rank_mod+'</td></tr></table>');
+            }
+        }); 
 			
 		options_change();
 			
 		$(".rotations-toggle").text("Show Rotations");
 		$('#only-starters').prop('checked', true);
+
 	}); 
 
 	$("input[name=starters-toggle]:radio").change(function () 

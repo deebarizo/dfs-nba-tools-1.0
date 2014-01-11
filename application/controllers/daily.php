@@ -29,8 +29,14 @@ class Daily extends CI_Controller
 
 	public function get_team_rotation($team, $date)
 	{
-		$this->load->model('players_model');
-		$data['players'] = $this->players_model->get_team_rotation($team, $date);		
+		$this->load->model('teams_model');
+		$this->teams_model->get_team_rotation($team, $date);		
+	}
+
+	public function get_team_dvp($team, $date)
+	{
+		$this->load->model('teams_model');
+		$this->teams_model->get_team_dvp($team, $date);		
 	}
 
 	public function get_stats($date)

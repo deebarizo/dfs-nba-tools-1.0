@@ -65,17 +65,12 @@
 	background-color: #DCDCDC;
 }
 
-/* matchups table for pop-up */
-
-.inside_box table
+table.inside-box
 {
-	text-align: left;
-	border-color: gray;
-	border-spacing: 1px;
-	margin-bottom: 18px;
+	margin-bottom: 12px;
 }
 
-.inside_box th 
+.inside-box th 
 {
 	background-color: #FFEBCC;
 	border: 1px solid #DDDDDD;
@@ -83,9 +78,14 @@
 	text-align: left;
 }
 
-.inside_box td
+.inside-box td
 {
 	padding: 4px;
 	text-align: left;
 	border: 1px solid #DDDDDD;
+}
+
+.inside-box td.rank
+{
+	background-color: #B2DBF0;
 }

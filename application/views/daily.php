@@ -98,6 +98,9 @@
 
 							<div class="team-links">
 
+								<div class="dvp">
+								</div>
+
 								<a target="_blank" class="rotoworld-team-link" href="http://www.rotoworld.com/teams/clubhouse/nba/DEN">Rotoworld</a>
 								 | 
 								<a target="_blank" class="espn-team-schedule-link" href="http://espn.go.com/nba/teams/schedule?team=DEN">ESPN Schedule</a>
