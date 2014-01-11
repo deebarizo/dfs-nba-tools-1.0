@@ -162,6 +162,7 @@
 									<th data-sort='string'>Pos</th>
 									<th data-sort='int'>Salary</th>
 									<th data-sort='float'>LA VR</th>
+									<th data-sort='string'>Opp</th>
 									<th data-sort='float'>PS</th>
 									<th data-sort='string'>Line</th>
 									
@@ -173,7 +174,6 @@
 
 									<?php } ?>
 									
-									<th data-sort='string'>Opp</th>
 									<th data-sort='float'>FPTS +/-</th>
 
 									<th data-sort='int'>2013 GP</th>
@@ -207,6 +207,7 @@
 											echo '<td>'.$player['position'].'</td>';
 											echo '<td>'.$player['salary'].'</td>';
 											echo '<td>'.$player['vr_2013_la'].'</td>';
+											echo '<td>'.$player['opponent'].'</td>';
 											echo '<td>'.$player['ps'].'</td>';
 											echo '<td>'.$player['line'].'</td>';
 
@@ -219,7 +220,6 @@
 
 											}
 
-											echo '<td>'.$player['opponent'].'</td>';
 											echo '<td>'.$player['fpts_plus_minus'].'</td>';
 											
 											echo '<td>'.$player['gp_2013'].'</td>';
