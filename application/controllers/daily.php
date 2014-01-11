@@ -89,13 +89,19 @@ class Daily extends CI_Controller
 
 							if ($player['mpg_last_15_days'] == 0)
 							{
-								$player['fppm_last_15_days_la'] = 0;
+								$player['fppg_last_15_days_la'] = 0;
+								$player['fppm_last_15_days_la'] = 0;								
 							}
 							else
 							{
+								$player['fppg_last_15_days_la'] = 
+									number_format(($player['fppg_last_15_days'] * $row['line_adj'.$i]) + $player['fppg_last_15_days'], 2);
+
 								$player['fppm_last_15_days_la'] =
 									number_format(($player['fppg_last_15_days'] / $player['mpg_last_15_days'] * $row['line_adj'.$i]) + ($player['fppg_last_15_days'] / $player['mpg_last_15_days']), 2);
 							}
+
+							$player['ps'] = $row['ps'.$i] > 0 ? '+'.$row['ps'.$i] : $row['ps'.$i];
 					 	
 							break;
 						}

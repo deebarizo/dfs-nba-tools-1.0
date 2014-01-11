@@ -107,7 +107,11 @@ class matchups_model extends CI_Model
 			{
 				foreach ($game as $key => &$row) 
 				{
-					if (is_numeric($row) AND $key != 'line_adj1' AND $key != 'line_adj2')
+					if (is_numeric($row) AND 
+						$key != 'line_adj1' AND 
+						$key != 'line_adj2' AND
+						$key != 'ps1' AND
+						$key != 'ps2')
 					{
 						$row = number_format($row, 2);
 					}

@@ -344,6 +344,7 @@ class scraping_model extends CI_Model
 						$value = trim($value);
 						$value = preg_replace('/PK/', '0', $value);
 						$value = preg_replace('/[a-zA-Z].*/', '', $value);
+						$value = preg_replace('/ -\d+/', '', $value);
 					}
 				}
 
@@ -404,6 +405,9 @@ class scraping_model extends CI_Model
 				$games['has_lines'][$key]['score1'] = ($game['line_ou1'] + $game['line_ou2']) / 2;
 				$games['has_lines'][$key]['score2'] = $games['has_lines'][$key]['score1'] - $game['line_ou2'];
 
+				$games['has_lines'][$key]['ps1'] = $game['line_ou2'] * -1;
+				$games['has_lines'][$key]['ps2'] = $game['line_ou2']; 
+
 				continue;
 			}
 
@@ -411,6 +415,9 @@ class scraping_model extends CI_Model
 			{
 				$games['has_lines'][$key]['score1'] = (($game['line_ou2'] + $game['line_ou1']) / 2) - $game['line_ou1'];
 				$games['has_lines'][$key]['score2'] = ($game['line_ou1'] + $game['line_ou2']) / 2;
+
+				$games['has_lines'][$key]['ps1'] = $game['line_ou1'];
+				$games['has_lines'][$key]['ps2'] = $game['line_ou1'] * -1; 
 			}			
 		}
 
