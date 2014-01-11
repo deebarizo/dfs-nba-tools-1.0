@@ -209,28 +209,7 @@ class players_model extends CI_Model
 
 		unset($player);
 
-		// get last game stats
 
-		foreach ($stats as $key => &$player) 
-		{
-			$modified_name = $this->modify_name_ds($player['name']);
-
-			$sql = 'SELECT `minutes`, `fpts_ds` FROM `irlstats` 
-					WHERE name = :name ORDER BY `date` DESC LIMIT 1';
-			$s = $this->db->conn_id->prepare($sql);
-			$s->bindValue(':name', $modified_name);
-			$s->execute(); 
-
-			$result = $s->fetchAll(PDO::FETCH_ASSOC);
-
-			$player['mpg_last_game'] = $result[0]['minutes'];
-			$player['fppg_last_game'] = $result[0]['fpts_ds'];
-
-			$modified_salary = $player['salary'] / 1000;
-			$player['vr_last_game'] = number_format($player['fppg_last_game'] / $modified_salary, 2);
-		}
-
-		unset($player);
 
 		# echo '<pre>'; 
 		# var_dump($stats); 
