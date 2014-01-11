@@ -284,11 +284,103 @@ class scraping_model extends CI_Model
 
 			unset($date);		
 
-			return 'Success: The stats for this date were scraped.';
+			return 'Success: The box score stats for this date were scraped.';
 		}
 		else
 		{
-			return 'Error: This date was already scraped.';
+			return 'Error: The box score stats for this date are already in the database.';
+		}
+	}
+
+	public function scrape_dvp($form_data)
+	{
+		$date = $form_data['date'];
+
+		$this->load->database();
+
+		$sql = 'SELECT `date` FROM `dvp` WHERE `date` = :date';
+		$s = $this->db->conn_id->prepare($sql);
+		$s->bindValue(':date', $date);
+		$s->execute(); 	
+
+		$result = $s->fetchAll(PDO::FETCH_COLUMN);
+
+		if (empty($result))
+		{
+			ini_set('max_execution_time', 10800); // 10800 seconds = 3 hours
+
+			$this->load->helper('phpquery');
+
+			$html = phpQuery::newDocumentFileHTML('http://rotogrinders.com/pages/NBA_Defense_vs_Position_Stats_All_Positions_Season-176473');
+
+			$array_to_match_db = array('team', 'pg_fpa', 'pg_rank', 
+				'sg_fpa', 'sg_rank', 'sf_fpa', 'sf_rank', 
+				'pf_fpa', 'pf_rank', 'c_fpa', 'c_rank');
+
+			for ($n = 1; $n <= 30; $n++) // This skips the table header row
+			{
+				for ($i = 0; $i < 11; $i++) 
+				{ 
+					$result = $html->find('table[class=sortable] tr:eq('.$n.') td:eq('.$i.')')->text();
+					$dvp[$n][$array_to_match_db[$i]] = trim($result);
+				}
+			}
+
+			foreach ($dvp as $key => &$value) 
+			{
+				$avg_rank = ($value['pg_rank'] + 
+							$value['sg_rank'] + 
+							$value['sf_rank'] + 
+							$value['pf_rank'] + 
+							$value['c_rank']) / 5;
+
+				$value['pg_rank_mod'] = $value['pg_rank'] - $avg_rank;
+				$value['sg_rank_mod'] = $value['sg_rank'] - $avg_rank;
+				$value['sf_rank_mod'] = $value['sf_rank'] - $avg_rank;
+				$value['pf_rank_mod'] = $value['pf_rank'] - $avg_rank;
+				$value['c_rank_mod'] = $value['c_rank'] - $avg_rank;
+			}
+
+			unset($value);
+
+			foreach ($dvp as $key => $value) 
+			{
+				$sql = 'INSERT INTO `dvp`(`team`, `pg_fpa`, `pg_rank`, `pg_rank_mod`, 
+									`sg_fpa`, `sg_rank`, `sg_rank_mod`, 
+									`sf_fpa`, `sf_rank`, `sf_rank_mod`, 
+									`pf_fpa`, `pf_rank`, `pf_rank_mod`, 
+									`c_fpa`, `c_rank`, `c_rank_mod`, `date`) 
+						VALUES (:team, :pg_fpa, :pg_rank, :pg_rank_mod,
+								:sg_fpa, :sg_rank, :sg_rank_mod,
+								:sf_fpa, :sf_rank, :sf_rank_mod,
+								:pf_fpa, :pf_rank, :pf_rank_mod,
+								:c_fpa, :c_rank, :c_rank_mod, :date)';
+				$s = $this->db->conn_id->prepare($sql);
+				$s->bindValue(':team', $value['team']);
+				$s->bindValue(':pg_fpa', $value['pg_fpa']);
+				$s->bindValue(':pg_rank', $value['pg_rank']);
+				$s->bindValue(':pg_rank_mod', $value['pg_rank_mod']);
+				$s->bindValue(':sg_fpa', $value['sg_fpa']);
+				$s->bindValue(':sg_rank', $value['sg_rank']);
+				$s->bindValue(':sg_rank_mod', $value['sg_rank_mod']);
+				$s->bindValue(':sf_fpa', $value['sf_fpa']);
+				$s->bindValue(':sf_rank', $value['sf_rank']);
+				$s->bindValue(':sf_rank_mod', $value['sf_rank_mod']);
+				$s->bindValue(':pf_fpa', $value['pf_fpa']);
+				$s->bindValue(':pf_rank', $value['pf_rank']);
+				$s->bindValue(':pf_rank_mod', $value['pf_rank_mod']);
+				$s->bindValue(':c_fpa', $value['c_fpa']);
+				$s->bindValue(':c_rank', $value['c_rank']);
+				$s->bindValue(':c_rank_mod', $value['c_rank_mod']);
+				$s->bindValue(':date', $date);
+				$s->execute(); 
+			}
+
+			return 'Success: The DvP stats for this date were scraped.';
+		}
+		else
+		{
+			return 'Error: The DvP stats for this date are already in the database.';
 		}
 	}
 
