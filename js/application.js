@@ -94,6 +94,10 @@ $(document).ready(function()
 				{
 					$('[data-salary="'+row_data[i]+'"]').addClass('valid-salary');
 				}
+				else
+				{
+					$('[data-salary="'+row_data[i]+'"]').removeClass('valid-salary');
+				}
 
 				continue;
 			}
@@ -104,7 +108,11 @@ $(document).ready(function()
 				{
 					$('[data-salary="'+row_data[i]+'"]').addClass('valid-salary');
 				}
-			}			
+				else
+				{
+					$('[data-salary="'+row_data[i]+'"]').removeClass('valid-salary');
+				}
+			}				
 		};
 
 		if (options['chosen_team'] == 'all')
@@ -406,9 +414,7 @@ $(document).ready(function()
             dataType: 'json',
             success: function(dvp)
             {		
-            	console.log(dvp);
-
-            	$(".dvp").html('<table class="inside-box"><tr><th>Opponent DvP</th><th>PG</th><th>PG-Mod</th><th>SG</th><th>SG-Mod</th><th>SF</th><th>SF-Mod</th><th>PF</th><th>PF-Mod</th><th>C</th><th>C-Mod</th></tr><tr><td>'+dvp[0].name_dvp+'</td><td class="rank">'+dvp[0].pg_rank+'</td><td>'+dvp[0].pg_rank_mod+'</td><td class="rank">'+dvp[0].sg_rank+'</td><td>'+dvp[0].sg_rank_mod+'</td><td class="rank">'+dvp[0].sf_rank+'</td><td>'+dvp[0].sf_rank_mod+'</td><td class="rank">'+dvp[0].pf_rank+'</td><td>'+dvp[0].pf_rank_mod+'</td><td class="rank">'+dvp[0].c_rank+'</td><td>'+dvp[0].c_rank_mod+'</td></tr></table>');
+             	$(".dvp").html('<table class="inside-box"><tr><th>Opponent DvP</th><th>PG</th><th>PG-Mod</th><th>SG</th><th>SG-Mod</th><th>SF</th><th>SF-Mod</th><th>PF</th><th>PF-Mod</th><th>C</th><th>C-Mod</th></tr><tr><td>'+dvp[0].name_dvp+'</td><td class="rank">'+dvp[0].pg_rank+'</td><td>'+dvp[0].pg_rank_mod+'</td><td class="rank">'+dvp[0].sg_rank+'</td><td>'+dvp[0].sg_rank_mod+'</td><td class="rank">'+dvp[0].sf_rank+'</td><td>'+dvp[0].sf_rank_mod+'</td><td class="rank">'+dvp[0].pf_rank+'</td><td>'+dvp[0].pf_rank_mod+'</td><td class="rank">'+dvp[0].c_rank+'</td><td>'+dvp[0].c_rank_mod+'</td></tr></table>');
             }
         }); 
 			
