@@ -399,12 +399,19 @@ $(document).ready(function()
 		var chosen_team = $('.team-drop-down').val();
 
 		$(".chosen-team-rotation").hide();
-
-		var two_teams = $('.show-game:contains('+chosen_team+')').text();
 		
+		if (chosen_team == 'SA')
+		{
+			var two_teams = $(".show-game:contains("+chosen_team+"):not(:contains('SAC'))").text();	
+		}
+		else
+		{
+			var two_teams = $('.show-game:contains('+chosen_team+')').text();
+		}
+
 		var opposing_team = two_teams.replace(chosen_team+' vs ', '');
 		opposing_team = opposing_team.replace(' vs '+chosen_team, '');
-
+	
 		var chosen_date = $('.date-drop-down option:selected').text();
 
     	$.ajax
