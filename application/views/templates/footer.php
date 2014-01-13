@@ -36,6 +36,8 @@
 
 <script src='<?php echo base_url().'js/application.js'; ?>'></script>
 
+<script src='<?php echo base_url().'js/jquery.qtip.min.js'; ?>'></script>
+
 </body>
 
 </html>

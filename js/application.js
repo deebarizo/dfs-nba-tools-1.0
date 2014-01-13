@@ -381,23 +381,27 @@ $(document).ready(function()
 
 	function get_and_show_dvp(opposing_team, chosen_date, location_class)
 	{
-    	$.ajax
-	    ({
-            url: 'http://localhost/dfsnbatools/daily/get_team_dvp/'+opposing_team+'/'+chosen_date,
-            type: 'POST',
-            dataType: 'json',
-            success: function(dvp)
-            {		
-				if (location_class == 'dvp-team-drop-down')
-				{
+		if (location_class == 'dvp-team-drop-down')
+		{
+	    	$.ajax
+		    ({
+	            url: 'http://localhost/dfsnbatools/daily/get_team_dvp/'+opposing_team+'/'+chosen_date+'/'+location_class,
+	            type: 'POST',
+	            dataType: 'json',
+	            success: function(dvp)
+	            {		
 	       	      	$(".dvp-team-drop-down").html('<table class="inside-box"><tr><th>Opponent DvP</th><th>PG</th><th>PG-Mod</th><th>SG</th><th>SG-Mod</th><th>SF</th><th>SF-Mod</th><th>PF</th><th>PF-Mod</th><th>C</th><th>C-Mod</th></tr><tr><td>'+dvp[0].name_dvp+'</td><td class="rank">'+dvp[0].pg_rank+'</td><td>'+dvp[0].pg_rank_mod+'</td><td class="rank">'+dvp[0].sg_rank+'</td><td>'+dvp[0].sg_rank_mod+'</td><td class="rank">'+dvp[0].sf_rank+'</td><td>'+dvp[0].sf_rank_mod+'</td><td class="rank">'+dvp[0].pf_rank+'</td><td>'+dvp[0].pf_rank_mod+'</td><td class="rank">'+dvp[0].c_rank+'</td><td>'+dvp[0].c_rank_mod+'</td></tr></table>');
-	       	    }
-	       	    else if (location_class == 'dvp-link')
-	       	    {
-	       	    	alert('cool beans');
-	       	    } 
-            }
-        }); 		
+	            }
+	        });
+	    }
+   	    else if (location_class == 'dvp-link')
+   	    {
+	    	$(".dvp-link").qtip({
+			 	content: {
+			    url: 'http://localhost/dfsnbatools/daily/get_team_dvp/ORL/2014-01-13/dvp-link'
+			   	}
+			});
+   	    } 
 	}
 
 	$('select[name=position-drop-down]').change(function() 
