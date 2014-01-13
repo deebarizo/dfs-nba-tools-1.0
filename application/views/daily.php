@@ -98,7 +98,7 @@
 
 							<div class="team-links">
 
-								<div class="dvp">
+								<div class="dvp-team-drop-down">
 								</div>
 
 								<a target="_blank" class="rotoworld-team-link" href="http://www.rotoworld.com/teams/clubhouse/nba/DEN">Rotoworld</a>
@@ -207,7 +207,7 @@
 											echo '<td>'.$player['position'].'</td>';
 											echo '<td>'.$player['salary'].'</td>';
 											echo '<td>'.$player['vr_2013_la'].'</td>';
-											echo '<td>'.$player['opponent'].'</td>';
+											echo '<td><a class="dvp-link" href="#">'.$player['opponent'].'</a></td>';
 											echo '<td>'.$player['ps'].'</td>';
 											echo '<td>'.$player['line'].'</td>';
 

@@ -139,7 +139,7 @@ class Daily extends CI_Controller
 
 		for ($i = 0; $i <= 4; $i++) 
 		{ 
-			$date = new DateTime($this->date);
+			$date = new DateTime($data['chosen_date']);
 			$date->modify('-'.$i.' day');
 
 			$data['dates'][] = $date->format('Y-m-d');
