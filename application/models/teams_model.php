@@ -2,7 +2,7 @@
 class teams_model extends CI_Model 
 {
 
-	public function get_team_dvp($team, $date, $location_class)
+	public function get_team_dvp($team, $date)
 	{
 		$date = new DateTime($date);
 		$date->modify('-1 day');
@@ -19,16 +19,9 @@ class teams_model extends CI_Model
 
 		$dvp = $s->fetchAll(PDO::FETCH_ASSOC);
 
-		if ($location_class == 'dvp-team-drop-down')
-		{
-			header('Content-Type: application/json');
+		header('Content-Type: application/json');
 
-			echo json_encode($dvp);		
-		}
-		elseif ($location_class == 'dvp-link') 
-		{
-			echo '<table class="inside-box"><tr><th>Opponent DvP</th><th>PG</th><th>PG-Mod</th><th>SG</th><th>SG-Mod</th><th>SF</th><th>SF-Mod</th><th>PF</th><th>PF-Mod</th><th>C</th><th>C-Mod</th></tr><tr><td>'.$dvp[0]['name_dvp'].'</td><td class="rank">'.$dvp[0]['pg_rank'].'</td><td>'.$dvp[0]['pg_rank_mod'].'</td><td class="rank">'.$dvp[0]['sg_rank'].'</td><td>'.$dvp[0]['sg_rank_mod'].'</td><td class="rank">'.$dvp[0]['sf_rank'].'</td><td>'.$dvp[0]['sf_rank_mod'].'</td><td class="rank">'.$dvp[0]['pf_rank'].'</td><td>'.$dvp[0]['pf_rank_mod'].'</td><td class="rank">'.$dvp[0]['c_rank'].'</td><td>'.$dvp[0]['c_rank_mod'].'</td></tr></table>';
-		}
+		echo json_encode($dvp);		
 	}
 
 	public function get_team_rotation($team, $date)
