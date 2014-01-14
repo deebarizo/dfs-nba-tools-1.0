@@ -204,7 +204,7 @@
 									foreach ($players as $player) 
 									{
 										echo '<tr class="'.$player['team'].' position-'.$player['position'].' show-row row-info" data-salary="'.$player['salary'].'">';
-											echo '<td>'.$player['name'].' ('.$player['team'].')</td>';
+											echo '<td>'.$player['name'].' (<a target="_blank" href="http://espn.go.com/nba/teams/schedule?team='.$player['team'].'">'.$player['team'].'</a>)</td>';
 											echo '<td>'.$player['position'].'</td>';
 											echo '<td>'.$player['salary'].'</td>';
 											echo '<td>'.$player['vr_2013_la'].'</td>';
