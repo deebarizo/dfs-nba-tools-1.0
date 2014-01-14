@@ -145,6 +145,8 @@ class players_model extends CI_Model
 					break;
 				}
 			}
+
+			$player['mpg_ch'] = number_format($player['mpg_last_15_days'] - $player['mpg_2013'], 2);
 		}
 
 		unset($player);

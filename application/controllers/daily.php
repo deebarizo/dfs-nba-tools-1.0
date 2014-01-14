@@ -107,7 +107,14 @@ class Daily extends CI_Controller
 									number_format(($player['fppg_last_15_days'] / $player['mpg_last_15_days'] * $row['line_adj'.$i]) + ($player['fppg_last_15_days'] / $player['mpg_last_15_days']), 2);
 							}
 
-							$player['ps'] = $row['ps'.$i] > 0 ? '+'.$row['ps'.$i] : $row['ps'.$i];
+							if (isset($row['ps'.$i]))
+							{
+								$player['ps'] = $row['ps'.$i] > 0 ? '+'.$row['ps'.$i] : $row['ps'.$i];
+							}
+							else
+							{
+								$player['ps'] = 'NL';
+							}
 					 	
 							break;
 						}

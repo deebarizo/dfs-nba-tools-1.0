@@ -183,6 +183,7 @@
 									<th data-sort='float'>CV</th>
 									<th data-sort='float'>LA VR</th>
 
+									<th data-sort='float'>MPG CH</th>
 									<th data-sort='int'>L15 GP</th>
 									<th data-sort='float'>MPG</th>
 									<th data-sort='float'>LA FPPG</th>
@@ -221,14 +222,15 @@
 											}
 
 											echo '<td>'.$player['fpts_plus_minus'].'</td>';
-											
+				
 											echo '<td>'.$player['gp_2013'].'</td>';
 											echo '<td>'.$player['mpg_2013'].'</td>';
 											echo '<td>'.$player['fppg_2013_la'].'</td>';
-											echo '<td>'.$player['fppm_2013_la'].'</td>';											
+											echo '<td>'.$player['fppm_2013_la'].'</td>';
 											echo '<td>'.$player['cv_2013'].'</td>';
 											echo '<td class="vr-column">'.$player['vr_2013_la'].'</td>';
 
+											echo '<td>'.$player['mpg_ch'].'</td>';
 											echo '<td>'.$player['gp_last_15_days'].'</td>';
 											echo '<td>'.$player['mpg_last_15_days'].'</td>';
 											echo '<td>'.$player['fppg_last_15_days_la'].'</td>';
