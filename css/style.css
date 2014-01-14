@@ -1,3 +1,14 @@
+.dvp-tooltip .qtip-content
+{
+	margin: 0;
+	padding: 0;
+}
+
+.dvp-tooltip
+{
+	border-color: #555;
+}
+
 .table th, .table td 
 {
 	padding: 2px;
@@ -70,7 +81,7 @@
 	background-color: #DCDCDC;
 }
 
-table.inside-box
+.dvp-team-drop-down table.inside-box
 {
 	margin-bottom: 12px;
 }

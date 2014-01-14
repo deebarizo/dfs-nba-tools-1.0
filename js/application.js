@@ -476,19 +476,27 @@ $(document).ready(function()
 		}
 	});
 
-$('.dvp-link').each(function()
-{
+	$('.dvp-link').each(function()
+	{
 		$(this).qtip({
 			content: {
 				text: 'Loading...',
 				ajax: {
 					url: $(this).attr('href'),
-					type: "POST",
-					data: {}
+					type: 'POST',
+					dataType: 'json',
+		            success: function(dvp)
+		            {		
+                        var content = '<table class="inside-box"><tr><th>Opponent DvP</th><th>PG</th><th>PG-Mod</th><th>SG</th><th>SG-Mod</th><th>SF</th><th>SF-Mod</th><th>PF</th><th>PF-Mod</th><th>C</th><th>C-Mod</th></tr><tr><td>'+dvp[0].name_dvp+'</td><td class="rank">'+dvp[0].pg_rank+'</td><td>'+dvp[0].pg_rank_mod+'</td><td class="rank">'+dvp[0].sg_rank+'</td><td>'+dvp[0].sg_rank_mod+'</td><td class="rank">'+dvp[0].sf_rank+'</td><td>'+dvp[0].sf_rank_mod+'</td><td class="rank">'+dvp[0].pf_rank+'</td><td>'+dvp[0].pf_rank_mod+'</td><td class="rank">'+dvp[0].c_rank+'</td><td>'+dvp[0].c_rank_mod+'</td></tr></table>';
+                        this.set('content.text', content);
+		            }
 				}
 			},
+			style: {
+				classes: 'qtip-light dvp-tooltip'
+			}
 		})
-});
+	});
 
 	$('.salary-reset').click(function() 
 	{
