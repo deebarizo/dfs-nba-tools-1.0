@@ -56,9 +56,16 @@
 						<span>Daily</span>
 					</a>	    				
 				</li>
+
+				<li class="<?php echo ($page_type === 'Players' ? 'active' : ''); ?>">
+					<a href="<?php echo base_url().'players'; ?>">
+						<i class="fa fa-users"></i>
+						<span>Players</span>
+					</a>	    				
+				</li>
 		
 				<li class="<?php echo ($page_type === 'Update' ? 'active' : ''); ?>">
-					<a href="<?php echo base_url() . 'update'; ?>">
+					<a href="<?php echo base_url().'update'; ?>">
 						<i class="fa fa-upload"></i>
 						<span>Update</span>
 					</a> 				

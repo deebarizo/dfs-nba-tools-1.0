@@ -2,6 +2,44 @@
 class players_model extends CI_Model 
 {
 
+	public function __construct()
+	{
+		parent::__construct();
+
+		$this->load->database();
+	}
+
+	public function get_game_log($player)
+	{
+		$name = preg_replace('/_/', ' ', $player);
+
+		$sql = 'SELECT * FROM `irlstats` 
+				INNER JOIN games
+				ON irlstats.date = games.date
+				WHERE name = :name
+				AND (irlstats.team = games.team1 OR irlstats.team = games.team2)
+				ORDER BY games.date DESC';
+		$s = $this->db->conn_id->prepare($sql);
+		$s->bindValue(':name', $name);
+		$s->execute(); 
+
+		$game_log = $s->fetchAll(PDO::FETCH_ASSOC);
+
+		foreach ($game_log as $key => &$value) 
+		{
+			$value['pm_date'] = preg_replace('/\-/', '', $value['date']);
+
+			$value['pm_team1'] = $this->change_team_abbr_for_pm($value['team1']);
+			$value['pm_team2'] = $this->change_team_abbr_for_pm($value['team2']);
+
+		 	$value['pm_link'] = 'http://popcornmachine.net/cgi-bin/gameflow.cgi?date='.$value['pm_date'].'&game='.$value['pm_team1'].$value['pm_team2'];
+		}
+
+		unset($value);
+
+		return $game_log;
+	}
+
 	public function get_todays_players($date)
 	{
 		$url_segment = preg_replace('/\d\d(\d\d)-(\d\d)-(\d\d)/', '$2$3$1', $date);
@@ -95,9 +133,11 @@ class players_model extends CI_Model
 
 		$date_15_days_ago = date('Y-m-d', strtotime('15 days ago', strtotime($date)));
 
-		foreach ($stats as $key => $player) 
+		foreach ($stats as $key => &$player) 
 		{
 			$modified_name = $this->modify_name_ds($player['name']);
+
+			$player['url_segment'] = preg_replace('/\s/', '_', $player['name']);
 
 			$sql = 'SELECT `minutes` FROM `irlstats` 
 					WHERE `name` = :name AND `date` BETWEEN :opening_day AND :latest_date';
@@ -119,6 +159,8 @@ class players_model extends CI_Model
 
 			$data_mpg_last_15_days[$player['name']] = $s->fetchAll(PDO::FETCH_ASSOC);
 		}
+
+		unset($player);
 
 		$mpg['2013'] = $this->get_mpg_for_players($data_mpg_2013);
 
@@ -385,6 +427,29 @@ class players_model extends CI_Model
 		}
 
 		return $name;
+	}
+
+	function change_team_abbr_for_pm($team_abbr)
+	{
+		switch ($team_abbr) 
+		{
+			case 'GS':
+				return 'GSW';
+			case 'NO':
+				return 'NOR';
+			case 'NY':
+				return 'NYK';
+			case 'PHX':
+				return 'PHO';
+			case 'SA':
+				return 'SAS';
+			case 'UTAH':
+				return 'UTH';
+			case 'WSH':
+				return 'WAS';
+			default:
+				return $team_abbr;
+		}
 	}
 
 }
