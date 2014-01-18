@@ -28,15 +28,13 @@
 
 						<?php echo form_open(base_url().'search'); ?>
 
-							<p>
-							        <label for="player"><h4>Player</h4></label> 
-							        <input id="player" type="text" name="player" />
-							        <?php echo form_error('player'); ?>
-							</p>
+					        <label for="player" class="inline"><h4>Player</h4></label> 
+					        <input id="player" type="text" name="player" />
+					        <?php echo form_error('player'); ?>
 
 							<p>
-							        <br>
-							        <?php echo form_submit( 'submit', 'Submit'); ?>
+						        <br>
+						        <?php echo form_submit( 'submit', 'Submit'); ?>
 							</p>
 
 						<?php echo form_close(); ?>
