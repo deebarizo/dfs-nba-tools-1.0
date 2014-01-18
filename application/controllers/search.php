@@ -1,28 +1,18 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Update extends CI_Controller 
+class Search extends CI_Controller 
 {
-
-	public function __construct()
-	{
-		parent::__construct();
-
-		date_default_timezone_set('America/Chicago');
-
-		$this->yesterday_date = date('Y-m-d',strtotime("1 days ago"));
-	}
 
 	public function index()
 	{
-		$data['page_type'] = 'Update';
-		$data['page_title'] = 'Update - DFS NBA Tools';
-		$data['h2_tag'] = 'Update';	
-
-		$data['yesterday_date'] = $this->yesterday_date;
+		$data['page_type'] = 'Search';
+		$data['page_title'] = 'Search - DFS NBA Tools';
+		$data['h2_tag'] = 'Search';
 
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 
+		$this->form_validation->set_rules('player', 'Player', 'required|trim');
 		$this->form_validation->set_rules('date', 'Date', 'required|trim');	
 			
 		$this->form_validation->set_error_delimiters('<br /><span style="color:red" class="error">', '</span>');
@@ -43,8 +33,8 @@ class Update extends CI_Controller
 		}
 
 		$this->load->view('templates/header', $data);
-		$this->load->view('update', $data);
-		$this->load->view('templates/footer');
+		$this->load->view('search', $data);
+		$this->load->view('templates/footer', $data);
 	}
 
 }

@@ -139,7 +139,7 @@ class players_model extends CI_Model
 
 			$player['url_segment'] = preg_replace('/\s/', '_', $player['name']);
 
-			$sql = 'SELECT `minutes` FROM `irlstats` 
+			$sql = 'SELECT `minutes`, `fpts_ds`, fpts_ds / minutes as fppm_ds FROM `irlstats` 
 					WHERE `name` = :name AND `date` BETWEEN :opening_day AND :latest_date';
 			$s = $this->db->conn_id->prepare($sql);
 			$s->bindValue(':name', $modified_name);
@@ -149,7 +149,7 @@ class players_model extends CI_Model
 
 			$data_mpg_2013[$player['name']] = $s->fetchAll(PDO::FETCH_ASSOC);
 
-			$sql = 'SELECT `minutes` FROM `irlstats` 
+			$sql = 'SELECT `minutes`, `fpts_ds`, fpts_ds / minutes as fppm_ds FROM `irlstats` 
 					WHERE `name` = :name AND `date` BETWEEN :date_15_days_ago AND :latest_date';
 			$s = $this->db->conn_id->prepare($sql);
 			$s->bindValue(':name', $modified_name);
@@ -162,9 +162,9 @@ class players_model extends CI_Model
 
 		unset($player);
 
-		$mpg['2013'] = $this->get_mpg_for_players($data_mpg_2013);
+		$mpg['2013'] = $this->get_minutes_stats_for_players($data_mpg_2013);
 
-		$mpg['last_15_days'] = $this->get_mpg_for_players($data_mpg_last_15_days);
+		$mpg['last_15_days'] = $this->get_minutes_stats_for_players($data_mpg_last_15_days);
 
 		foreach ($stats as &$player) 
 		{
@@ -173,6 +173,8 @@ class players_model extends CI_Model
 				if ($player['name'] == $key)
 				{
 					$player['mpg_2013'] = $value['mpg']; 
+					$player['fppm_ds_pg_2013'] = $value['fppm_ds_pg']; 
+					$player['cv_fppm_ds_2013'] = $value['cv_fppm_ds']; 
 
 					break;
 				}
@@ -183,6 +185,8 @@ class players_model extends CI_Model
 				if ($player['name'] == $key)
 				{
 					$player['mpg_last_15_days'] = $value['mpg']; 
+					$player['fppm_ds_pg_last_15_days'] = $value['fppm_ds_pg']; 
+					$player['cv_fppm_ds_last_15_days'] = $value['cv_fppm_ds']; 
 
 					break;
 				}
@@ -199,7 +203,7 @@ class players_model extends CI_Model
 		{
 			$modified_name = $this->modify_name_ds($player['name']);
 
-			$sql = 'SELECT (fpts_ds - :fppg_2013)*(fpts_ds - :fppg_2013) as diff_squared FROM `irlstats` 
+			$sql = 'SELECT (fpts_ds - :fppg_2013)*(fpts_ds - :fppg_2013) as diff_squared_fpts_ds FROM `irlstats` 
 					WHERE `name` = :name AND `date` BETWEEN :opening_day AND :latest_date';
 			$s = $this->db->conn_id->prepare($sql);
 			$s->bindValue(':fppg_2013', $player['fppg_2013']);
@@ -211,7 +215,7 @@ class players_model extends CI_Model
 			$data_cv_2013[$player['name']] = $s->fetchAll(PDO::FETCH_ASSOC);
 			$data_cv_2013[$player['name']]['fppg'][] = $player['fppg_2013'];
 
-			$sql = 'SELECT (fpts_ds - :fppg_last_15_days)*(fpts_ds - :fppg_last_15_days) as diff_squared FROM `irlstats` 
+			$sql = 'SELECT (fpts_ds - :fppg_last_15_days)*(fpts_ds - :fppg_last_15_days) as diff_squared_fpts_ds FROM `irlstats` 
 					WHERE `name` = :name AND `date` BETWEEN :date_15_days_ago AND :latest_date';
 			$s = $this->db->conn_id->prepare($sql);
 			$s->bindValue(':fppg_last_15_days', $player['fppg_last_15_days']);
@@ -326,21 +330,21 @@ class players_model extends CI_Model
 		{
 			$total_games = 0;
 
-			$total_diff_squared = 0;
+			$total_diff_squared_fpts_ds = 0;
 
 			foreach ($player as $value) 
 			{
-				if (isset($value['diff_squared']) AND $value['diff_squared'] != NULL) 
+				if (isset($value['diff_squared_fpts_ds']) AND $value['diff_squared_fpts_ds'] != NULL) 
 				{ 
 					$total_games += 1;
 
-					$total_diff_squared += $value['diff_squared'];
+					$total_diff_squared_fpts_ds += $value['diff_squared_fpts_ds'];
 				}
 			}
 
 			if ($total_games -1 > 0 AND $player['fppg'][0] > 0) 
 			{ 
-				$variance = $total_diff_squared /  $total_games - 1;
+				$variance = $total_diff_squared_fpts_ds /  $total_games - 1;
 				$stdev = sqrt($variance);
 				$player['cv'] = number_format(($stdev / $player['fppg'][0]) * 100, 2);
 			}
@@ -355,13 +359,15 @@ class players_model extends CI_Model
 		return $data_cv;
 	}
 
-	public function get_mpg_for_players($data_mpg)
+	public function get_minutes_stats_for_players($data_mpg)
 	{
 		foreach ($data_mpg as $key => &$player) 
 		{
 			$total_games = 0;
 
 			$total_minutes = 0;
+
+			$total_fppm_ds = 0;
 
 			foreach ($player as $value) 
 			{
@@ -370,16 +376,48 @@ class players_model extends CI_Model
 					$total_games += 1;
 
 					$total_minutes += $value['minutes'];
+
+					$total_fppm_ds += $value['fppm_ds'];
 				}
 			}
 
+			$player['total_games'] = $total_games;
+
 			if ($total_games > 0) 
 			{ 
-				$player['mpg'] = number_format($total_minutes /  $total_games, 2);
+				$player['mpg'] = number_format($total_minutes / $total_games, 2);
+				$player['fppm_ds_pg'] = $total_fppm_ds / $total_games;
 			}
 			else
 			{
 				$player['mpg'] = number_format(0, 2);
+				$player['fppm_ds_pg'] = 0;
+			}
+		}
+
+		unset($player);
+
+		foreach ($data_mpg as $key => &$player) 
+		{
+			$total_diff_squared_fppm_ds = 0;
+
+			foreach ($player as $value) 
+			{
+				if (isset($value['minutes']) AND $value['minutes'] != NULL) 
+				{ 
+					$total_diff_squared_fppm_ds += pow($value['fppm_ds'] - $player['fppm_ds_pg'], 2);
+				}
+			}
+
+			if ($player['total_games'] > 0) 
+			{ 
+				$variance = $total_diff_squared_fppm_ds / $player['total_games'];
+				$stdev = sqrt($variance);
+				$player['cv_fppm_ds'] = number_format(($stdev / $player['fppm_ds_pg']) * 100, 2);
+			}
+			else
+			{
+				$player['cv_fppm_ds'] = number_format(0, 2);
 			}
 		}
 

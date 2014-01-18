@@ -20,24 +20,18 @@
 	      			
 	      			<div class="widget-header">
 	      				
-	      				<h3><i class="fa fa-upload"></i> Update Stats</h3>
+	      				<h3><i class="fa fa-search"></i> Search</h3>
 
 			      	</div>
 
 			      	<div class="widget-content">
 
-			      		<?php if ($message != 'Form validation error.') { ?>
-
-			      			<p style="color:red"><?php echo $message; ?></p>
-
-			      		<?php } ?>
-
-						<?php echo form_open(base_url().'update'); ?>
+						<?php echo form_open(base_url().'search'); ?>
 
 							<p>
-							        <label for="date"><h4>Date for IRL Stats Update</h4></label> 
-							        <input id="date" type="date" name="date" value="<?php echo $yesterday_date; ?>" />
-							        <?php echo form_error('date'); ?>
+							        <label for="player"><h4>Player</h4></label> 
+							        <input id="player" type="text" name="player" />
+							        <?php echo form_error('player'); ?>
 							</p>
 
 							<p>

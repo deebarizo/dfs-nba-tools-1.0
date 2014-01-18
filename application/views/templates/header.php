@@ -63,6 +63,13 @@
 						<span>Players</span>
 					</a>	    				
 				</li>
+
+				<li class="<?php echo ($page_type === 'Search' ? 'active' : ''); ?>">
+					<a href="<?php echo base_url().'search'; ?>">
+						<i class="fa fa-search"></i>
+						<span>Search</span>
+					</a>	    				
+				</li>
 		
 				<li class="<?php echo ($page_type === 'Update' ? 'active' : ''); ?>">
 					<a href="<?php echo base_url().'update'; ?>">

@@ -41,6 +41,7 @@
 $route['default_controller'] = 'daily';
 $route['404_override'] = '';
 
+$route['search'] = 'search';
 $route['update'] = 'update';
 $route['players/game_log/(:any)'] = 'players/game_log/$1';
 $route['daily/get_team_dvp/(:any)'] = 'daily/get_team_dvp/$1';
