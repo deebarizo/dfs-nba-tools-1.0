@@ -409,7 +409,7 @@ class players_model extends CI_Model
 				}
 			}
 
-			if ($player['total_games'] > 0) 
+			if ($player['total_games'] > 0 AND $player['fppm_ds_pg'] != 0) 
 			{ 
 				$variance = $total_diff_squared_fppm_ds / $player['total_games'];
 				$stdev = sqrt($variance);
