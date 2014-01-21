@@ -217,19 +217,19 @@
 							<table class="inside-box lineup-tracker">
 							    <tr>
 							        <td>Total Salary</td>
-							        <td class="lineup-tracker-data">0</td>
+							        <td class="lineup-tracker-data lineup-total-salary">0</td>
 							    </tr>
 							    <tr>
 							        <td>Over/Under ($100K)</td>
-							        <td class="lineup-tracker-data">100000</td>
+							        <td class="lineup-tracker-data lineup-ou">100000</td>
 							    </tr>
 							    <tr>
 							        <td>Per player $ left</td>
-							        <td class="lineup-tracker-data">12500</td>
+							        <td class="lineup-tracker-data lineup-per-player-left">12500</td>
 							    </tr>
 							    <tr>
 							        <td>Total FPTS</td>
-							        <td class="lineup-tracker-data">205.25</td>
+							        <td class="lineup-tracker-data lineup-total-fpts">0.00</td>
 							    </tr>
 							</table>
 
@@ -319,7 +319,7 @@
 										}
 
 										echo '<tr class="'.$player['team'].' position-'.$player['position'].' show-row row-info" data-salary="'.$player['salary'].'"'.$actual_fpts.'>';
-											echo '<td><a target="_blank" href="'.base_url().'players/game_log/'.$player['url_segment'].'">'.$player['name'].'</a> (<a target="_blank" href="http://espn.go.com/nba/teams/schedule?team='.$player['team'].'">'.$player['team'].'</a>) <i class="fa fa-plus-square"></i></td>';
+											echo '<td class="player"><a target="_blank" href="'.base_url().'players/game_log/'.$player['url_segment'].'">'.$player['name'].'</a> (<a target="_blank" href="http://espn.go.com/nba/teams/schedule?team='.$player['team'].'">'.$player['team'].'</a>) <i class="fa fa-plus-square"></i></td>';
 											echo '<td>'.$player['position'].'</td>';
 											echo '<td>'.$player['salary'].'</td>';
 											echo '<td>'.$player['vr_2013_la'].'</td>';

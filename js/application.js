@@ -379,19 +379,6 @@ $(document).ready(function()
 		}		
 	}
 
-	function get_position_from_abbr(position)
-	{
-		switch(position)
-		{
-			case 'F':
-				return 'forward';
-			case 'G':
-				return 'guard';
-			case 'C':
-				return 'center';
-		}		
-	}
-
 	function get_and_show_dvp(opposing_team, chosen_date, location_class)
 	{
     	$.ajax
@@ -563,15 +550,94 @@ $(document).ready(function()
 		options_change();
 	});
 
+	// Lineup
+
+	function get_position_from_abbr(position)
+	{
+		switch(position)
+		{
+			case 'F':
+				return 'forward';
+			case 'G':
+				return 'guard';
+			case 'C':
+				return 'center';
+		}		
+	}
+
+	function calculate_totals()
+	{
+		var lineup_totals = {};
+		lineup_totals['salary'] = 0;
+		lineup_totals['fpts'] = 0;
+
+		$(".lineup-salary").each(function(index) 
+		{		
+			var salary = $(this).text();
+
+			if ($.isNumeric(salary))
+			{
+				salary = parseFloat(salary);
+				
+				lineup_totals['salary'] += salary;			
+			}
+		});
+
+		$(".lineup-fpts").each(function(index) 
+		{		
+			var fpts = $(this).text();
+
+			if ($.isNumeric(fpts))
+			{
+				fpts = parseFloat(fpts);
+				
+				lineup_totals['fpts'] += fpts;			
+			}
+		});
+
+		lineup_totals['ou'] = 100000 - lineup_totals['salary'];
+
+		var lineup_player_count = 0;
+
+		$(".lineup-player").each(function(index) 
+		{
+			var contents = $(this).text();
+			
+			if (contents != '')
+			{
+				lineup_player_count ++;
+			}
+		});		
+
+		if (lineup_player_count == 8)
+		{
+			lineup_totals['per_player_left'] = '-';
+		}
+		else
+		{
+			var num = lineup_totals['ou'] / (8 - lineup_player_count);
+			lineup_totals['per_player_left'] = num.toFixed(0);		
+		}
+
+		$('.lineup-total-salary').text(lineup_totals['salary']);
+		$('.lineup-total-fpts').text(lineup_totals['fpts']);
+		$('.lineup-ou').text(lineup_totals['ou']);
+		$('.lineup-per-player-left').text(lineup_totals['per_player_left']);
+	}
+
 	$('.fa-plus-square').click(function() 
 	{
 		var player_data = {};
 		
-		player_data['name'] = $(this).parent('td').text();
+		player_data['name'] = $(this).parent().text();
 		player_data['name'] += '<i class="fa fa-minus-square"></i>';
 		
-		player_data['position'] = $(this).parent('td').next().text();
+		player_data['position'] = $(this).parent().next().text();
 		player_data['position'] = get_position_from_abbr(player_data['position']);
+		
+		player_data['salary'] = $(this).closest('tr').data('salary');
+		
+		player_data['actual_fpts'] = $(this).closest('tr').data('actual-fpts');
 
 		console.log(player_data);
 		
@@ -584,7 +650,13 @@ $(document).ready(function()
 			if (contents == '')
 			{
 				$(this).append(player_data['name']);
+				$(this).nextAll('.lineup-salary').first().append(player_data['salary']);
+				$(this).nextAll('.lineup-fpts').first().append(player_data['actual_fpts']);
+				
 				$plus_icon.hide();
+
+				calculate_totals();	
+				
 				return false;
 			}
 		});
@@ -598,7 +670,41 @@ $(document).ready(function()
 		else if ($plus_icon.is(':visible') && utility_contents == '')
 		{
 			$(".lineup-utility").append(player_data['name']);
-			$plus_icon.hide();			
+			$(".lineup-utility").nextAll('.lineup-salary').first().append(player_data['salary']);
+			$(".lineup-utility").nextAll('.lineup-fpts').first().append(player_data['actual_fpts']);
+			
+			$plus_icon.hide();		
+
+			calculate_totals();	
 		}
+	});
+
+	$('.lineup-player').on('click', '.fa-minus-square', function()
+	{
+		var player_data = {};
+		
+		player_data['name'] = $(this).parent().text();
+
+		console.log(player_data);
+
+		var $minus_icon = $(this);
+
+		$(".player").each(function(index) 
+		{		
+			var contents = $(this).text();
+
+			if (contents == player_data['name'])
+			{
+				$minus_icon.parent().nextAll('.lineup-salary').first().empty();
+				$minus_icon.parent().nextAll('.lineup-fpts').first().empty();
+				$minus_icon.parent().empty();
+
+				$(this).children('.fa-plus-square').show();
+
+				calculate_totals();	
+				
+				return false;
+			}			
+		});
 	});
 });
