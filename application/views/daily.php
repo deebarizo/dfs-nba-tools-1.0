@@ -18,6 +18,9 @@
 						</select>
 					</form>
 				</div>
+				<div style='display:inline-block'>
+					<a class="games-toggle" href="#">Show Games</a>
+				</div>
 	      	</div>
 
       	  </div>
@@ -146,6 +149,104 @@
 	
 		  	<div class="span12">
 
+				<div class="widget">
+
+					<div class="widget-header">
+						<h3><i class="fa fa-th-list"></i> Lineup</h3>
+					</div> <!-- /widget-header -->
+					
+					<div class="widget-content">
+
+						<div style='display:inline-block'>
+
+							<table class='inside-box lineup'>
+								<thead>
+								    <tr>
+								        <th colspan="4">Forwards</th>
+								        <th colspan="4">Guards</th>
+								        <th colspan="4">Center and Utility</th>
+								    </tr>
+								</thead>
+								<tbody>
+								    <tr>
+								    	<td class="lineup-position">F</td>
+								        <td class="lineup-player lineup-forward"></td>
+								        <td class="lineup-salary"></td>
+								        <td class="lineup-fpts"></td>
+								        <td class="lineup-position">G</td>
+								        <td class="lineup-player lineup-guard"></td>
+								        <td class="lineup-salary"></td>
+								        <td class="lineup-fpts"></td>
+								        <td class="lineup-position">C</td>
+								        <td class="lineup-player lineup-center"></td>
+								        <td class="lineup-salary"></td>
+								        <td class="lineup-fpts"></td>
+								    </tr>
+								    <tr>
+								    	<td class="lineup-position">F</td>
+								        <td class="lineup-player lineup-forward"></td>
+								        <td class="lineup-salary"></td>
+								        <td class="lineup-fpts"></td>
+								        <td class="lineup-position">G</td>
+								        <td class="lineup-player lineup-guard"></td>
+								        <td class="lineup-salary"></td>
+								        <td class="lineup-fpts"></td>
+								        <td class="lineup-position">U</td>
+								        <td class="lineup-player lineup-utility"></td>
+								        <td class="lineup-salary"></td>
+								        <td class="lineup-fpts"></td>
+								    </tr>
+								    <tr>
+								    	<td class="lineup-position">F</td>
+								        <td class="lineup-player lineup-forward"></td>
+								        <td class="lineup-salary"></td>
+								        <td class="lineup-fpts"></td>
+								        <td class="lineup-position">G</td>
+								        <td class="lineup-player lineup-guard"></td>
+								        <td class="lineup-salary"></td>
+								        <td class="lineup-fpts"></td>
+								        <td colspan="4"></td>
+								    </tr>
+								</tbody>
+							</table>
+
+						</div>
+
+						<div style='display:inline-block'>
+
+							<table class="inside-box lineup-tracker">
+							    <tr>
+							        <td>Total Salary</td>
+							        <td class="lineup-tracker-data">0</td>
+							    </tr>
+							    <tr>
+							        <td>Over/Under ($100K)</td>
+							        <td class="lineup-tracker-data">100000</td>
+							    </tr>
+							    <tr>
+							        <td>Per player $ left</td>
+							        <td class="lineup-tracker-data">12500</td>
+							    </tr>
+							    <tr>
+							        <td>Total FPTS</td>
+							        <td class="lineup-tracker-data">205.25</td>
+							    </tr>
+							</table>
+
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		  </div>
+
+      	  <div class="row">
+	
+		  	<div class="span12">
+
 				<div class="widget widget-table">
 
 					<div class="widget-header">
@@ -207,7 +308,7 @@
 									foreach ($players as $player) 
 									{
 										echo '<tr class="'.$player['team'].' position-'.$player['position'].' show-row row-info" data-salary="'.$player['salary'].'">';
-											echo '<td><a target="_blank" href="'.base_url().'players/game_log/'.$player['url_segment'].'">'.$player['name'].'</a> (<a target="_blank" href="http://espn.go.com/nba/teams/schedule?team='.$player['team'].'">'.$player['team'].'</a>)</td>';
+											echo '<td><a target="_blank" href="'.base_url().'players/game_log/'.$player['url_segment'].'">'.$player['name'].'</a> (<a target="_blank" href="http://espn.go.com/nba/teams/schedule?team='.$player['team'].'">'.$player['team'].'</a>) <i class="fa fa-plus-square"></i></td>';
 											echo '<td>'.$player['position'].'</td>';
 											echo '<td>'.$player['salary'].'</td>';
 											echo '<td>'.$player['vr_2013_la'].'</td>';

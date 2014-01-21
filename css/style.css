@@ -1,3 +1,13 @@
+.games-toggle
+{
+	margin-left: 20px;
+}
+
+.game-buttons
+{
+	display: none;
+}
+
 .dvp-tooltip .qtip-content
 {
 	margin: 0;
@@ -104,4 +114,45 @@
 .inside-box td.rank
 {
 	background-color: #B2DBF0;
+}
+
+.lineup, 
+.lineup-tracker
+{
+	font-size: 11px;
+}
+
+.lineup-position
+{
+	width: 8px;
+}
+
+.lineup-player
+{
+	width: 200px;
+}
+
+.lineup-salary
+{
+	width: 30px;
+}
+
+.lineup-fpts
+{
+	width: 25px;
+}
+
+.lineup-tracker
+{
+	margin-left: 20px;
+}
+
+.lineup-tracker-data
+{
+	width: 45px;
+}
+
+.fa-plus-square
+{
+	color: #bbb;
 }

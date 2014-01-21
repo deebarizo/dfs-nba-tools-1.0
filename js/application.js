@@ -393,6 +393,24 @@ $(document).ready(function()
         });
 	}
 
+	$(".games-toggle").click(function(event)
+	{
+		event.preventDefault();
+
+		var games_toggle_anchor_text = $(".games-toggle").text();
+
+		if (games_toggle_anchor_text == 'Show Games')
+		{
+			$(".games-toggle").text('Hide Games');
+			$(".game-buttons").show();
+		}
+		else if (games_toggle_anchor_text == 'Hide Games')
+		{
+			$(".games-toggle").text('Show Games');
+			$(".game-buttons").hide();
+		}
+	});
+
 	$('select[name=position-drop-down]').change(function() 
 	{
 		options_change();
