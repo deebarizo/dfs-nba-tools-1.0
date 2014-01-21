@@ -145,7 +145,7 @@
 
 		  </div>
 
-      	  <div class="row">
+      	  <div class="row lineup-section">
 	
 		  	<div class="span12">
 
