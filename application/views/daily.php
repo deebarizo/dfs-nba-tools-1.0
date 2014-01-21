@@ -253,7 +253,7 @@
 						<h3><i class="fa fa-users"></i> Stats</h3>
 					</div> <!-- /widget-header -->
 					
-					<div class="widget-content">
+					<div class="widget-content table-scroll">
 
 						<table id='daily-stats' class="table table-bordered daily-stats">
 							
@@ -305,9 +305,20 @@
 								
 									<?php 
 
+
+
 									foreach ($players as $player) 
 									{
-										echo '<tr class="'.$player['team'].' position-'.$player['position'].' show-row row-info" data-salary="'.$player['salary'].'">';
+										if (isset($player['actual_min'])) 
+										{ 
+											$actual_fpts = ' data-actual-fpts="'.$player['actual_fpts'].'"'; 
+										} 
+										else 
+										{
+											$actual_fpts = '';
+										}
+
+										echo '<tr class="'.$player['team'].' position-'.$player['position'].' show-row row-info" data-salary="'.$player['salary'].'"'.$actual_fpts.'>';
 											echo '<td><a target="_blank" href="'.base_url().'players/game_log/'.$player['url_segment'].'">'.$player['name'].'</a> (<a target="_blank" href="http://espn.go.com/nba/teams/schedule?team='.$player['team'].'">'.$player['team'].'</a>) <i class="fa fa-plus-square"></i></td>';
 											echo '<td>'.$player['position'].'</td>';
 											echo '<td>'.$player['salary'].'</td>';

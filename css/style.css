@@ -76,6 +76,12 @@
 	font-size: 10px;
 }
 
+.table-scroll
+{
+	height: 350px;
+	overflow: auto;  
+}
+
 .vr-column
 {
 	background-color: #FFE6C2;
@@ -152,7 +158,9 @@
 	width: 45px;
 }
 
-.fa-plus-square
+.fa-plus-square,
+.fa-minus-square
 {
 	color: #bbb;
+	cursor: pointer;
 }

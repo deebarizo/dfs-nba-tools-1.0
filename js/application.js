@@ -379,6 +379,19 @@ $(document).ready(function()
 		}		
 	}
 
+	function get_position_from_abbr(position)
+	{
+		switch(position)
+		{
+			case 'F':
+				return 'forward';
+			case 'G':
+				return 'guard';
+			case 'C':
+				return 'center';
+		}		
+	}
+
 	function get_and_show_dvp(opposing_team, chosen_date, location_class)
 	{
     	$.ajax
@@ -548,5 +561,44 @@ $(document).ready(function()
         }
 
 		options_change();
+	});
+
+	$('.fa-plus-square').click(function() 
+	{
+		var player_data = {};
+		
+		player_data['name'] = $(this).parent('td').text();
+		player_data['name'] += '<i class="fa fa-minus-square"></i>';
+		
+		player_data['position'] = $(this).parent('td').next().text();
+		player_data['position'] = get_position_from_abbr(player_data['position']);
+
+		console.log(player_data);
+		
+		var $plus_icon = $(this);
+		
+		$(".lineup-"+player_data['position']).each(function(index) 
+		{
+			var contents = $(this).text();
+			
+			if (contents == '')
+			{
+				$(this).append(player_data['name']);
+				$plus_icon.hide();
+				return false;
+			}
+		});
+		
+		var utility_contents = $(".lineup-utility").text();
+		
+		if ($plus_icon.is(':visible') && utility_contents != '')
+		{
+			alert('That position limit has been reached.');
+		}
+		else if ($plus_icon.is(':visible') && utility_contents == '')
+		{
+			$(".lineup-utility").append(player_data['name']);
+			$plus_icon.hide();			
+		}
 	});
 });
