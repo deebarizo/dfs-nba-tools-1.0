@@ -625,6 +625,24 @@ $(document).ready(function()
 		$('.lineup-per-player-left').text(lineup_totals['per_player_left']);
 	}
 
+	$(".lineup-toggle").click(function(event)
+	{
+		event.preventDefault();
+
+		var lineup_toggle_anchor_text = $(".lineup-toggle").text();
+
+		if (lineup_toggle_anchor_text == 'Show Lineup')
+		{
+			$(".lineup-toggle").text('Hide Lineup');
+			$(".lineup-section").show();
+		}
+		else if (lineup_toggle_anchor_text == 'Hide Lineup')
+		{
+			$(".lineup-toggle").text('Show Lineup');
+			$(".lineup-section").hide();
+		}
+	});
+
 	$('.fa-plus-square').click(function() 
 	{
 		var player_data = {};

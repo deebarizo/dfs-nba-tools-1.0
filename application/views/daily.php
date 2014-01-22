@@ -21,6 +21,9 @@
 				<div style='display:inline-block'>
 					<a class="games-toggle" href="#">Show Games</a>
 				</div>
+				<div style='display:inline-block'>
+					<a class="lineup-toggle" href="#">Show Lineup</a>
+				</div>
 	      	</div>
 
       	  </div>

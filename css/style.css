@@ -3,7 +3,8 @@
 	display: none;
 }
 
-.games-toggle
+.games-toggle,
+.lineup-toggle
 {
 	margin-left: 20px;
 }
