@@ -351,7 +351,7 @@
 											echo '<td>'.$player['cv_fppm_ds_2013'].'</td>';
 											echo '<td class="vr-column">'.$player['vr_2013_la'].'</td>';
 
-											echo '<td>'.$player['mpg_ch'].'</td>';
+											echo '<td>'.$player['mpg_ch_last_game'].'</td>';
 											echo '<td>'.$player['gp_last_15_days'].'</td>';
 											echo '<td>'.$player['mpg_last_15_days'].'</td>';
 											echo '<td>'.$player['fppg_last_15_days_la'].'</td>';

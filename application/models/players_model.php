@@ -159,6 +159,10 @@ class players_model extends CI_Model
 			$s->execute(); 
 
 			$data_mpg_last_15_days[$player['name']] = $s->fetchAll(PDO::FETCH_ASSOC);
+
+			$last_game_array = end($data_mpg_last_15_days[$player['name']]);
+
+			$player['minutes_last_game'] = $last_game_array['minutes'];
 		}
 
 		unset($player);
@@ -194,6 +198,8 @@ class players_model extends CI_Model
 			}
 
 			$player['mpg_ch'] = number_format($player['mpg_last_15_days'] - $player['mpg_2013'], 2);
+
+			$player['mpg_ch_last_game'] = number_format($player['minutes_last_game'] - $player['mpg_2013'], 2);
 		}
 
 		unset($player);
