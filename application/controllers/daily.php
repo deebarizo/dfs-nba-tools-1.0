@@ -27,6 +27,12 @@ class Daily extends CI_Controller
 		$this->get_stats($this->date);
 	}
 
+	public function save_lineup()
+	{
+		$this->load->model('lineups_model');
+		$this->lineups_model->save_lineup();		
+	}
+
 	public function get_team_rotation($team, $date)
 	{
 		$this->load->model('teams_model');

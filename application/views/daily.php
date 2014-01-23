@@ -238,6 +238,8 @@
 
 						</div>
 
+						<button class="btn btn-primary save-lineup" type="button">Save</button>
+
 					</div>
 
 				</div>

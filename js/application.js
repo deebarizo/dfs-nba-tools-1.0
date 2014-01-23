@@ -657,8 +657,6 @@ $(document).ready(function()
 		
 		player_data['actual_fpts'] = $(this).closest('tr').data('actual-fpts');
 
-		console.log(player_data);
-		
 		var $plus_icon = $(this);
 		
 		$(".lineup-"+player_data['position']).each(function(index) 
@@ -703,8 +701,6 @@ $(document).ready(function()
 		
 		player_data['name'] = $(this).parent().text();
 
-		console.log(player_data);
-
 		var $minus_icon = $(this);
 
 		$(".player").each(function(index) 
@@ -725,4 +721,64 @@ $(document).ready(function()
 			}			
 		});
 	});
+
+	$('.save-lineup').click(function() 
+	{
+		var lineup = {};
+
+		lineup['date'] = $('.date-drop-down option:selected').text();
+
+		var count = 1;
+
+		$(".lineup-forward").each(function(index) 
+		{
+			lineup['forward'+count] = { 
+				name: $(this).text(),
+				salary: $(this).nextAll('.lineup-salary').first().text(),
+				fpts: $(this).nextAll('.lineup-fpts').first().text()
+			};
+
+			count ++;
+		});
+
+		var count = 1;
+
+		$(".lineup-guard").each(function(index) 
+		{
+			lineup['guard'+count] = { 
+				name: $(this).text(),
+				salary: $(this).nextAll('.lineup-salary').first().text(),
+				fpts: $(this).nextAll('.lineup-fpts').first().text()
+			};
+
+			count ++;
+		});
+
+		lineup['center'] = { 
+			name: $(".lineup-center").text(),
+			salary: $(".lineup-center").nextAll('.lineup-salary').first().text(),
+			fpts: $(".lineup-center").nextAll('.lineup-fpts').first().text()
+		};
+
+		lineup['utility'] = { 
+			name: $(".lineup-utility").text(),
+			salary: $(".lineup-utility").nextAll('.lineup-salary').first().text(),
+			fpts: $(".lineup-utility").nextAll('.lineup-fpts').first().text()
+		};
+
+		console.log(lineup);
+
+    	$.ajax
+	    ({
+            url: 'http://localhost/dfsnbatools/daily/save_lineup',
+            type: 'POST',
+            data: lineup,
+            dataType: 'json',
+            success: function(data)
+            {
+            	console.log(data);
+            	alert('The lineup was saved.');
+            }
+        });
+	});	
 });
