@@ -11,8 +11,7 @@ class players_model extends CI_Model
 
 	public function get_game_log($player)
 	{
-		$name = preg_replace('/_/', ' ', $player);
-		$name = $this->modify_name_ds($name);
+		$name = $this->modify_name_ds($player);
 
 		$sql = 'SELECT * FROM `irlstats` 
 				INNER JOIN games

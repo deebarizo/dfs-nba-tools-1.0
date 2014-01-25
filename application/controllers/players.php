@@ -5,8 +5,10 @@ class Players extends CI_Controller
 
 	public function game_log($player)
 	{
+		$player = preg_replace('/_/', ' ', $player);
+
 		$data['page_type'] = 'Players';
-		$data['page_title'] = 'Players - DFS NBA Tools';
+		$data['page_title'] = $player.' - Players - DFS NBA Tools';
 		$data['h2_tag'] = 'Game Log';
 
 		$this->load->model('players_model');
