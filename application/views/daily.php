@@ -278,6 +278,7 @@
 
 									<th data-sort='int'>A MIN</th>
 									<th data-sort='float'>A FPTS</th>
+									<th data-sort='float'>A FPPM</th>
 									<th data-sort='float'>A VR</th>
 
 									<?php } ?>
@@ -297,12 +298,7 @@
 									<th data-sort='float'>MPG</th>
 									<th data-sort='float'>LA FPPG</th>
 									<th data-sort='float'>LA FPPM</th>
-									<th data-sort='float'>CV</th>
-									<th data-sort='float'>CV FPPM</th>
 									<th data-sort='float'>LA VR</th>
-									
-									<th data-sort='int'>2012 GP</th>
-									<th data-sort='float'>LA FPPG</th>
 								</tr>
 							</thead>
 
@@ -324,6 +320,7 @@
 										}
 
 										echo '<tr class="'.$player['team'].' position-'.$player['position'].' show-row row-info" data-salary="'.$player['salary'].'"'.$actual_fpts.'>';
+
 											echo '<td class="player"><a target="_blank" href="'.base_url().'players/game_log/'.$player['url_segment'].'">'.$player['name'].'</a> (<a target="_blank" href="http://espn.go.com/nba/teams/schedule?team='.$player['team'].'">'.$player['team'].'</a>) <i class="fa fa-plus-square"></i></td>';
 											echo '<td>'.$player['position'].'</td>';
 											echo '<td>'.$player['salary'].'</td>';
@@ -339,6 +336,7 @@
 
 											echo '<td>'.$player['actual_min'].'</td>';
 											echo '<td>'.$player['actual_fpts'].'</td>';
+											echo '<td>'.$player['actual_fppm'].'</td>';
 											echo '<td class="actual-stats-column">'.$player['actual_vr'].'</td>';
 
 											}
@@ -353,17 +351,13 @@
 											echo '<td>'.$player['cv_fppm_ds_2013'].'</td>';
 											echo '<td class="vr-column">'.$player['vr_2013_la'].'</td>';
 
-											echo '<td>'.$player['mpg_ch_last_game'].'</td>';
+											echo '<td>'.$player['mpg_ch'].'</td>';
 											echo '<td>'.$player['gp_last_15_days'].'</td>';
 											echo '<td>'.$player['mpg_last_15_days'].'</td>';
 											echo '<td>'.$player['fppg_last_15_days_la'].'</td>';
 											echo '<td>'.$player['fppm_last_15_days_la'].'</td>';
-											echo '<td>'.$player['cv_last_15_days'].'</td>';
-											echo '<td>'.$player['cv_fppm_ds_last_15_days'].'</td>';
 											echo '<td class="vr-column">'.$player['vr_last_15_days_la'].'</td>';
 
-											echo '<td>'.$player['gp_2012'].'</td>';
-											echo '<td>'.$player['fppg_2012_la'].'</td>';
 										echo '</tr>';
 									} 
 
