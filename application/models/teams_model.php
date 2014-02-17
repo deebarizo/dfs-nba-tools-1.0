@@ -73,20 +73,13 @@ class teams_model extends CI_Model
 		return $team;
 	}
 
-	public function get_all_teams()
+	public function get_all_teams($latest_date_in_irlstats_db)
 	{
 		$this->load->database();
 
 		ini_set('max_execution_time', 10800); // 10800 seconds = 3 hours
 
-		$sql = 'SELECT DISTINCT `date` FROM `irlstats` ORDER BY `date` DESC LIMIT 1';
-		$s = $this->db->conn_id->prepare($sql);
-		$s->execute(); 
-
-		$result = $s->fetchAll(PDO::FETCH_COLUMN);
-		$latest_date = $result[0];
-
-		$date_range = $this->create_date_range_array('2013-10-29', $latest_date); 
+		$date_range = $this->create_date_range_array('2013-10-29', $latest_date_in_irlstats_db); 
 
 		foreach ($date_range as $key => $date) 
 		{
@@ -101,6 +94,14 @@ class teams_model extends CI_Model
 				$schedule[$date] = $result;
 			}
 		}
+
+		echo '<pre>'; 
+		# var_dump($team_stats);
+		# var_dump($teams); 
+		# var_dump($correlation); 
+		# var_dump($stats);
+		var_dump($schedule);
+		echo '</pre>'; exit();
 
 		foreach ($schedule as &$games) 
 		{
