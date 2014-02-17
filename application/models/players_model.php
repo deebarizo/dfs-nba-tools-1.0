@@ -40,16 +40,8 @@ class players_model extends CI_Model
 		return $game_log;
 	}
 
-	public function get_todays_players($date)
+	public function get_todays_players($date, $csv_files)
 	{
-		$url_segment = preg_replace('/\d\d(\d\d)-(\d\d)-(\d\d)/', '$2$3$1', $date);
-
-		$csv_files = array(
-			'last_15_days' => base_url('files/ds/NBA_Last15_'.$url_segment.'.csv'),
-			'season_2013' => base_url('files/ds/NBA_2013_'.$url_segment.'.csv'),
-			'season_2012' => base_url('files/ds/NBA_2012_'.$url_segment.'.csv')
-		);
-
 		foreach ($csv_files as $key => $csv_file) 
 		{
 			if (($handle = fopen($csv_file, 'r')) !== false) 
@@ -95,7 +87,7 @@ class players_model extends CI_Model
 
 				    $row++;
 				}
-			} 
+			}
 		}
 
     	foreach ($stats as &$player) 
