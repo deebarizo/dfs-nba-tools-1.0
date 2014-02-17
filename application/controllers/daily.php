@@ -27,30 +27,22 @@ class Daily extends CI_Controller
 		$this->get_stats($this->date);
 	}
 
-	public function save_lineup()
-	{
-		$this->load->model('lineups_model');
-		$this->lineups_model->save_lineup();		
-	}
-
-	public function get_team_rotation($team, $date)
-	{
-		$this->load->model('teams_model');
-		$this->teams_model->get_team_rotation($team, $date);		
-	}
-
-	public function get_team_dvp($team, $date)
-	{
-		$this->load->model('teams_model');
-		$this->teams_model->get_team_dvp($team, $date);		
-	}
-
 	public function get_stats($date)
 	{
 		$data['page_type'] = 'Daily';
 		$data['page_title'] = 'Daily - DFS NBA Tools';
 		$data['h2_tag'] = 'Daily';
 		$data['subhead'] = 'DFS NBA Tools';
+
+		$data['chosen_date'] = $date;
+
+		for ($i = 0; $i <= 4; $i++) 
+		{ 
+			$dates_in_dropdown = new DateTime($data['chosen_date']);
+			$dates_in_dropdown->modify('-'.$i.' day');
+
+			$data['dates'][] = $dates_in_dropdown->format('Y-m-d');
+		}
 
 		$url_segment = preg_replace('/\d\d(\d\d)-(\d\d)-(\d\d)/', '$2$3$1', $date);
 
@@ -173,16 +165,6 @@ class Daily extends CI_Controller
 
 			sort($data['teams_today']);
 
-			$data['chosen_date'] = $date;
-
-			for ($i = 0; $i <= 4; $i++) 
-			{ 
-				$date = new DateTime($data['chosen_date']);
-				$date->modify('-'.$i.' day');
-
-				$data['dates'][] = $date->format('Y-m-d');
-			}
-			
 			# echo '<pre>';
 			# var_dump($data['games']);
 			# var_dump($data['teams']);
@@ -209,6 +191,24 @@ class Daily extends CI_Controller
 			$this->load->view('daily_error', $data);
 			$this->load->view('templates/footer', $data);			
 		}
+	}
+
+	public function save_lineup()
+	{
+		$this->load->model('lineups_model');
+		$this->lineups_model->save_lineup();		
+	}
+
+	public function get_team_rotation($team, $date)
+	{
+		$this->load->model('teams_model');
+		$this->teams_model->get_team_rotation($team, $date);		
+	}
+
+	public function get_team_dvp($team, $date)
+	{
+		$this->load->model('teams_model');
+		$this->teams_model->get_team_dvp($team, $date);		
 	}
 
 	public function modify_team_abbr($team)
