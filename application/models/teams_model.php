@@ -202,31 +202,6 @@ class teams_model extends CI_Model
 		# var_dump($correlation); 
 		echo '</pre>'; exit();
 
-		foreach ($schedule as &$games) 
-		{
-			foreach ($games as &$game) 
-			{
-				for ($i = 1; $i <= 2; $i++) 
-				{ 
-					$sql = 'SELECT SUM(`fpts_ds`) FROM `irlstats` 
-							WHERE `team` = :team AND `date` = :date GROUP BY team';
-					$s = $this->db->conn_id->prepare($sql);
-					$s->bindValue(':team', $game['team'.$i]);
-					$s->bindValue(':date', $game['date']);
-					$s->execute(); 
-
-					$result = $s->fetchAll(PDO::FETCH_COLUMN, 0);
-					$game['fpts'.$i] = $result[0];	
-
-					$game['ratio'.$i] = $game['fpts'.$i] / $game['score'.$i];
-				}
-			}
-
-			unset($game);				
-		}
-
-		unset($games);
-
 		// calculate standard deviation and coefficient of variation
 
 		$stats['count'] = 0;
@@ -303,68 +278,6 @@ class teams_model extends CI_Model
 		}	
 
 		$correlation['answer'] = $correlation['axb'] / (sqrt($correlation['a_squared'] * $correlation['b_squared']));
-
-		$sql = 'SELECT abbr_espn, name_sao FROM `teams`';
-		$s = $this->db->conn_id->prepare($sql);
-		$s->execute(); 
-
-		$teams = $s->fetchAll(PDO::FETCH_ASSOC);
-
-		foreach ($teams as &$team) 
-		{
-			$team['count'] = 0;
-
-			$team['pts'] = 0;
-			$team['fpts'] = 0;
-
-			$team['pts_opp'] = 0;
-			$team['fpts_opp'] = 0;
-		}
-
-		unset($team);
-
-		foreach ($teams as &$team) 
-		{
-			foreach ($schedule as $games) 
-			{
-				foreach ($games as $game) 
-				{
-					for ($i = 1; $i <= 2; $i++) 
-					{ 
-						if ($game['team'.$i] == $team['abbr_espn'])
-						{
-							$team['count'] += 1;
-
-							$team['pts'] += $game['score'.$i];
-							$team['fpts'] += $game['fpts'.$i];
-
-							if ($i == 1) { $n = 2; }
-							if ($i == 2) { $n = 1; }
-
-							$team['pts_opp'] += $game['score'.$n]; 
-							$team['fpts_opp'] += $game['fpts'.$n];
-						}
-					}
-				}
-			}
-		}
-
-		unset($team);
-
-		foreach ($teams as &$team) 
-		{
-			$team['ratio'] = $team['fpts'] / $team['pts'];
-
-			$team['pts_per_game'] = $team['pts'] / $team['count'];
-			$team['fpts_per_game'] = $team['fpts'] / $team['count'];
-
-			$team['ratio_opp'] = $team['fpts_opp'] / $team['pts_opp'];
-
-			$team['pts_opp_per_game'] = $team['pts_opp'] / $team['count'];
-			$team['fpts_opp_per_game'] = $team['fpts_opp'] / $team['count'];
-		}
-
-		unset($team);
 
 		// calculate stdev and cv for teams
 

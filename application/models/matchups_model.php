@@ -44,7 +44,6 @@ class matchups_model extends CI_Model
 			}
 
 			unset($game);
-
 		}
 
 		if (empty($games['no_lines']) === false)
