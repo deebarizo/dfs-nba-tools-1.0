@@ -41,7 +41,7 @@
 $route['default_controller'] = 'daily';
 $route['404_override'] = '';
 
-$route['evaluation/teams'] = 'evaluation/stats/teams';
+$route['evaluation/(:any)'] = 'evaluation/stats/$1';
 
 $route['search'] = 'search';
 $route['update'] = 'update';

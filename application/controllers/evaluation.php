@@ -22,10 +22,10 @@ class Evaluation extends CI_Controller
 		$data['h2_tag'] = 'Evaluation';
 		$data['subhead'] = 'DFS NBA Tools';
 
-		if ($stat == 'teams')
+		if ($stat == 'pts_fpts_correlation')
 		{
 			$this->load->library('Calculations');
-			$this->evaluation_model->get_team_stats($this->today_date);
+			$this->evaluation_model->get_pts_fpts_correlation($this->today_date);
 		}
 	}
 
