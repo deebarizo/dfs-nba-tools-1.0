@@ -9,7 +9,7 @@ class Calculations
 
 		ini_set('max_execution_time', 10800); // 10800 seconds = 3 hours
 
-		$sql = 'SELECT `abbr_espn` as team
+		$sql = 'SELECT `abbr_espn` as team, `name_sao`
 				FROM `teams`';
 		$s = $CI->db->conn_id->prepare($sql);
 		$s->execute(); 
@@ -119,6 +119,12 @@ class Calculations
 			
 			$row['total_pts'] = $row['home_total_pts'] + $row['road_total_pts'];
 			$row['total_pts_opp'] = $row['home_total_pts_opp'] + $row['road_total_pts_opp'];
+
+			$row['pts_per_game'] = $row['total_pts'] / $row['total_games'];
+			$row['pts_per_game_opp'] = $row['total_pts_opp'] / $row['total_games'];
+
+			$row['fpts_per_game'] = $row['total_fpts'] / $row['total_games'];
+			$row['fpts_per_game_opp'] = $row['total_fpts_opp'] / $row['total_games'];
 
 			$row['ratio_fpt_per_pt'] = $row['total_fpts'] / $row['total_pts'];
 			$row['ratio_fpt_per_pt_opp'] = $row['total_fpts_opp'] / $row['total_pts_opp'];			

@@ -17,7 +17,7 @@ class matchups_model extends CI_Model
 					{
 						if ($game['team'.$i] == $team['name_sao'])
 						{
-							$game['team_abbr'.$i] = $team['abbr_espn'];
+							$game['team_abbr'.$i] = $team['team'];
 
 							$game['pts_plus_minus'.$i] = $game['score'.$i] - $team['pts_per_game'];
 
@@ -25,9 +25,9 @@ class matchups_model extends CI_Model
 							{
 								if ($game['team'.$opp] == $row['name_sao']) 
 								{ 
-									$game['team_abbr'.$opp] = $row['abbr_espn'];
+									$game['team_abbr'.$opp] = $row['team'];
 
-									$ratio = ($team['ratio'] + $row['ratio_opp']) / 2;
+									$ratio = ($team['ratio_fpt_per_pt'] + $row['ratio_fpt_per_pt_opp']) / 2;
 
 									break;
 								}
@@ -59,13 +59,13 @@ class matchups_model extends CI_Model
 					{
 						if ($game['team'.$i] == $team['name_sao'])
 						{
-							$game['team_abbr'.$i] = $team['abbr_espn'];
+							$game['team_abbr'.$i] = $team['team'];
 
 							foreach ($teams as $row) 
 							{
 								if ($game['team'.$opp] == $row['name_sao']) 
 								{ 
-									$game['score'.$i] = ($team['pts_per_game'] + $row['pts_opp_per_game']) / 2;
+									$game['score'.$i] = ($team['pts_per_game'] + $row['pts_per_game_opp']) / 2;
 
 									if ($i == 2) { $game['score'.$i] += 3; } // home court advantage
 
@@ -79,9 +79,9 @@ class matchups_model extends CI_Model
 							{
 								if ($game['team'.$opp] == $row['name_sao']) 
 								{ 
-									$game['team_abbr'.$opp] = $row['abbr_espn'];
+									$game['team_abbr'.$opp] = $row['team'];
 
-									$ratio = ($team['ratio'] + $row['ratio_opp']) / 2;
+									$ratio = ($team['ratio_fpt_per_pt'] + $row['ratio_fpt_per_pt_opp']) / 2;
 
 									break;
 								}
@@ -124,9 +124,9 @@ class matchups_model extends CI_Model
 
 		unset($type);
 
-		# echo '<pre>';
-		# var_dump($games);
-		# echo '</pre>'; exit();
+		echo '<pre>';
+		var_dump($games);
+		echo '</pre>'; exit();
 
 		return $games;
 	}

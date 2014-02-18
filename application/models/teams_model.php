@@ -77,11 +77,11 @@ class teams_model extends CI_Model
 	{
 		$teams = $this->calculations->get_team_stats($latest_date_in_irlstats_db);
 
-		echo '<pre>'; 
-		var_dump($teams);
+		# echo '<pre>'; 
+		# var_dump($teams);
 		# var_dump($teams); 
 		# var_dump($correlation); 
-		echo '</pre>'; exit();
+		# echo '</pre>'; exit();
 
 		return $teams;
 	}
