@@ -71,16 +71,16 @@ class Daily extends CI_Controller
 			$latest_date_in_irlstats_db = date("Y-m-d", $latest_date_in_irlstats_db); 
 			$data['teams'] = $this->teams_model->get_all_teams($latest_date_in_irlstats_db);
 
-			# echo '<pre>'; 
-			# var_dump($data['games']);
-			# var_dump($data['teams']); 
-			# echo '</pre>'; exit();
-
 			$this->load->model('matchups_model');
 			$data['matchups'] = $this->matchups_model->get_todays_matchups($data['games'], $data['teams']);
 
 			$this->load->model('players_model');
 			$data['players'] = $this->players_model->get_todays_players($date, $csv_files);
+
+			# echo '<pre>'; 
+			# var_dump($data['games']);
+			# var_dump($data['teams']); 
+			# echo '</pre>'; exit();
 
 			foreach ($data['players'] as &$player) 
 			{

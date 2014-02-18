@@ -19,8 +19,6 @@ class matchups_model extends CI_Model
 						{
 							$game['team_abbr'.$i] = $team['team'];
 
-							$game['pts_plus_minus'.$i] = $game['score'.$i] - $team['pts_per_game'];
-
 							foreach ($teams as $row) 
 							{
 								if ($game['team'.$opp] == $row['name_sao']) 
@@ -33,7 +31,7 @@ class matchups_model extends CI_Model
 								}
 							}
 
-							$game['fpts_plus_minus'.$i] = $game['pts_plus_minus'.$i] * $ratio;
+							$game['fpts_plus_minus'.$i] = ($game['score'.$i] * $ratio) - $team['fpts_per_game'];
 
 							$game['line_adj'.$i] = $game['fpts_plus_minus'.$i] / $team['fpts_per_game'];
 
@@ -73,8 +71,6 @@ class matchups_model extends CI_Model
 								}
 							}
 
-							$game['pts_plus_minus'.$i] = $game['score'.$i] - $team['pts_per_game'];
-
 							foreach ($teams as $row) 
 							{
 								if ($game['team'.$opp] == $row['name_sao']) 
@@ -87,7 +83,7 @@ class matchups_model extends CI_Model
 								}
 							}
 
-							$game['fpts_plus_minus'.$i] = $game['pts_plus_minus'.$i] * $ratio;
+							$game['fpts_plus_minus'.$i] = ($game['score'.$i] * $ratio) - $team['fpts_per_game'];
 
 							$game['line_adj'.$i] = $game['fpts_plus_minus'.$i] / $team['fpts_per_game'];
 
@@ -100,33 +96,9 @@ class matchups_model extends CI_Model
 			unset($game);			
 		}
 
-		foreach ($games as &$type) 
-		{
-			foreach ($type as &$game) 
-			{
-				foreach ($game as $key => &$row) 
-				{
-					if (is_numeric($row) AND 
-						$key != 'line_adj1' AND 
-						$key != 'line_adj2' AND
-						$key != 'ps1' AND
-						$key != 'ps2')
-					{
-						$row = number_format($row, 2);
-					}
-				}
-
-				unset($row);
-			}
-
-			unset($game);
-		}
-
-		unset($type);
-
-		echo '<pre>';
-		var_dump($games);
-		echo '</pre>'; exit();
+		# echo '<pre>';
+		# var_dump($games);
+		# echo '</pre>'; exit();
 
 		return $games;
 	}
