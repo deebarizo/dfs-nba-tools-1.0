@@ -78,8 +78,8 @@ class Daily extends CI_Controller
 			$data['players'] = $this->players_model->get_todays_players($date, $csv_files);
 
 			# echo '<pre>'; 
-			# var_dump($data['games']);
-			# var_dump($data['teams']); 
+			# var_dump($data['matchups']);
+			# var_dump($data['players']); 
 			# echo '</pre>'; exit();
 
 			foreach ($data['players'] as &$player) 
@@ -94,7 +94,7 @@ class Daily extends CI_Controller
 
 							if ($modified_team == $row['team_abbr'.$i]) 
 							{
-								$player['fpts_plus_minus'] = $row['fpts_plus_minus'.$i];
+								$player['line_adj'] = number_format($row['line_adj'.$i] * 100, 2);
 
 								if ($key == 'has_lines') { $player['line'] = 'Y'; }
 								if ($key == 'no_lines') { $player['line'] = 'N'; }
@@ -151,10 +151,10 @@ class Daily extends CI_Controller
 							}
 						}
 
-						if (isset($player['fpts_plus_minus'])) { break; }
+						if (isset($player['line_adj'])) { break; }
 					}
 
-					if (isset($player['fpts_plus_minus'])) { break; }
+					if (isset($player['line_adj'])) { break; }
 				}
 			}
 

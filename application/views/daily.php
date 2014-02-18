@@ -283,7 +283,7 @@
 
 									<?php } ?>
 									
-									<th data-sort='float'>FPTS +/-</th>
+									<th data-sort='float'>LA</th>
 
 									<th data-sort='int'>2013 GP</th>
 									<th data-sort='float'>MPG</th>
@@ -341,7 +341,7 @@
 
 											}
 
-											echo '<td>'.$player['fpts_plus_minus'].'</td>';
+											echo '<td>'.$player['line_adj'].'</td>';
 				
 											echo '<td>'.$player['gp_2013'].'</td>';
 											echo '<td>'.$player['mpg_2013'].'</td>';
