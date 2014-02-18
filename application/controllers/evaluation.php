@@ -9,6 +9,10 @@ class Evaluation extends CI_Controller
 
 		$this->load->database();
 		$this->load->model('evaluation_model');
+
+		date_default_timezone_set('America/Chicago');
+		
+		$this->today_date = date('Y-m-d');
 	}
 
 	public function stats($stat)
@@ -20,7 +24,8 @@ class Evaluation extends CI_Controller
 
 		if ($stat == 'teams')
 		{
-			$this->evaluation_model->get_team_stats();
+			$this->load->library('Calculations');
+			$this->evaluation_model->get_team_stats($this->today_date);
 		}
 	}
 

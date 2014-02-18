@@ -2,7 +2,7 @@
 
 class Calculations 
 {
-	public function get_team_stats()
+	public function get_team_stats($latest_date_in_irlstats_db)
 	{
 		$CI =& get_instance();
 		$CI->load->database();
@@ -11,7 +11,7 @@ class Calculations
 
 		$sql = 'SELECT `abbr_espn` as team
 				FROM `teams`';
-		$s = $this->db->conn_id->prepare($sql);
+		$s = $CI->db->conn_id->prepare($sql);
 		$s->execute(); 
 
 		$teams = $s->fetchAll(PDO::FETCH_ASSOC);
@@ -21,7 +21,7 @@ class Calculations
 				WHERE `date` BETWEEN :starting_date AND :ending_date
 				GROUP BY `team2`
 				ORDER BY `team2`';
-		$s = $this->db->conn_id->prepare($sql);
+		$s = $CI->db->conn_id->prepare($sql);
 		$s->bindValue(':starting_date', '2013-10-29');
 		$s->bindValue(':ending_date', $latest_date_in_irlstats_db);
 		$s->execute(); 
@@ -33,7 +33,7 @@ class Calculations
 				WHERE `date` BETWEEN :starting_date AND :ending_date
 				GROUP BY `team1`
 				ORDER BY `team1`';
-		$s = $this->db->conn_id->prepare($sql);
+		$s = $CI->db->conn_id->prepare($sql);
 		$s->bindValue(':starting_date', '2013-10-29');
 		$s->bindValue(':ending_date', $latest_date_in_irlstats_db);
 		$s->execute(); 
@@ -45,7 +45,7 @@ class Calculations
 				WHERE `date` BETWEEN :starting_date AND :ending_date
 				GROUP BY `team`
 				ORDER BY `team`';
-		$s = $this->db->conn_id->prepare($sql);
+		$s = $CI->db->conn_id->prepare($sql);
 		$s->bindValue(':starting_date', '2013-10-29');
 		$s->bindValue(':ending_date', $latest_date_in_irlstats_db);
 		$s->execute(); 
@@ -57,7 +57,7 @@ class Calculations
 				WHERE `date` BETWEEN :starting_date AND :ending_date
 				GROUP BY `opponent`
 				ORDER BY `opponent`';
-		$s = $this->db->conn_id->prepare($sql);
+		$s = $CI->db->conn_id->prepare($sql);
 		$s->bindValue(':starting_date', '2013-10-29');
 		$s->bindValue(':ending_date', $latest_date_in_irlstats_db);
 		$s->execute(); 

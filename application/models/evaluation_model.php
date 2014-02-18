@@ -1,8 +1,37 @@
 <?php
 class evaluation_model extends CI_Model 
 {
-	public function get_team_stats()
+	public function get_team_stats($date)
 	{
+		ini_set('max_execution_time', 10800); // 10800 seconds = 3 hours
+
+		$teams = $this->calculations->get_team_stats($date);
+
+		// calculate correlation 
+		// http://www.mathsisfun.com/data/correlation.html
+
+		$num_games = 0;
+		$total_pts = 0;
+		$total_fpts = 0;
+
+		foreach ($teams as $team) 
+		{
+			$num_games += $team['home_num_games'] + $team['road_num_games'];
+			$total_pts += $team['total_pts'];
+			$total_fpts += $team['total_fpts'];
+		}
+
+		$total_pts_mean = $total_pts / $num_games;
+		$total_fpts_mean = $total_fpts / $num_games;
+
+		
+
+		echo '<pre>'; 
+		var_dump($total_pts_mean);
+		var_dump($total_fpts_mean); 
+		# var_dump($correlation); 
+		echo '</pre>'; exit();
+
 		// calculate standard deviation and coefficient of variation
 
 		$stats['count'] = 0;

@@ -66,6 +66,7 @@ class Daily extends CI_Controller
 			$data['games'] = $this->scraping_model->scrape_odds($date);
 
 			$this->load->model('teams_model');
+			$this->load->library('Calculations');
 			$latest_date_in_irlstats_db = strtotime('-1 day', strtotime($date));
 			$latest_date_in_irlstats_db = date("Y-m-d", $latest_date_in_irlstats_db); 
 			$data['teams'] = $this->teams_model->get_all_teams($latest_date_in_irlstats_db);
