@@ -114,13 +114,6 @@ class players_model extends CI_Model
 
 		ini_set('max_execution_time', 10800); // 10800 seconds = 3 hours
 
-		# $sql = 'SELECT DISTINCT `date` FROM `irlstats` ORDER BY `date` DESC LIMIT 1';
-		# $s = $this->db->conn_id->prepare($sql);
-		# $s->execute(); 
-
-		# $result = $s->fetchAll(PDO::FETCH_COLUMN);
-		# $latest_date = $result[0];
-
 		$latest_date = date('Y-m-d', strtotime('1 days ago', strtotime($date)));
 
 		$date_15_days_ago = date('Y-m-d', strtotime('15 days ago', strtotime($date)));
@@ -340,9 +333,9 @@ class players_model extends CI_Model
 				}
 			}
 
-			if ($total_games -1 > 0 AND $player['fppg'][0] > 0) 
+			if ($total_games > 1 AND $player['fppg'][0] > 0) 
 			{ 
-				$variance = $total_diff_squared_fpts_ds /  $total_games - 1;
+				$variance = $total_diff_squared_fpts_ds / ($total_games - 1);
 				$stdev = sqrt($variance);
 				$player['cv'] = number_format(($stdev / $player['fppg'][0]) * 100, 2);
 			}
@@ -407,9 +400,9 @@ class players_model extends CI_Model
 				}
 			}
 
-			if ($player['total_games'] > 0 AND $player['fppm_ds_pg'] != 0) 
+			if ($player['total_games'] > 1 AND $player['fppm_ds_pg'] != 0) 
 			{ 
-				$variance = $total_diff_squared_fppm_ds / $player['total_games'];
+				$variance = $total_diff_squared_fppm_ds / ($player['total_games'] - 1);
 				$stdev = sqrt($variance);
 				$player['cv_fppm_ds'] = number_format(($stdev / $player['fppm_ds_pg']) * 100, 2);
 			}

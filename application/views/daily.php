@@ -283,7 +283,7 @@
 
 									<?php } ?>
 									
-									<th data-sort='float'>LA</th>
+									<th data-sort='float'>LA (%)</th>
 
 									<th data-sort='int'>2013 GP</th>
 									<th data-sort='float'>MPG</th>
