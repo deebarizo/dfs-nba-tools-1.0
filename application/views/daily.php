@@ -84,6 +84,14 @@
 
 						</div>
 
+						<div class='options-inline'>
+
+							<h4>CV and CV FPPM</h4>
+
+			      			<button type='button' class="btn cv2-button show-cv2" data-toggle="button">Hide 40%+</button>
+
+						</div>
+
 						<div>
 
 							<h4>Team</h4>
@@ -319,7 +327,7 @@
 											$actual_fpts = '';
 										}
 
-										echo '<tr class="'.$player['team'].' position-'.$player['position'].' show-row row-info" data-salary="'.$player['salary'].'"'.$actual_fpts.'>';
+										echo '<tr class="'.$player['team'].' position-'.$player['position'].' show-row row-info" data-salary="'.$player['salary'].'"' .'data-cv="'.$player['cv_2013'].'"' .'data-cv-fppm="'.$player['cv_fppm_ds_2013'].'"'.$actual_fpts.'>';
 
 											echo '<td class="player"><a target="_blank" href="'.base_url().'players/game_log/'.$player['url_segment'].'">'.$player['name'].'</a> (<a target="_blank" href="http://espn.go.com/nba/teams/schedule?team='.$player['team'].'">'.$player['team'].'</a>) <i class="fa fa-plus-square"></i></td>';
 											echo '<td>'.$player['position'].'</td>';

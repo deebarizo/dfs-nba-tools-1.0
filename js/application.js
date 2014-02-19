@@ -28,6 +28,15 @@ $(document).ready(function()
 		options['starters-toggle'] = $('input:radio[name=starters-toggle]:checked').val();
 		options['starters-toggle-headline'] = get_starters_toggle_headline(options['starters-toggle']);
 
+		if ($('.cv2-button').hasClass('show-cv2'))
+		{
+			options['cv2-toggle'] = 'show-cv2';
+		}
+		else if ($('.cv2-button').hasClass('hide-cv2'))
+		{
+			options['cv2-toggle'] = 'hide-cv2';
+		}
+		
 		return options;
 	}
 
@@ -113,7 +122,38 @@ $(document).ready(function()
 					$('[data-salary="'+row_data[i]+'"]').removeClass('valid-salary');
 				}
 			}				
-		};
+		}
+
+		if (options['cv2-toggle'] == 'show-cv2')
+		{
+			$('.row-info').addClass('valid-cv2');
+		}
+		else if (options['cv2-toggle'] == 'hide-cv2')
+		{
+			var row_data_cv2 = $('.row-info').map(function() 
+			{
+	    		var result = {};
+	    		result['cv'] = $(this).data('cv');
+	    		result['cv_fppm'] = $(this).data('cv-fppm');
+
+			    return result;
+			}).get();
+
+			for (var i = 0; i < row_data_cv2.length; i++) 
+			{
+				if (row_data_cv2[i]['cv'] >= 40 && row_data_cv2[i]['cv_fppm'] >= 40)
+				{
+					console.log(row_data_cv2[i]['cv']);
+					console.log(row_data_cv2[i]['cv_fppm']);
+
+					$('[data-cv="'+row_data_cv2[i]['cv']+'"][data-cv-fppm="'+row_data_cv2[i]['cv_fppm']+'"]').removeClass('valid-cv2');
+				}
+				else
+				{
+					$('[data-cv="'+row_data_cv2[i]['cv']+'"][data-cv-fppm="'+row_data_cv2[i]['cv_fppm']+'"]').addClass('valid-cv2');
+				}
+			}
+		}
 
 		if (options['chosen_team'] == 'all')
 		{
@@ -121,13 +161,13 @@ $(document).ready(function()
 
 			for (var i=0; i < options['teams'].length; i++) 
 			{
-				$('.'+options['teams'][i]+position_class+'.valid-salary').removeClass('valid-salary').addClass('show-row').removeClass('hide-row');
-			};	
+				$('.'+options['teams'][i]+position_class+'.valid-salary.valid-cv2').removeClass('valid-salary').removeClass('valid-cv2').addClass('show-row').removeClass('hide-row');
+			}	
 		}
 		else
 		{
-			$('.'+options['chosen_team']+position_class+'.valid-salary').removeClass('valid-salary').addClass('show-row').removeClass('hide-row');
-
+			$('.'+options['chosen_team']+position_class+'.valid-salary.valid-cv2').removeClass('valid-salary').removeClass('valid-cv2').addClass('show-row').removeClass('hide-row');
+			
 			// Team links
 
 			var rotoworld_team_abbr = change_abbr_for_rotoworld(options['chosen_team']);
@@ -548,6 +588,22 @@ $(document).ready(function()
         }
 
 		options_change();
+	});
+	
+	$('.cv2-button').click(function() 
+	{
+        if ($(this).hasClass('show-cv2'))
+        {
+			$(this).addClass('hide-cv2');
+            $(this).removeClass('show-cv2');          	
+        } 
+        else if ($(this).hasClass('hide-cv2'))
+        {
+			$(this).addClass('show-cv2');
+            $(this).removeClass('hide-cv2');   
+        }	
+
+        options_change();
 	});
 
 	// Lineup
