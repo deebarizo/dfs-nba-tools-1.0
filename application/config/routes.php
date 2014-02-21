@@ -48,6 +48,7 @@ $route['update'] = 'update';
 
 $route['players/game_log/(:any)'] = 'players/game_log/$1';
 
+$route['daily/notes'] = 'daily/notes';
 $route['daily/save_lineup'] = 'daily/save_lineup';
 $route['daily/get_team_dvp/(:any)'] = 'daily/get_team_dvp/$1';
 $route['daily/get_team_rotation/(:any)'] = 'daily/get_team_rotation/$1';

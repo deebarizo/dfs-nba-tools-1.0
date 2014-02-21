@@ -47,6 +47,12 @@
 			      			<?php foreach ($matchups['has_lines'] as $key => $game) { ?>
 			      				<button type='button' class="btn game-button show-game" data-toggle="button"><?php echo $game['team_abbr1'].' vs '.$game['team_abbr2'];?></button>
 			      			<?php } ?>
+
+			      			<?php if (isset($matchups['no_lines'])) { ?>
+				      			<?php foreach ($matchups['no_lines'] as $key => $game) { ?>
+				      				<button type='button' class="btn game-button show-game" data-toggle="button"><?php echo $game['team_abbr1'].' vs '.$game['team_abbr2'];?></button>
+				      			<?php } ?>
+				      		<?php } ?>
 			      			
 			      		</div>
 

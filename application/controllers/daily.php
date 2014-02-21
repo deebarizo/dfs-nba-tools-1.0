@@ -171,6 +171,20 @@ class Daily extends CI_Controller
 
 			unset($game);
 
+			if (isset($data['matchups']['no_lines']))
+			{
+				foreach ($data['matchups']['no_lines'] as $key => &$game) 
+				{ 
+					for ($i=1; $i<=2; $i++) 
+					{ 
+						$game['team_abbr'.$i] = $this->modify_team_abbr_match_ds($game['team_abbr'.$i]);
+						$data['teams_today'][] = $game['team_abbr'.$i];
+					}
+				}		
+
+				unset($game);	
+			}
+
 			sort($data['teams_today']);
 
 			# echo '<pre>';
@@ -199,6 +213,12 @@ class Daily extends CI_Controller
 			$this->load->view('daily_error', $data);
 			$this->load->view('templates/footer', $data);			
 		}
+	}
+
+	public function notes()
+	{
+		$this->load->model('notes_model');
+		$this->notes_model->get_notes();		
 	}
 
 	public function save_lineup()
