@@ -59,6 +59,9 @@ $(document).ready(function()
 
 			var team = get_teams_in_game(two_teams);
 
+			team[1] = change_abbr_for_ds(team[1]);
+			team[2] = change_abbr_for_ds(team[2]);
+
 			teams.push(team[1]);
 			teams.push(team[2]);
 		});	
@@ -362,6 +365,21 @@ $(document).ready(function()
 	{
 		$('.show-row').show();
 		$('.hide-row').hide();			
+	}
+
+	function change_abbr_for_ds(team_abbr)
+	{
+		switch(team_abbr)
+		{
+			case 'PHX':
+				return 'PHO';
+			case 'UTAH':
+				return 'UTA';
+			case 'WSH':
+				return 'WAS';
+			default:
+				return team_abbr;
+		}
 	}
 
 	function change_abbr_for_pm(team_abbr)
