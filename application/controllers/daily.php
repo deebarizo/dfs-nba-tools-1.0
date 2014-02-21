@@ -190,8 +190,31 @@ class Daily extends CI_Controller
 
 	public function notes()
 	{
+		$data['page_type'] = 'Notes';
+		$data['page_title'] = 'Notes - DFS NBA Tools';
+		$data['h2_tag'] = 'Notes';
+		$data['subhead'] = 'DFS NBA Tools';
+
+		$date = $this->date;
+
+		$this->load->model('scraping_model');
+		$data['games'] = $this->scraping_model->scrape_odds($date);
+
+		$this->load->model('teams_model');
+		$this->load->library('Calculations');
+		$latest_date_in_irlstats_db = strtotime('-1 day', strtotime($date));
+		$latest_date_in_irlstats_db = date("Y-m-d", $latest_date_in_irlstats_db); 
+		$data['teams'] = $this->teams_model->get_all_teams($latest_date_in_irlstats_db);
+
+		$this->load->model('matchups_model');
+		list($data['matchups'], $data['teams_today']) = $this->matchups_model->get_todays_matchups($data['games'], $data['teams']);
+
+		# echo '<pre>';
+		# var_dump($data['teams_today']);
+		# echo '</pre>'; exit();
+
 		$this->load->model('notes_model');
-		$this->notes_model->get_notes();		
+		$this->notes_model->get_notes($data['teams_today']);		
 	}
 
 	public function save_lineup()

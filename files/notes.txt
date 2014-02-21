@@ -1,67 +1,79 @@
---ATL--
+[ATL]
 
 DeMarre Carroll questionable for Friday, Feb 21
 Gustavo Ayon DTD
 Pero Antic DTD
 
---BKN--
+[BKN]
 
---BOS--
+none
+
+[BOS]
 
 Avery Bradley out until Feb 26
 
---CHA--
+[CHA]
 
---CHI--
+none
 
---CLE--
+[CHI]
+
+none
+
+[CLE]
 
 Dion Waiters DTD
 Anderson Varejao DTD
 
---DAL--
+[DAL]
 
---DEN--
+none
+
+[DEN]
 
 Ty Lawson DTD
 
---DET--
+[DET]
 
---GS--
+none
+
+[GS]
 
 Andrew Bogut DTD
 
---HOU--
+[HOU]
 
 Patrick Beverley DTD
 
---IND--
+[IND]
 
---LAC--
+none
+
+[LAC]
 
 J.J. Redick 3-5 five weeks from Feb 18
 
---LAL--
+[LAL]
 
 Steve Nash DTD
 Jordan Farmer DTD
 Nick Young DTD
 Pau Gasol DTD
 
---MEM--
+[MEM]
 
 Tony Allen said he will play on Friday, Feb 21
 
---MIA--
+[MIA]
 
 Dwyane Wade DTD for the whole season
 
---MIN--
+[MIN]
 
 Kevin Martin DTD
 Nikola Pekovic DTD
 
---MIL--
+[MIL]
 
 Brandon Knight DTD
 Khris Middleton DTD
@@ -69,60 +81,64 @@ Caron Butler DTD
 Ekpe Udoh DTD
 Larry Sanders out indefinitely
 
---NO--
+[NO]
 
 Jrue Holiday out
 Ryan Anderson out
 Jason Smith out
 
---NYK--
+[NY]
 
 Kenyon Martin DTD
 Andrea Bargnani out
 
---OKC--
+[OKC]
 
 Russell Westbrook DTD
 
---ORL--
+[ORL]
 
 Glen Davis DTD
 
---PHI--
+[PHI]
 
 Michael Carter-Williams DTD
 
---PHO--
+[PHO]
 
 Eric Bledsoe out
 
---POR--
+[POR]
 
 LaMarcus Aldridge out until Feb 25
 Joel Freeland out
 Meyers Leonard out
 
---SA--
+[SA]
 
 Tony Parker out
 Kawhi Leonard DTD
 Tiago Splitter DTD
 Tim Duncan possible rest during either game of B2B
 
---SAC--
+[SAC]
 
 Isaiah Thomas DTD
 Jimmer Fredette DTD
 DeMarcus Cousins DTD
 
---TOR--
+[TOR]
 
---UTA--
+none
+
+[UTA]
 
 Richard Jefferson DTD
 Derrick Favors DTD
 
---WAS--
+[WAS]
+
+none
 
 
 
