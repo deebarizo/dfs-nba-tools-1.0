@@ -171,7 +171,7 @@ $(document).ready(function()
 			// Team links
 
 			var rotoworld_team_abbr = change_abbr_for_rotoworld(options['chosen_team']);
-			var rotoworld_team_link = 'http://www.rotoworld.com/teams/clubhouse/nba/'+rotoworld_team_abbr;
+			var rotoworld_team_link = 'http://www.rotoworld.com/teams/nba/'+rotoworld_team_abbr;
 
 			var espn_team_schedule_link = 'http://espn.go.com/nba/teams/schedule?team='+options['chosen_team'];
 

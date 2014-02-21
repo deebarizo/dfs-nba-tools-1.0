@@ -24,6 +24,9 @@
 				<div style='display:inline-block'>
 					<a class="lineup-toggle" href="#">Show Lineup</a>
 				</div>
+				<div style='display:inline-block'>
+					<a style="margin-left: 20px" target="_blank" href="<?php echo base_url().'daily/notes'; ?>">Go to Notes</a>
+				</div>
 	      	</div>
 
       	  </div>
@@ -121,9 +124,9 @@
 								<div class="dvp-team-drop-down">
 								</div>
 
-								<a target="_blank" class="rotoworld-team-link" href="http://www.rotoworld.com/teams/clubhouse/nba/DEN">Rotoworld</a>
+								<a target="_blank" class="rotoworld-team-link" href="">Rotoworld</a>
 								 | 
-								<a target="_blank" class="espn-team-schedule-link" href="http://espn.go.com/nba/teams/schedule?team=DEN">ESPN Schedule</a>
+								<a target="_blank" class="espn-team-schedule-link" href="">ESPN Schedule</a>
 
 								<br>
 								<a class="rotations-toggle" href="#">Show Rotations</a>
