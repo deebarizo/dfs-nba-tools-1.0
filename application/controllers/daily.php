@@ -72,7 +72,7 @@ class Daily extends CI_Controller
 			$data['teams'] = $this->teams_model->get_all_teams($latest_date_in_irlstats_db);
 
 			$this->load->model('matchups_model');
-			$data['matchups'] = $this->matchups_model->get_todays_matchups($data['games'], $data['teams']);
+			list($data['matchups'], $data['teams_today']) = $this->matchups_model->get_todays_matchups($data['games'], $data['teams']);
 
 			$this->load->model('players_model');
 			$data['players'] = $this->players_model->get_todays_players($date, $csv_files);
@@ -159,33 +159,6 @@ class Daily extends CI_Controller
 			}
 
 			unset($player);
-
-			foreach ($data['matchups']['has_lines'] as $key => &$game) 
-			{ 
-				for ($i=1; $i<=2; $i++) 
-				{ 
-					$game['team_abbr'.$i] = $this->modify_team_abbr_match_ds($game['team_abbr'.$i]);
-					$data['teams_today'][] = $game['team_abbr'.$i];
-				}
-			}
-
-			unset($game);
-
-			if (isset($data['matchups']['no_lines']))
-			{
-				foreach ($data['matchups']['no_lines'] as $key => &$game) 
-				{ 
-					for ($i=1; $i<=2; $i++) 
-					{ 
-						$game['team_abbr'.$i] = $this->modify_team_abbr_match_ds($game['team_abbr'.$i]);
-						$data['teams_today'][] = $game['team_abbr'.$i];
-					}
-				}		
-
-				unset($game);	
-			}
-
-			sort($data['teams_today']);
 
 			# echo '<pre>';
 			# var_dump($data['games']);

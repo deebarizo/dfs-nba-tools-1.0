@@ -96,11 +96,47 @@ class matchups_model extends CI_Model
 			unset($game);			
 		}
 
+		foreach ($games['has_lines'] as $key => $game) 
+		{ 
+			for ($i=1; $i<=2; $i++) 
+			{ 
+				$teams_today[] = $this->modify_team_abbr_match_ds($game['team_abbr'.$i]);
+			}
+		}
+
+		if (isset($games['no_lines']))
+		{
+			foreach ($games['no_lines'] as $key => $game) 
+			{ 
+				for ($i=1; $i<=2; $i++) 
+				{ 
+					$teams_today = $this->modify_team_abbr_match_ds($game['team_abbr'.$i]);
+				}
+			}		
+		}
+
+		sort($teams_today);
+
 		# echo '<pre>';
 		# var_dump($games);
 		# echo '</pre>'; exit();
 
-		return $games;
+		return array($games, $teams_today);
+	}
+
+	public function modify_team_abbr_match_ds($team)
+	{
+		switch ($team) 
+		{
+		    case 'PHX':
+		        return 'PHO';
+		    case 'UTAH':
+		        return 'UTA';
+		    case 'WSH':
+		        return 'WAS';
+		}
+
+		return $team;
 	}
 
 }
