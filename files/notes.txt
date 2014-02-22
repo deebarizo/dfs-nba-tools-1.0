@@ -3,6 +3,7 @@
 DeMarre Carroll DTD
 Jeff Teague DTD
 Pero Antic DTD
+
 Gustavo Ayon earliest return Feb 25, Tuesday
 
 [BKN]
@@ -20,12 +21,19 @@ gave up Ramon Sessions and Jeff Adrien
 
 [CHI]
 
-none
+extra minutes for:
+Butler
+Noah
+Dunleavy 
 
 [CLE]
 
 Dion Waiters DTD
+C.J. Miles DTD
 Anderson Varejao DTD
+
+traded for Spencer Hawes
+gave up Earl Clark
 
 [DAL]
 
@@ -33,11 +41,20 @@ none
 
 [DEN]
 
+traded for Aaron Brooks
+gave up Jordan Hamilton
+
 Ty Lawson DTD
+
+extra minutes for:
+Faried
+Hickson
 
 [DET]
 
-none
+extra minutes for:
+Kyle Singler
+Josh Smith
 
 [GS]
 
@@ -53,14 +70,25 @@ none
 
 [LAC]
 
+extra minutes for:
+Jamal Crawford
+Matt Barnes
+
 J.J. Redick 3-5 five weeks from Feb 18
 
 [LAL]
 
+traded for MarShon Brooks and Kent Bazemore
+gave up Steve Blake
+
+Jordan Farmar 20 minute limit
 Steve Nash DTD
-Jordan Farmer DTD
 Nick Young DTD
-Pau Gasol DTD
+
+extra minutes for:
+Wesley Johnson
+Kendall Marshall
+Jodie Meeks
 
 [MEM]
 
@@ -91,6 +119,8 @@ Jason Smith out
 
 [NY]
 
+Iman Shumpert out until March 5
+
 Kenyon Martin DTD
 Andrea Bargnani out
 
@@ -100,11 +130,20 @@ Russell Westbrook DTD
 
 [ORL]
 
-Glen Davis DTD
+Glen Davis bought out
 
 [PHI]
 
-Michael Carter-Williams DTD
+gone:
+Evan Turner
+Lavoy Allen
+Spencer Hawes
+
+new:
+Byron Mullens
+Henry Sims
+Eric Maynor
+Danny Granger but he may not play
 
 [PHO]
 
