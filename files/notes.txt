@@ -13,6 +13,7 @@ none
 [BOS]
 
 Avery Bradley out until Feb 26
+Jared Sullinger DTD
 
 [CHA]
 
@@ -59,6 +60,7 @@ Josh Smith
 [GS]
 
 Andrew Bogut DTD
+David Lee DTD
 
 [HOU]
 
@@ -105,10 +107,6 @@ Nikola Pekovic DTD
 
 [MIL]
 
-Brandon Knight DTD
-Khris Middleton DTD
-Caron Butler DTD
-Ekpe Udoh DTD
 Larry Sanders out indefinitely
 
 [NO]
