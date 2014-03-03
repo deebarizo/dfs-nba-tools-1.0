@@ -110,7 +110,7 @@ class matchups_model extends CI_Model
 			{ 
 				for ($i=1; $i<=2; $i++) 
 				{ 
-					$teams_today = $this->modify_team_abbr_match_ds($game['team_abbr'.$i]);
+					$teams_today[] = $this->modify_team_abbr_match_ds($game['team_abbr'.$i]);
 				}
 			}		
 		}

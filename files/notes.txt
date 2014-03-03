@@ -1,31 +1,33 @@
 [ATL]
 
-DeMarre Carroll DTD
-Jeff Teague DTD
+Paul Millsap DTD, out March 2 Sunday
 Pero Antic DTD
 
-Gustavo Ayon earliest return Feb 25, Tuesday
+Gustavo Ayon out for the season
 
 [BKN]
 
-none
+Deron Williams wrist injury, check to see if he's playing
+Kevin Garnett back spasms, check to see if he's playing
 
 [BOS]
 
-Avery Bradley out until Feb 26
-Jared Sullinger DTD
+Kelly Olynyk DTD
+
+Avery Bradley DTD, probably out until at least March 5 Wednesday
+
+Gerald Wallace out for the season
 
 [CHA]
 
-traded for Luke Ridnour and Gary Neal
-gave up Ramon Sessions and Jeff Adrien
+none
 
 [CHI]
 
 extra minutes for:
+Dunleavy
 Butler
 Noah
-Dunleavy 
 
 [CLE]
 
@@ -34,7 +36,6 @@ C.J. Miles DTD
 Anderson Varejao DTD
 
 traded for Spencer Hawes
-gave up Earl Clark
 
 [DAL]
 
@@ -42,10 +43,9 @@ none
 
 [DEN]
 
-traded for Aaron Brooks
-gave up Jordan Hamilton
-
 Ty Lawson DTD
+
+traded for Aaron Brooks
 
 extra minutes for:
 Faried
@@ -59,8 +59,7 @@ Josh Smith
 
 [GS]
 
-Andrew Bogut DTD
-David Lee DTD
+none
 
 [HOU]
 
@@ -68,7 +67,7 @@ Patrick Beverley DTD
 
 [IND]
 
-none
+George Hill DTD
 
 [LAC]
 
@@ -117,35 +116,25 @@ Jason Smith out
 
 [NY]
 
-Iman Shumpert out until March 5
-
-Kenyon Martin DTD
-Andrea Bargnani out
+Amare Stoudemire DTD
 
 [OKC]
 
-Russell Westbrook DTD
+Thabo Sefolosha out March 2 Sunday
+
+Kendrick Perkins out
 
 [ORL]
 
-Glen Davis bought out
+Arron Afflalo DTD
 
 [PHI]
 
-gone:
-Evan Turner
-Lavoy Allen
-Spencer Hawes
-
-new:
-Byron Mullens
-Henry Sims
-Eric Maynor
-Danny Granger but he may not play
+none
 
 [PHO]
 
-Eric Bledsoe out
+none
 
 [POR]
 
@@ -155,9 +144,8 @@ Meyers Leonard out
 
 [SA]
 
-Tony Parker out
-Kawhi Leonard DTD
-Tiago Splitter DTD
+Tony Parker DTD
+
 Tim Duncan possible rest during either game of B2B
 
 [SAC]
@@ -168,7 +156,8 @@ DeMarcus Cousins DTD
 
 [TOR]
 
-none
+Terrence Ross DTD
+Kyle Lowry DTD
 
 [UTA]
 
