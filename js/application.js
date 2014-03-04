@@ -558,7 +558,7 @@ $(document).ready(function()
 			content: {
 				text: 'Loading...',
 				ajax: {
-					url: $(this).attr('href'),
+					url: $(this).attr('data-team-dvp-url'),
 					type: 'POST',
 					dataType: 'json',
 		            success: function(dvp)

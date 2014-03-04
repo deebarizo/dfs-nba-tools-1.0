@@ -2,6 +2,98 @@
 class teams_model extends CI_Model 
 {
 
+	public function __construct()
+	{
+		parent::__construct();
+
+		$this->load->database();
+	}
+
+	public function get_overview($team)
+	{
+		$sql = 'SELECT 
+					ROUND(((SUM(fgm-threepm) * 2) + ((SUM(fga-threepa) - SUM(fgm-threepm)) * -0.5)) / SUM(fpts_ds) * 100, 2) AS twop, 
+					ROUND(((SUM(threepm) * 3) + (SUM(threepa-threepm) * -0.5)) / SUM(fpts_ds) * 100, 2) AS threep, 
+					ROUND(((SUM(ftm) * 1) + (SUM(fta-ftm) * -0.5)) / SUM(fpts_ds) * 100, 2) AS ft, 
+					ROUND((SUM(oreb) * 1.25) / SUM(fpts_ds) * 100, 2) AS oreb,
+					ROUND((SUM(dreb) * 1.25) / SUM(fpts_ds) * 100, 2) AS dreb,
+					ROUND((SUM(ast) * 1.5) / SUM(fpts_ds) * 100, 2) AS ast,
+					ROUND((SUM(stl) * 2) / SUM(fpts_ds) * 100, 2) AS stl,
+					ROUND((SUM(blk) * 2) / SUM(fpts_ds) * 100, 2) AS blk,
+					ROUND((SUM(turnovers) * -1) / SUM(fpts_ds) * 100, 2) AS turnovers,
+					SUM(fpts_ds) AS fpts_ds
+				FROM `irlstats`';
+		$s = $this->db->conn_id->prepare($sql);
+		$s->execute(); 	
+
+		$result = $s->fetchAll(PDO::FETCH_ASSOC);			
+		$all_opp_fantasy_stats = $result[0];
+
+		if ($team == 'all')
+		{
+			$sql = 'SELECT `opponent`, 
+						ROUND(((SUM(fgm-threepm) * 2) + ((SUM(fga-threepa) - SUM(fgm-threepm)) * -0.5)) / SUM(fpts_ds) * 100, 2) AS twop, 
+						ROUND(((SUM(threepm) * 3) + (SUM(threepa-threepm) * -0.5)) / SUM(fpts_ds) * 100, 2) AS threep, 
+						ROUND(((SUM(ftm) * 1) + (SUM(fta-ftm) * -0.5)) / SUM(fpts_ds) * 100, 2) AS ft, 
+						ROUND((SUM(oreb) * 1.25) / SUM(fpts_ds) * 100, 2) AS oreb,
+						ROUND((SUM(dreb) * 1.25) / SUM(fpts_ds) * 100, 2) AS dreb,
+						ROUND((SUM(ast) * 1.5) / SUM(fpts_ds) * 100, 2) AS ast,
+						ROUND((SUM(stl) * 2) / SUM(fpts_ds) * 100, 2) AS stl,
+						ROUND((SUM(blk) * 2) / SUM(fpts_ds) * 100, 2) AS blk,
+						ROUND((SUM(turnovers) * -1) / SUM(fpts_ds) * 100, 2) AS turnovers,
+						SUM(fpts_ds) AS fpts_ds
+					FROM `irlstats` 
+					GROUP BY `opponent`
+					ORDER BY `opponent`';
+			$s = $this->db->conn_id->prepare($sql);
+			$s->execute(); 	
+
+			$opp_fantasy_stats = $s->fetchAll(PDO::FETCH_ASSOC);		
+		}
+		else
+		{
+			$sql = 'SELECT `opponent`, 
+						ROUND(((SUM(fgm-threepm) * 2) + ((SUM(fga-threepa) - SUM(fgm-threepm)) * -0.5)) / SUM(fpts_ds) * 100, 2) AS twop, 
+						ROUND(((SUM(threepm) * 3) + (SUM(threepa-threepm) * -0.5)) / SUM(fpts_ds) * 100, 2) AS threep, 
+						ROUND(((SUM(ftm) * 1) + (SUM(fta-ftm) * -0.5)) / SUM(fpts_ds) * 100, 2) AS ft, 
+						ROUND((SUM(oreb) * 1.25) / SUM(fpts_ds) * 100, 2) AS oreb,
+						ROUND((SUM(dreb) * 1.25) / SUM(fpts_ds) * 100, 2) AS dreb,
+						ROUND((SUM(ast) * 1.5) / SUM(fpts_ds) * 100, 2) AS ast,
+						ROUND((SUM(stl) * 2) / SUM(fpts_ds) * 100, 2) AS stl,
+						ROUND((SUM(blk) * 2) / SUM(fpts_ds) * 100, 2) AS blk,
+						ROUND((SUM(turnovers) * -1) / SUM(fpts_ds) * 100, 2) AS turnovers,
+						SUM(fpts_ds) AS fpts_ds
+					FROM `irlstats` 
+					WHERE opponent = :team';
+			$s = $this->db->conn_id->prepare($sql);
+			$s->bindValue(':team', $team);
+			$s->execute(); 	
+
+			$opp_fantasy_stats = $s->fetchAll(PDO::FETCH_ASSOC);			
+		}
+
+		foreach ($opp_fantasy_stats as &$stat) 
+		{
+			$stat['twop_comp'] = round($stat['twop'] - $all_opp_fantasy_stats['twop'], 2);
+			$stat['threep_comp'] = round($stat['threep'] - $all_opp_fantasy_stats['threep'], 2);
+			$stat['ft_comp'] = round($stat['ft'] - $all_opp_fantasy_stats['ft'], 2);
+			$stat['oreb_comp'] = round($stat['oreb'] - $all_opp_fantasy_stats['oreb'], 2);
+			$stat['dreb_comp'] = round($stat['dreb'] - $all_opp_fantasy_stats['dreb'], 2);
+			$stat['ast_comp'] = round($stat['ast'] - $all_opp_fantasy_stats['ast'], 2);
+			$stat['stl_comp'] = round($stat['stl'] - $all_opp_fantasy_stats['stl'], 2);
+			$stat['blk_comp'] = round($stat['blk'] - $all_opp_fantasy_stats['blk'], 2);
+			$stat['turnovers_comp'] = round($stat['turnovers'] - $all_opp_fantasy_stats['turnovers'], 2);
+		}
+
+		unset($stat);
+
+		# echo '<pre>';
+		# var_dump($opp_fantasy_stats);
+		# echo '</pre>'; exit();	
+
+		return $opp_fantasy_stats;
+	}
+
 	public function get_team_dvp($team, $date)
 	{
 		$date = new DateTime($date);

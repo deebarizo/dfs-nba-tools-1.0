@@ -64,6 +64,13 @@
 					</a>	    				
 				</li>
 
+				<li class="<?php echo ($page_type === 'Teams' ? 'active' : ''); ?>">
+					<a href="<?php echo base_url().'teams'; ?>">
+						<i class="fa fa-tasks"></i>
+						<span>Teams</span>
+					</a>	    				
+				</li>
+
 				<li class="<?php echo ($page_type === 'Search' ? 'active' : ''); ?>">
 					<a href="<?php echo base_url().'search'; ?>">
 						<i class="fa fa-search"></i>

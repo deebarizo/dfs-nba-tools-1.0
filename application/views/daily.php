@@ -344,7 +344,7 @@
 											echo '<td>'.$player['vr_2013_la'].'</td>';
 											echo '<td>'.$player['cv_2013'].'</td>';
 											echo '<td>'.$player['cv_fppm_ds_2013'].'</td>';
-											echo '<td><a class="dvp-link" href="'.base_url().'daily/get_team_dvp/'.str_replace('@', '', $player['opponent']).'/'.$chosen_date.'/dvp-link'.'">'.$player['opponent'].'</a></td>';
+											echo '<td><a class="dvp-link" target="_blank" href= "'.base_url().'teams/overview/'.str_replace('@', '', $player['opponent']).'" data-team-dvp-url="'.base_url().'daily/get_team_dvp/'.str_replace('@', '', $player['opponent']).'/'.$chosen_date.'/dvp-link'.'">'.$player['opponent'].'</a></td>';
 											echo '<td>'.$player['ps'].'</td>';
 											echo '<td>'.$player['line'].'</td>';
 

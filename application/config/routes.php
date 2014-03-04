@@ -43,6 +43,8 @@ $route['404_override'] = '';
 
 $route['evaluation/(:any)'] = 'evaluation/stats/$1';
 
+$route['teams/overview/(:any)'] = 'teams/overview/$1';
+
 $route['search'] = 'search';
 $route['update'] = 'update';
 
