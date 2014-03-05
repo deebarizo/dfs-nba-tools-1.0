@@ -39,7 +39,8 @@ class Update extends CI_Controller
 
 			$this->load->model('scraping_model');
 			$data['message'] = $this->scraping_model->scrape_irlstats($form_data);
-			$data['message'] = $data['message'].'<br>'.$this->scraping_model->scrape_dvp($form_data);
+			$data['message'] .= '<br>'.$this->scraping_model->scrape_dvp($form_data);
+			$data['message'] .= '<br>'.$this->scraping_model->scrape_pace($form_data);
 		}
 
 		$this->load->view('templates/header', $data);

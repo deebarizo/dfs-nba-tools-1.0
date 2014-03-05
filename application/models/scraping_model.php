@@ -1,6 +1,52 @@
 <?php
 class scraping_model extends CI_Model 
 {
+	public function scrape_pace($form_data)
+	{
+		$date = $form_data['date'];
+
+		$this->load->database();
+
+		$sql = 'SELECT `date` FROM `pace` WHERE `date` = :date';
+		$s = $this->db->conn_id->prepare($sql);
+		$s->bindValue(':date', $date);
+		$s->execute(); 	
+
+		$result = $s->fetchAll(PDO::FETCH_COLUMN);	
+
+		if (empty($result))
+		{	
+			$this->load->helper('phpquery');
+
+			$html = phpQuery::newDocumentFileHTML('http://www.basketball-reference.com/leagues/NBA_2014.html');
+
+			for ($n = 0; $n < 30; $n++)
+			{
+				$pace[$n]['team'] = $html->find('div[id=all_misc_stats]')->find('table[id=misc]')->find('tbody')->find('tr:eq('.$n.')')->find('td:eq(1)')->text();
+				$pace[$n]['poss_per_48'] = $html->find('div[id=all_misc_stats]')->find('table[id=misc]')->find('tbody')->find('tr:eq('.$n.')')->find('td:eq(10)')->text();
+			}
+
+			$pace[30]['team'] = $html->find('div[id=all_misc_stats]')->find('table[id=misc]')->find('tbody')->find('tr:eq(30)')->find('td:eq(1)')->text();
+			$pace[30]['poss_per_48'] = $html->find('div[id=all_misc_stats]')->find('table[id=misc]')->find('tbody')->find('tr:eq(30)')->find('td:eq(10)')->text();
+
+			foreach ($pace as $key => $value) 
+			{
+				$sql = 'INSERT INTO `pace`(`team`, `poss_per_48`, `date`) VALUES (:team, :poss_per_48, :date)';
+				$s = $this->db->conn_id->prepare($sql);
+				$s->bindValue(':team', $value['team']);
+				$s->bindValue(':poss_per_48', $value['poss_per_48']);
+				$s->bindValue(':date', $date);
+				$s->execute(); 
+			}			
+
+			return 'Success: The pace stats for this date were scraped.';
+		}
+		else
+		{
+			return 'Error: The pace stats for this date are already in the database.';
+		}
+	}
+
 	public function scrape_irlstats($form_data)
 	{
 		$date = $form_data['date'];
