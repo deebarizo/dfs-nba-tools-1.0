@@ -1,6 +1,29 @@
 <?php
 class scraping_model extends CI_Model 
 {
+
+	public function scrape_team_opp_pts_breakdown()
+	{
+		$this->load->helper('phpquery');
+
+		$html = phpQuery::newDocumentFileHTML('http://espn.go.com/nba/statistics/team/_/stat/defense-per-game');
+
+		for ($n = 0; $n < 30; $n++)
+		{
+			$i = $n + 1;
+
+			$team_opp_pts_breakdown[$n]['team'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$i.')')->find('td:eq(1)')->text();
+			$team_opp_pts_breakdown[$n]['3pm_per_game'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$i.')')->find('td:eq(6)')->text();
+			$team_opp_pts_breakdown[$n]['3pa_per_game'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$i.')')->find('td:eq(7)')->text();
+			$team_opp_pts_breakdown[$n]['3p_percentage'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$i.')')->find('td:eq(8)')->text();
+			$team_opp_pts_breakdown[$n]['fta_per_game'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$i.')')->find('td:eq(10)')->text();
+		}
+
+		echo '<pre>';
+		var_dump($team_opp_pts_breakdown);
+		echo '</pre>'; exit();		
+	}
+
 	public function scrape_pace($form_data)
 	{
 		$date = $form_data['date'];

@@ -12,6 +12,12 @@ class Update extends CI_Controller
 		$this->yesterday_date = date('Y-m-d',strtotime("1 days ago"));
 	}
 
+	public function test()
+	{
+		$this->load->model('scraping_model');
+		$this->scraping_model->scrape_team_opp_pts_breakdown();		
+	}
+
 	public function index()
 	{
 		$data['page_type'] = 'Update';
