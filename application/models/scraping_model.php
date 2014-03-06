@@ -2,6 +2,13 @@
 class scraping_model extends CI_Model 
 {
 
+	public function __construct()
+	{
+		parent::__construct();
+
+		$this->load->database();
+	}
+
 	public function scrape_team_opp_pts_breakdown()
 	{
 		$this->load->helper('phpquery');
@@ -19,16 +26,23 @@ class scraping_model extends CI_Model
 			$team_opp_pts_breakdown[$n]['fta_per_game'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$i.')')->find('td:eq(10)')->text();
 		}
 
+		$sql = 'SELECT `poss_per_48` FROM `pace` WHERE `team` = "League Average" AND `date` = :date';
+		$s = $this->db->conn_id->prepare($sql);
+		$s->bindValue(':date', '2014-03-05');
+		$s->execute(); 	
+
+		$result = $s->fetchAll(PDO::FETCH_COLUMN);	
+		$league_avg_pace = $result[0];
+
 		echo '<pre>';
-		var_dump($team_opp_pts_breakdown);
+		var_dump($league_avg_pace);
+		# var_dump($team_opp_pts_breakdown);
 		echo '</pre>'; exit();		
 	}
 
 	public function scrape_pace($form_data)
 	{
 		$date = $form_data['date'];
-
-		$this->load->database();
 
 		$sql = 'SELECT `date` FROM `pace` WHERE `date` = :date';
 		$s = $this->db->conn_id->prepare($sql);
@@ -73,8 +87,6 @@ class scraping_model extends CI_Model
 	public function scrape_irlstats($form_data)
 	{
 		$date = $form_data['date'];
-
-		$this->load->database();
 
 		$sql = 'SELECT `date` FROM `irlstats` WHERE `date` = :date';
 		$s = $this->db->conn_id->prepare($sql);
@@ -364,8 +376,6 @@ class scraping_model extends CI_Model
 	public function scrape_dvp($form_data)
 	{
 		$date = $form_data['date'];
-
-		$this->load->database();
 
 		$sql = 'SELECT `date` FROM `dvp` WHERE `date` = :date';
 		$s = $this->db->conn_id->prepare($sql);
