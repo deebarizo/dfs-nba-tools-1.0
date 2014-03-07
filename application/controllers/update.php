@@ -15,7 +15,9 @@ class Update extends CI_Controller
 	public function test()
 	{
 		$this->load->model('scraping_model');
-		$this->scraping_model->scrape_team_opp_pts_breakdown();		
+		$this->scraping_model->scrape_team_opp_pts_breakdown();	
+		$this->scraping_model->scrape_team_reb_percentage();
+		$this->scraping_model->scrape_team_opp_misc();	
 	}
 
 	public function index()
