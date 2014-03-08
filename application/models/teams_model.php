@@ -11,6 +11,8 @@ class teams_model extends CI_Model
 
 	public function get_overview($team)
 	{
+		$modded_team = $this->mod_team_abbr->mod_daily_abbr($team);
+
 		$sql = 'SELECT team, poss_per_48, MAX(date)
 				FROM  `pace` 
 				WHERE team = "League Average"';
@@ -30,10 +32,10 @@ class teams_model extends CI_Model
 
 		$team_opp_stats = $s->fetchAll(PDO::FETCH_ASSOC);
 
-		echo '<pre>';
-		var_dump($league_avg_pace);
-		var_dump($team_opp_stats);
-		echo '</pre>'; exit();
+		# echo '<pre>';
+		# var_dump($league_avg_pace);
+		# var_dump($team_opp_stats);
+		# echo '</pre>'; exit();
 
 		$sql = 'SELECT 
 					ROUND(((SUM(fgm-threepm) * 2) + ((SUM(fga-threepa) - SUM(fgm-threepm)) * -0.5)) / SUM(fpts_ds) * 100, 2) AS twop, 
@@ -53,7 +55,7 @@ class teams_model extends CI_Model
 		$result = $s->fetchAll(PDO::FETCH_ASSOC);			
 		$all_opp_fantasy_stats = $result[0];
 
-		if ($team == 'all')
+		if ($modded_team == 'all')
 		{
 			$sql = 'SELECT `opponent`, 
 						ROUND(((SUM(fgm-threepm) * 2) + ((SUM(fga-threepa) - SUM(fgm-threepm)) * -0.5)) / SUM(fpts_ds) * 100, 2) AS twop, 
@@ -90,7 +92,7 @@ class teams_model extends CI_Model
 					FROM `irlstats` 
 					WHERE opponent = :team';
 			$s = $this->db->conn_id->prepare($sql);
-			$s->bindValue(':team', $team);
+			$s->bindValue(':team', $modded_team);
 			$s->execute(); 	
 
 			$opp_fantasy_stats = $s->fetchAll(PDO::FETCH_ASSOC);			
@@ -142,7 +144,7 @@ class teams_model extends CI_Model
 
 	public function get_team_rotation($team, $date)
 	{
-		$team = $this->modify_team_abbr($team);
+		$team = $this->mod_team_abbr->mod_daily_abbr($team);
 
 		$sql = 'SELECT DISTINCT `date` FROM `irlstats` 
 				WHERE `team` = :team AND `date` < :date 

@@ -225,6 +225,8 @@ class Daily extends CI_Controller
 
 	public function get_team_rotation($team, $date)
 	{
+		$this->load->library('Mod_Team_Abbr');
+
 		$this->load->model('teams_model');
 		$this->teams_model->get_team_rotation($team, $date);		
 	}

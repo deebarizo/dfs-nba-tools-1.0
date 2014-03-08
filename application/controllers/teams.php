@@ -2,6 +2,12 @@
 
 class Teams extends CI_Controller 
 {
+	public function __construct()
+	{
+		parent::__construct();
+
+		$this->load->library('Mod_Team_Abbr');
+	}
 
 	public function overview($team)
 	{
