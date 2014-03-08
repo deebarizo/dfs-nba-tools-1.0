@@ -11,6 +11,30 @@ class teams_model extends CI_Model
 
 	public function get_overview($team)
 	{
+		$sql = 'SELECT team, poss_per_48, MAX(date)
+				FROM  `pace` 
+				WHERE team = "League Average"';
+		$s = $this->db->conn_id->prepare($sql);
+		$s->execute(); 	
+
+		$result = $s->fetchAll(PDO::FETCH_ASSOC);
+		$league_avg_pace = $result[0]['poss_per_48'];
+
+		$sql = 'SELECT pace.team, poss_per_48,  `threepm_per_game` ,  `threepa_per_game` ,  `threep_percentage` ,  `fta_per_game` ,  `oreb_percentage` ,  `dreb_percentage` ,  `treb_percentage` ,  `ast_per_game` ,  `to_per_game` , `stl_per_game` ,  `blk_per_game` , MAX(pace.date)
+				FROM  `teams` 
+				INNER JOIN  `pace` ON teams.name_br = pace.team
+				INNER JOIN  `team_opp_stats` ON teams.name_espn = team_opp_stats.team
+				GROUP BY pace.team';
+		$s = $this->db->conn_id->prepare($sql);
+		$s->execute(); 	
+
+		$team_opp_stats = $s->fetchAll(PDO::FETCH_ASSOC);
+
+		echo '<pre>';
+		var_dump($league_avg_pace);
+		var_dump($team_opp_stats);
+		echo '</pre>'; exit();
+
 		$sql = 'SELECT 
 					ROUND(((SUM(fgm-threepm) * 2) + ((SUM(fga-threepa) - SUM(fgm-threepm)) * -0.5)) / SUM(fpts_ds) * 100, 2) AS twop, 
 					ROUND(((SUM(threepm) * 3) + (SUM(threepa-threepm) * -0.5)) / SUM(fpts_ds) * 100, 2) AS threep, 
