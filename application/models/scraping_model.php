@@ -9,97 +9,183 @@ class scraping_model extends CI_Model
 		$this->load->database();
 	}
 
-	public function scrape_team_opp_misc()
+	public function scrape_team_opp_stats($form_data)
 	{
-		$this->load->helper('phpquery');
+		$date = $form_data['date'];
 
-		$html = phpQuery::newDocumentFileHTML('http://espn.go.com/nba/statistics/team/_/stat/miscellaneous-per-game');
+		$sql = 'SELECT `date` FROM `team_opp_stats` WHERE `date` = :date';
+		$s = $this->db->conn_id->prepare($sql);
+		$s->bindValue(':date', $date);
+		$s->execute(); 	
 
-		$n = 1;
-		$i = 0;
+		$result = $s->fetchAll(PDO::FETCH_COLUMN);	
 
-		do
+		if (empty($result))
 		{
-			$check = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(1)')->text();
+			$this->load->helper('phpquery');
 
-			if ($check != 'TEAM' AND $check != '' AND $check != 'ASSISTS')
+			$html = phpQuery::newDocumentFileHTML('http://espn.go.com/nba/statistics/team/_/stat/defense-per-game');
+
+			$n = 1;
+			$i = 0;
+
+			do
 			{
-				$team_opp_misc[$i]['team'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(1)')->text();
-				$team_opp_misc[$i]['ast_per_game'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(3)')->text();
-				$team_opp_misc[$i]['to_per_game'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(9)')->text();
-				$team_opp_misc[$i]['stl_per_game'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(5)')->text();
-				$team_opp_misc[$i]['blk_per_game'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(7)')->text();
+				$check = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(1)')->text();
 
-				$i++;
+				if ($check != 'TEAM' AND $check != '')
+				{
+					$team_opp_pts_breakdown[$i]['team'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(1)')->text();
+					$team_opp_pts_breakdown[$i]['threepm_per_game'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(6)')->text();
+					$team_opp_pts_breakdown[$i]['threepa_per_game'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(7)')->text();
+					$team_opp_pts_breakdown[$i]['threep_percentage'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(8)')->text();
+					$team_opp_pts_breakdown[$i]['fta_per_game'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(10)')->text();
 
-				if ($i == 30) { break; }
+					$i++;
+
+					if ($i == 30) { break; }
+				}
+
+				$n++;
+			} while ($n < 100);
+
+			$html = phpQuery::newDocumentFileHTML('http://espn.go.com/nba/statistics/team/_/stat/rebounds-per-game');
+
+			$n = 1;
+			$i = 0;
+
+			do
+			{
+				$check = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(1)')->text();
+
+				if ($check != 'TEAM' AND $check != '' AND $check != 'REBOUND PCT')
+				{
+					$team_reb_percentage[$i]['team'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(1)')->text();
+					$team_reb_percentage[$i]['oreb_percentage'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(2)')->text();
+					$team_reb_percentage[$i]['dreb_percentage'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(3)')->text();
+					$team_reb_percentage[$i]['treb_percentage'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(4)')->text();
+
+					$i++;
+
+					if ($i == 30) { break; }
+				}
+
+				$n++;
+			} while ($n < 100);
+
+			$html = phpQuery::newDocumentFileHTML('http://espn.go.com/nba/statistics/team/_/stat/miscellaneous-per-game');
+
+			$n = 1;
+			$i = 0;
+
+			do
+			{
+				$check = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(1)')->text();
+
+				if ($check != 'TEAM' AND $check != '' AND $check != 'ASSISTS')
+				{
+					$team_opp_misc[$i]['team'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(1)')->text();
+					$team_opp_misc[$i]['ast_per_game'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(3)')->text();
+					$team_opp_misc[$i]['to_per_game'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(9)')->text();
+					$team_opp_misc[$i]['stl_per_game'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(5)')->text();
+					$team_opp_misc[$i]['blk_per_game'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(7)')->text();
+
+					$i++;
+
+					if ($i == 30) { break; }
+				}
+
+				$n++;
+			} while ($n < 100);
+
+			$team_opp_stats = $team_opp_pts_breakdown;
+
+			foreach ($team_opp_stats as $key => &$stat) 
+			{
+				foreach ($team_reb_percentage as $value) 
+				{
+					if ($stat['team'] == $value['team'])
+					{
+						$stat['oreb_percentage'] = $value['oreb_percentage'];
+						$stat['dreb_percentage'] = $value['dreb_percentage'];
+						$stat['treb_percentage'] = $value['treb_percentage'];
+
+						break;
+					}
+				}
 			}
 
-			$n++;
-		} while ($n < 100);
+			unset($stat);
 
-		echo '<pre>';
-		var_dump($team_opp_misc);
-		echo '</pre>'; exit();			
-	}
-
-	public function scrape_team_reb_percentage()
-	{
-		$this->load->helper('phpquery');
-
-		$html = phpQuery::newDocumentFileHTML('http://espn.go.com/nba/statistics/team/_/stat/rebounds-per-game');
-
-		$n = 1;
-		$i = 0;
-
-		do
-		{
-			$check = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(1)')->text();
-
-			if ($check != 'TEAM' AND $check != '' AND $check != 'REBOUND PCT')
+			foreach ($team_opp_stats as $key => &$stat) 
 			{
-				$team_reb_percentage[$i]['team'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(1)')->text();
-				$team_reb_percentage[$i]['off'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(2)')->text();
-				$team_reb_percentage[$i]['def'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(3)')->text();
-				$team_reb_percentage[$i]['tot'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(4)')->text();
+				foreach ($team_opp_misc as $value) 
+				{
+					if ($stat['team'] == $value['team'])
+					{
+						$stat['ast_per_game'] = $value['ast_per_game'];
+						$stat['to_per_game'] = $value['to_per_game'];
+						$stat['stl_per_game'] = $value['stl_per_game'];
+						$stat['blk_per_game'] = $value['blk_per_game'];
 
-				$i++;
-
-				if ($i == 30) { break; }
+						break;
+					}
+				}
 			}
 
-			$n++;
-		} while ($n < 100);
-	}
+			unset($stat);
 
-	public function scrape_team_opp_pts_breakdown()
-	{
-		$this->load->helper('phpquery');
-
-		$html = phpQuery::newDocumentFileHTML('http://espn.go.com/nba/statistics/team/_/stat/defense-per-game');
-
-		$n = 1;
-		$i = 0;
-
-		do
-		{
-			$check = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(1)')->text();
-
-			if ($check != 'TEAM' AND $check != '')
+			foreach ($team_opp_stats as $key => $value) 
 			{
-				$team_opp_pts_breakdown[$i]['team'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(1)')->text();
-				$team_opp_pts_breakdown[$i]['3pm_per_game'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(6)')->text();
-				$team_opp_pts_breakdown[$i]['3pa_per_game'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(7)')->text();
-				$team_opp_pts_breakdown[$i]['3p_percentage'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(8)')->text();
-				$team_opp_pts_breakdown[$i]['fta_per_game'] = $html->find('div[id=my-teams-table]')->find('div[class=mod-content]')->find('table[class=tablehead]')->find('tr:eq('.$n.')')->find('td:eq(10)')->text();
+				$sql = 'INSERT INTO `team_opp_stats`(`team`, 
+													 `threepm_per_game`, 
+													 `threepa_per_game`,
+													 `threep_percentage`,
+													 `fta_per_game`,
+													 `oreb_percentage`,
+													 `dreb_percentage`,
+													 `treb_percentage`,
+													 `ast_per_game`,
+													 `to_per_game`,
+													 `stl_per_game`,
+													 `blk_per_game`,
+													 `date`) 
+						VALUES (:team, 
+								:threepm_per_game, 
+								:threepa_per_game,
+								:threep_percentage,
+								:fta_per_game,
+								:oreb_percentage,
+								:dreb_percentage,
+								:treb_percentage,
+								:ast_per_game,
+								:to_per_game,
+								:stl_per_game,
+								:blk_per_game,
+								:date)'; 
+				$s = $this->db->conn_id->prepare($sql);
+				$s->bindValue(':team', $value['team']);
+				$s->bindValue(':threepm_per_game', $value['threepm_per_game']);
+				$s->bindValue(':threepa_per_game', $value['threepa_per_game']);
+				$s->bindValue(':threep_percentage', $value['threep_percentage']);
+				$s->bindValue(':fta_per_game', $value['fta_per_game']);
+				$s->bindValue(':oreb_percentage', $value['oreb_percentage']);
+				$s->bindValue(':dreb_percentage', $value['dreb_percentage']);
+				$s->bindValue(':treb_percentage', $value['treb_percentage']);
+				$s->bindValue(':ast_per_game', $value['ast_per_game']);
+				$s->bindValue(':to_per_game', $value['to_per_game']);
+				$s->bindValue(':stl_per_game', $value['stl_per_game']);
+				$s->bindValue(':blk_per_game', $value['blk_per_game']);
+				$s->bindValue(':date', $date);
+				$s->execute(); 
+			}			
 
-				$i++;
-
-				if ($i == 30) { break; }
-			}
-
-			$n++;
-		} while ($n < 100);
+			return 'Success: The team opp stats for this date were scraped.';
+		}
+		else
+		{
+			return 'Error: The team opp stats for this date are already in the database.';
+		}	
 	}
 
 	public function scrape_pace($form_data)

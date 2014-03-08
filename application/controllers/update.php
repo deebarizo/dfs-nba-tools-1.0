@@ -15,9 +15,6 @@ class Update extends CI_Controller
 	public function test()
 	{
 		$this->load->model('scraping_model');
-		$this->scraping_model->scrape_team_opp_pts_breakdown();	
-		$this->scraping_model->scrape_team_reb_percentage();
-		$this->scraping_model->scrape_team_opp_misc();	
 	}
 
 	public function index()
@@ -49,6 +46,7 @@ class Update extends CI_Controller
 			$data['message'] = $this->scraping_model->scrape_irlstats($form_data);
 			$data['message'] .= '<br>'.$this->scraping_model->scrape_dvp($form_data);
 			$data['message'] .= '<br>'.$this->scraping_model->scrape_pace($form_data);
+			$data['message'] .= '<br>'.$this->scraping_model->scrape_team_opp_stats($form_data);
 		}
 
 		$this->load->view('templates/header', $data);
