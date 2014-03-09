@@ -16,10 +16,10 @@ class Teams extends CI_Controller
 		$data['h2_tag'] = 'Team Overview';
 
 		$this->load->model('teams_model');
-		list($data['league_avg_team_opp_stats'], $data['overview']) = $this->teams_model->get_overview($team);
+		list($data['team_opp_stats'], $data['overview']) = $this->teams_model->get_overview($team);
 
 		# echo '<pre>';
-		# var_dump($data['game_log']);
+		# var_dump($data['team_opp_stats']);
 		# echo '</pre>'; exit();
 
 		$this->load->view('templates/header', $data);

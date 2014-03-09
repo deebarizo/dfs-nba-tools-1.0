@@ -147,7 +147,7 @@ class teams_model extends CI_Model
 		# var_dump($opp_fantasy_stats);
 		# echo '</pre>'; exit();	
 
-		return array($league_avg_team_opp_stats, $opp_fantasy_stats);
+		return array($team_opp_stats, $opp_fantasy_stats);
 	}
 
 	public function get_team_dvp($team, $date)

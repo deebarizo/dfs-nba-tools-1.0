@@ -24,7 +24,10 @@
 					
 					<div class="widget-content">
 
-						<div class="team-overview">
+						<div style="margin-bottom: 100px; border-bottom: 1px gray solid;" class="comp-team-opp-stats">
+					  	</div>
+
+					  	<div class="team-fpts-distribution">
 					  	</div>
 
 					</div>

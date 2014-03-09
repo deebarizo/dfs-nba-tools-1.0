@@ -37,12 +37,51 @@
 <script type="text/javascript">
 
 	$(function () {
-	        $('.team-overview').highcharts({
+	        $('.comp-team-opp-stats').highcharts({
 	            chart: {
 	                type: 'column'
 	            },
 	            title: {
-	                text: '<?php echo $overview[0]['opponent']; ?>'
+	                text: 'Team Opp Stats'
+	            },
+	            xAxis: {
+	                categories: ['3PM', '3PA', '3P%', 'FTA', 'OREB%', 'DREB%', 'TREB%', 'AST', 'TO', 'STL', 'BLK']
+	            },
+	            credits: {
+	                enabled: false
+	            },
+	            legend: false,
+	            series: [{
+                	data: [
+                		<?php 
+                			echo 
+                				$team_opp_stats['comp_threepm_per_game'].', '.
+                				$team_opp_stats['comp_threepa_per_game'].', '.
+                				$team_opp_stats['comp_threep_percentage'].', '.
+                				$team_opp_stats['comp_fta_per_game'].', '.
+                				$team_opp_stats['comp_oreb_percentage'].', '.
+                				$team_opp_stats['comp_dreb_percentage'].', '.
+                				$team_opp_stats['comp_treb_percentage'].', '.
+                				$team_opp_stats['comp_ast_per_game'].', '.
+                				$team_opp_stats['comp_to_per_game'].', '.
+                				$team_opp_stats['comp_stl_per_game'].', '.
+                				$team_opp_stats['comp_blk_per_game'];
+                		?>
+                	]
+                }],
+                plotOptions: {
+                	column: {colorByPoint: true}
+                }
+	        });
+	    });
+
+	$(function () {
+	        $('.team-fpts-distribution').highcharts({
+	            chart: {
+	                type: 'column'
+	            },
+	            title: {
+	                text: 'FPTS Distribution'
 	            },
 	            xAxis: {
 	                categories: ['2P', '3P', 'FT', 'OREB', 'DREB', 'AST', 'STL', 'BLK', 'TO']
