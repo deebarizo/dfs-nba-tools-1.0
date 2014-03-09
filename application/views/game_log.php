@@ -19,15 +19,12 @@
 				<div class="widget widget-table">
 
 					<div class="widget-header">
-						<h3><i class="fa fa-tasks"></i> <?php echo $overview[0]['opponent']; ?></h3>
+						<h3><i class="fa fa-user"></i> <?php echo $game_log[0]['name'].' ('.trim($game_log[0]['position']).')'; ?></h3>
 					</div> <!-- /widget-header -->
 					
 					<div class="widget-content">
 
-						<div style="margin-bottom: 100px; border-bottom: 1px gray solid;" class="comp-team-opp-stats">
-					  	</div>
-
-					  	<div class="team-fpts-distribution">
+					  	<div class="player-fpts-distribution">
 					  	</div>
 
 					</div>

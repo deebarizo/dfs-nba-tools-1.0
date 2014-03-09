@@ -37,15 +37,15 @@
 <script type="text/javascript">
 
 	$(function () {
-	        $('.comp-team-opp-stats').highcharts({
+	        $('.player-fpts-distribution').highcharts({
 	            chart: {
 	                type: 'column'
 	            },
 	            title: {
-	                text: 'Team Opp Stats'
+	                text: 'Player FPTS Distribution'
 	            },
 	            xAxis: {
-	                categories: ['3PM', '3PA', '3P%', 'FTA', 'OREB%', 'DREB%', 'TREB%', 'AST', 'TO', 'STL', 'BLK']
+	                categories: ['2P', '3P', 'FT', 'OREB', 'DREB', 'AST', 'TO', 'STL', 'BLK']
 	            },
 	            credits: {
 	                enabled: false
@@ -55,54 +55,15 @@
                 	data: [
                 		<?php 
                 			echo 
-                				$team_opp_stats['comp_threepm_per_game'].', '.
-                				$team_opp_stats['comp_threepa_per_game'].', '.
-                				$team_opp_stats['comp_threep_percentage'].', '.
-                				$team_opp_stats['comp_fta_per_game'].', '.
-                				$team_opp_stats['comp_oreb_percentage'].', '.
-                				$team_opp_stats['comp_dreb_percentage'].', '.
-                				$team_opp_stats['comp_treb_percentage'].', '.
-                				$team_opp_stats['comp_ast_per_game'].', '.
-                				$team_opp_stats['comp_to_per_game'].', '.
-                				$team_opp_stats['comp_stl_per_game'].', '.
-                				$team_opp_stats['comp_blk_per_game'];
-                		?>
-                	]
-                }],
-                plotOptions: {
-                	column: {colorByPoint: true}
-                }
-	        });
-	    });
-
-	$(function () {
-	        $('.team-fpts-distribution').highcharts({
-	            chart: {
-	                type: 'column'
-	            },
-	            title: {
-	                text: 'FPTS Distribution'
-	            },
-	            xAxis: {
-	                categories: ['2P', '3P', 'FT', 'OREB', 'DREB', 'AST', 'STL', 'BLK', 'TO']
-	            },
-	            credits: {
-	                enabled: false
-	            },
-	            legend: false,
-	            series: [{
-                	data: [
-                		<?php 
-                			echo 
-                				$overview[0]['twop_comp'].', '.
-                				$overview[0]['threep_comp'].', '.
-                				$overview[0]['ft_comp'].', '.
-                				$overview[0]['oreb_comp'].', '.
-                				$overview[0]['dreb_comp'].', '.
-                				$overview[0]['ast_comp'].', '.
-                				$overview[0]['stl_comp'].', '.
-                				$overview[0]['blk_comp'].', '.
-                				$overview[0]['turnovers_comp'];
+                				$fpts_distribution['twop'].', '.
+                				$fpts_distribution['threep'].', '.
+                				$fpts_distribution['ft'].', '.
+                				$fpts_distribution['oreb'].', '.
+                				$fpts_distribution['dreb'].', '.
+                				$fpts_distribution['ast'].', '.
+                				$fpts_distribution['turnovers'].', '.
+                				$fpts_distribution['stl'].', '.
+                				$fpts_distribution['blk'];
                 		?>
                 	]
                 }],
