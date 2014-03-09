@@ -16,7 +16,7 @@ class Players extends CI_Controller
 		$data['game_log'] = $this->players_model->get_game_log($player);
 
 		# echo '<pre>';
-		# var_dump($data['fpts_distribution']);
+		# var_dump($data['game_log']);
 		# echo '</pre>'; exit();
 
 		$this->load->view('templates/header', $data);

@@ -57,7 +57,9 @@
 									<th data-sort='string'>3PM-3PA</th>
 									<th data-sort='string'>FTM-FTA</th>
 									
-									<th data-sort='int'>REB</th>
+									<th data-sort='int'>OREB</th>
+									<th data-sort='int'>DREB</th>
+									<th data-sort='int'>TREB</th>
 									<th data-sort='int'>AST</th>
 									<th data-sort='int'>BLK</th>
 									<th data-sort='int'>STL</th>
@@ -118,6 +120,8 @@
 												echo '<td>'.$value['threepm'].'-'.$value['threepa'].'</td>';
 												echo '<td>'.$value['ftm'].'-'.$value['fta'].'</td>';
 
+												echo '<td>'.$value['oreb'].'</td>';
+												echo '<td>'.$value['dreb'].'</td>';
 												echo '<td>'.$value['reb'].'</td>';
 												echo '<td>'.$value['ast'].'</td>';
 												echo '<td>'.$value['blk'].'</td>';
@@ -130,7 +134,7 @@
 											}
 											else
 											{
-												echo '<td colspan="11" style="text-align: center;">'.$value['played'].'</td>';
+												echo '<td colspan="13" style="text-align: center;">'.$value['played'].'</td>';
 
 												echo '<td>0.00</td>';	
 											}
