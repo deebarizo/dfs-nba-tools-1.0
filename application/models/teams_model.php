@@ -22,18 +22,48 @@ class teams_model extends CI_Model
 		$result = $s->fetchAll(PDO::FETCH_ASSOC);
 		$league_avg_pace = $result[0]['poss_per_48'];
 
-		$sql = 'SELECT pace.team, poss_per_48,  `threepm_per_game` ,  `threepa_per_game` ,  `threep_percentage` ,  `fta_per_game` ,  `oreb_percentage` ,  `dreb_percentage` ,  `treb_percentage` ,  `ast_per_game` ,  `to_per_game` , `stl_per_game` ,  `blk_per_game` , MAX(pace.date)
-				FROM  `teams` 
-				INNER JOIN  `pace` ON teams.name_br = pace.team
-				INNER JOIN  `team_opp_stats` ON teams.name_espn = team_opp_stats.team
-				GROUP BY pace.team';
+		$sql = 'SELECT AVG(threepm_per_game), AVG(threepa_per_game), AVG(threep_percentage), 
+					   AVG(fta_per_game), AVG(oreb_percentage), AVG(dreb_percentage), AVG(treb_percentage), 
+					   AVG(ast_per_game), AVG(to_per_game), AVG(stl_per_game), AVG(blk_per_game), MAX(date)
+				FROM `team_opp_stats`';
 		$s = $this->db->conn_id->prepare($sql);
 		$s->execute(); 	
 
-		$team_opp_stats = $s->fetchAll(PDO::FETCH_ASSOC);
+		$result = $s->fetchAll(PDO::FETCH_ASSOC);
+		$league_avg_team_opp_stats = $result[0];
+
+		$sql = 'SELECT pace.team, poss_per_48, `threepm_per_game`, `threepa_per_game`, `threep_percentage`, `fta_per_game`, `oreb_percentage`, `dreb_percentage`, `treb_percentage`, `ast_per_game`, `to_per_game`, `stl_per_game`, `blk_per_game`, MAX(pace.date)
+				FROM  `teams` 
+				INNER JOIN  `pace` ON teams.name_br = pace.team
+				INNER JOIN  `team_opp_stats` ON teams.name_espn = team_opp_stats.team
+				WHERE abbr_espn = :modded_team';
+		$s = $this->db->conn_id->prepare($sql);
+		$s->bindValue(':modded_team', $modded_team);
+		$s->execute(); 	
+
+		$result = $s->fetchAll(PDO::FETCH_ASSOC);
+		$team_opp_stats = $result[0];
+
+		$pace_adj = ($league_avg_pace - $team_opp_stats['poss_per_48']) / $league_avg_pace;
+
+		$team_opp_stats['comp_threepm_per_game'] = (($team_opp_stats['threepm_per_game'] * $pace_adj) + $team_opp_stats['threepm_per_game']) - $league_avg_team_opp_stats['AVG(threepm_per_game)'];
+		$team_opp_stats['comp_threepa_per_game'] = (($team_opp_stats['threepa_per_game'] * $pace_adj) + $team_opp_stats['threepa_per_game']) - $league_avg_team_opp_stats['AVG(threepa_per_game)'];
+		$team_opp_stats['comp_threep_percentage'] = ($team_opp_stats['threep_percentage'] - $league_avg_team_opp_stats['AVG(threep_percentage)']) * 100;
+		$team_opp_stats['comp_fta_per_game'] = (($team_opp_stats['fta_per_game'] * $pace_adj) + $team_opp_stats['fta_per_game']) - $league_avg_team_opp_stats['AVG(fta_per_game)'];
+		$team_opp_stats['comp_oreb_percentage'] = ($team_opp_stats['oreb_percentage'] - $league_avg_team_opp_stats['AVG(oreb_percentage)']) * 100;
+		$team_opp_stats['comp_dreb_percentage'] = ($team_opp_stats['dreb_percentage'] - $league_avg_team_opp_stats['AVG(dreb_percentage)']) * 100;
+		$team_opp_stats['comp_treb_percentage'] = ($team_opp_stats['treb_percentage'] - $league_avg_team_opp_stats['AVG(treb_percentage)']) * 100;
+		$team_opp_stats['comp_ast_per_game'] = (($team_opp_stats['ast_per_game'] * $pace_adj) + $team_opp_stats['ast_per_game']) - $league_avg_team_opp_stats['AVG(ast_per_game)'];
+		$team_opp_stats['comp_to_per_game'] = (($team_opp_stats['to_per_game'] * $pace_adj) + $team_opp_stats['to_per_game']) - $league_avg_team_opp_stats['AVG(to_per_game)'];
+		$team_opp_stats['comp_stl_per_game'] = (($team_opp_stats['stl_per_game'] * $pace_adj) + $team_opp_stats['stl_per_game']) - $league_avg_team_opp_stats['AVG(stl_per_game)'];
+		$team_opp_stats['comp_blk_per_game'] = (($team_opp_stats['blk_per_game'] * $pace_adj) + $team_opp_stats['blk_per_game']) - $league_avg_team_opp_stats['AVG(blk_per_game)'];
+
+		unset($stat);
 
 		# echo '<pre>';
+		# var_dump($pace_adj);
 		# var_dump($league_avg_pace);
+		# var_dump($league_avg_team_opp_stats);
 		# var_dump($team_opp_stats);
 		# echo '</pre>'; exit();
 
@@ -117,7 +147,7 @@ class teams_model extends CI_Model
 		# var_dump($opp_fantasy_stats);
 		# echo '</pre>'; exit();	
 
-		return $opp_fantasy_stats;
+		return array($league_avg_team_opp_stats, $opp_fantasy_stats);
 	}
 
 	public function get_team_dvp($team, $date)

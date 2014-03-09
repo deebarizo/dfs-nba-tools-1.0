@@ -16,7 +16,7 @@ class Teams extends CI_Controller
 		$data['h2_tag'] = 'Team Overview';
 
 		$this->load->model('teams_model');
-		$data['overview'] = $this->teams_model->get_overview($team);
+		list($data['league_avg_team_opp_stats'], $data['overview']) = $this->teams_model->get_overview($team);
 
 		# echo '<pre>';
 		# var_dump($data['game_log']);
