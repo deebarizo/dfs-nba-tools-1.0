@@ -12,10 +12,11 @@ class Players extends CI_Controller
 		$data['h2_tag'] = 'Game Log';
 
 		$this->load->model('players_model');
+		$data['fpts_distribution'] = $this->players_model->get_fpts_distribution($player);
 		$data['game_log'] = $this->players_model->get_game_log($player);
 
 		# echo '<pre>';
-		# var_dump($data['game_log']);
+		# var_dump($data['fpts_distribution']);
 		# echo '</pre>'; exit();
 
 		$this->load->view('templates/header', $data);

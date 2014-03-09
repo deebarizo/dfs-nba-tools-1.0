@@ -9,6 +9,33 @@ class players_model extends CI_Model
 		$this->load->database();
 	}
 
+	public function get_fpts_distribution($player)
+	{
+		$name = $this->modify_name_ds($player);
+
+		$sql = 'SELECT name,
+						ROUND(((SUM(fgm-threepm) * 2) + ((SUM(fga-threepa) - SUM(fgm-threepm)) * -0.5)) / SUM(fpts_ds) * 100, 2) AS twop, 
+						ROUND(((SUM(threepm) * 3) + (SUM(threepa-threepm) * -0.5)) / SUM(fpts_ds) * 100, 2) AS threep, 
+						ROUND(((SUM(ftm) * 1) + (SUM(fta-ftm) * -0.5)) / SUM(fpts_ds) * 100, 2) AS ft, 
+						ROUND((SUM(oreb) * 1.25) / SUM(fpts_ds) * 100, 2) AS oreb,
+						ROUND((SUM(dreb) * 1.25) / SUM(fpts_ds) * 100, 2) AS dreb,
+						ROUND((SUM(ast) * 1.5) / SUM(fpts_ds) * 100, 2) AS ast,
+						ROUND((SUM(stl) * 2) / SUM(fpts_ds) * 100, 2) AS stl,
+						ROUND((SUM(blk) * 2) / SUM(fpts_ds) * 100, 2) AS blk,
+						ROUND((SUM(turnovers) * -1) / SUM(fpts_ds) * 100, 2) AS turnovers,
+						SUM(fpts_ds) AS fpts_ds
+				FROM `irlstats`
+				WHERE name = :name';
+		$s = $this->db->conn_id->prepare($sql);
+		$s->bindValue(':name', $name);
+		$s->execute(); 
+
+		$result = $s->fetchAll(PDO::FETCH_ASSOC);
+		$fpts_distribution = $result[0];
+
+		return $fpts_distribution;
+	}
+
 	public function get_game_log($player)
 	{
 		$name = $this->modify_name_ds($player);
