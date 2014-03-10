@@ -48,6 +48,7 @@ $route['teams/overview/(:any)'] = 'teams/overview/$1';
 $route['search'] = 'search';
 $route['update'] = 'update';
 $route['update/test'] = 'update/test';
+$route['update/fd'] = 'update/fd';
 
 $route['players/game_log/(:any)'] = 'players/game_log/$1';
 
