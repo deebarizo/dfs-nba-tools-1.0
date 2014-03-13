@@ -35,15 +35,9 @@
 						<?php echo form_open(base_url().'update/fd'); ?>
 
 							<p>
-							        <label for="date"><h4>Date for FD Salaries Update</h4></label> 
-							        <input id="date" type="date" name="date" value="<?php echo $today_date; ?>" />
-							        <?php echo form_error('date'); ?>
-							</p>
-
-							<p>
-							        <label for="raw_data"><h3>Raw Data</h3></label>
-									<textarea id="raw_data" name="raw_data" rows="32" style="width: 500px" /></textarea>
-							        <?php echo form_error('raw_data'); ?>
+							        <label for="url"><h4>FD Salaries URL</h4></label> 
+							        <input style='width: 650px' id="url" type="url" name="url" />
+							        <?php echo form_error('url'); ?>
 							</p>
 
 							<p>

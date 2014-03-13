@@ -14,7 +14,7 @@ class Update extends CI_Controller
 
 		$this->yesterday_date = date('Y-m-d',strtotime("1 days ago"));
 
-		$this->today_date = date('Y-m-d');
+		$this->today_year = date('Y');
 	}
 
 	public function test()
@@ -28,10 +28,9 @@ class Update extends CI_Controller
 		$data['page_title'] = 'Update - DFS NBA Tools';
 		$data['h2_tag'] = 'Update (FD Salaries)';
 
-		$data['today_date'] = $this->today_date;
+		$today_year = $this->today_year;
 
-		$this->form_validation->set_rules('date', 'Date', 'required|trim');
-		$this->form_validation->set_rules('raw_data', 'Raw Data', 'required|trim');		
+		$this->form_validation->set_rules('url', 'URL', 'required|trim');
 
 		$this->form_validation->set_error_delimiters('<br /><span style="color:red" class="error">', '</span>');
 
@@ -42,12 +41,11 @@ class Update extends CI_Controller
 		else
 		{
 			$form_data = array(
-							'date' => set_value('date'),
-							'raw_data' => set_value('raw_data')
+							'url' => set_value('url')
 						);
 
 			$this->load->model('scraping_model');
-			# $data['message'] = $this->scraping_model->scrape_fd_salaries($form_data);
+			$data['message'] = $this->scraping_model->scrape_fd_salaries($form_data, $today_year);
 		}
 
 		$this->load->view('templates/header', $data);

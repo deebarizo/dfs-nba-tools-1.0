@@ -9,6 +9,56 @@ class scraping_model extends CI_Model
 		$this->load->database();
 	}
 
+	public function scrape_fd_salaries($form_data, $today_year)
+	{
+		$url = $form_data['url'];
+
+		$this->load->helper('phpquery');
+
+		$html = phpQuery::newDocumentFileHTML($url);
+
+		$h1_tag_with_date = $html->find('span[class=sport-icon]')->parent()->text();
+
+		$month_and_day = preg_replace("/(.+)(\w\w\w\s\d+)(\w\w$)/", "$2", $h1_tag_with_date);
+
+		$date = date('Y-m-d', strtotime($month_and_day.', '.$today_year));
+
+		$sql = 'SELECT `date` FROM `fstats_fd` WHERE `date` = :date';
+		$s = $this->db->conn_id->prepare($sql);
+		$s->bindValue(':date', $date);
+		$s->execute(); 	
+
+		$result = $s->fetchAll(PDO::FETCH_COLUMN);	
+
+		if (empty($result))
+		{
+			$result = $html->find('tr[data-role=player]');
+			$num_players = count($result);
+
+			for ($i = 0; $i < $num_players; $i++) 
+			{ 
+				$fstats_fd[$i]['name'] = $html->find('tr[data-role=player]:eq('.$i.')')->find('td:eq(1)')->text();
+				$fstats_fd[$i]['team'] = $html->find('tr[data-role=player]:eq('.$i.')')->find('td:eq(4)')->find('b')->text();
+				# $fstats_fd[$i]['position'] = $html->find('tr[data-role=player]:eq('.$i.')')->find('td:eq(1)')->text();
+				# $fstats_fd[$i]['salary'] = $html->find('tr[data-role=player]:eq('.$i.')')->find('td:eq(1)')->text();
+				# $fstats_fd[$i]['opponent'] = $html->find('tr[data-role=player]:eq('.$i.')')->find('td:eq(1)')->text();
+				# $fstats_fd[$i]['num_games'] = $html->find('tr[data-role=player]:eq('.$i.')')->find('td:eq(1)')->text();
+				# $fstats_fd[$i]['fppg'] = $html->find('tr[data-role=player]:eq('.$i.')')->find('td:eq(1)')->text();
+				# $fstats_fd[$i]['date'] = $html->find('tr[data-role=player]:eq('.$i.')')->find('td:eq(1)')->text();
+			}
+
+			echo '<pre>';
+			var_dump($fstats_fd);
+			echo '</pre>'; exit();				
+
+			return 'Success: The FD salaries for this date were scraped.';
+		}
+		else
+		{
+			return 'Error: The FD salaries for this date are already in the database.';
+		}	
+	}
+
 	public function scrape_team_opp_stats($form_data)
 	{
 		$date = $form_data['date'];
