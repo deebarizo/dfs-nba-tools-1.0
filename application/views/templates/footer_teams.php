@@ -71,7 +71,10 @@
                 }],
                 plotOptions: {
                 	column: {colorByPoint: true}
-                }
+                },
+			    yAxis: {
+			    	tickInterval: 0.5
+			    },
 	        });
 	    });
 
