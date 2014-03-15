@@ -533,14 +533,21 @@ class scraping_model extends CI_Model
 												$row['plus_minus'] = $row[13];
 												$row['pts'] = $row[14];
 												$row['fpts_ds'] = 
-													$row['pts']+
-													($row['reb']*1.25)+
-													($row['ast']*1.5)-
-													$row['turnovers']+
-													(($row['fga']-$row['fgm'])*-0.5)+
-													(($row['fta']-$row['ftm'])*-0.5)+
-													($row['stl']*2)+
-													($row['blk']*2);
+													$row['pts'] +
+													($row['reb'] * 1.25) +
+													($row['ast'] * 1.5) -
+													$row['turnovers'] +
+													(($row['fga'] - $row['fgm']) * -0.5) +
+													(($row['fta'] - $row['ftm']) * -0.5) +
+													($row['stl'] * 2) +
+													($row['blk'] * 2);
+												$row['fpts_fd'] = 
+													$row['pts'] +
+										    		($row['reb'] * 1.2) +
+													($row['ast'] * 1.5) +
+													($row['blk'] * 2) +
+													($row['stl'] * 2) +
+													($row['turnovers'] * -1);
 												$row['date'] = $key;
 
 												for ($i=0; $i < 15; $i++) 
@@ -570,6 +577,7 @@ class scraping_model extends CI_Model
 												$row['plus_minus'] = NULL;
 												$row['pts'] = NULL;
 												$row['fpts_ds'] = NULL;
+												$row['fpts_fd'] = NULL;
 												$row['date'] = $key;
 
 												unset($row[0]);
@@ -578,10 +586,10 @@ class scraping_model extends CI_Model
 
 											$sql = 'INSERT INTO `irlstats`(`name`, `position`, `team`, `opponent`, `starter`, `played`, 
 																			`minutes`, `fgm`, `fga`, `threepm`, `threepa`, `ftm`, `fta`, `oreb`, `dreb`, `reb`, 
-																			`ast`, `stl`, `blk`, `turnovers`, `pfouls`, `plus_minus`, `pts`, `fpts_ds`, `date`) 
+																			`ast`, `stl`, `blk`, `turnovers`, `pfouls`, `plus_minus`, `pts`, `fpts_ds`, `fpts_fd`, `date`) 
 													VALUES (:name, :position, :team, :opponent, :starter, :played,
 															:minutes, :fgm, :fga, :threepm, :threepa, :ftm, :fta, :oreb, :dreb, :reb,
-															:ast, :stl, :blk, :turnovers, :pfouls, :plus_minus, :pts, :fpts_ds, :date)';
+															:ast, :stl, :blk, :turnovers, :pfouls, :plus_minus, :pts, :fpts_ds, :fpts_fd, :date)';
 											$s = $this->db->conn_id->prepare($sql);
 											$s->bindValue(':name', $row['name']);
 											$s->bindValue(':position', $row['position']);
@@ -607,6 +615,7 @@ class scraping_model extends CI_Model
 											$s->bindValue(':plus_minus', $row['plus_minus']);
 											$s->bindValue(':pts', $row['pts']);
 											$s->bindValue(':fpts_ds', $row['fpts_ds']);
+											$s->bindValue(':fpts_fd', $row['fpts_fd']);
 											$s->bindValue(':date', $row['date']);
 											$s->execute(); 	
 										}
