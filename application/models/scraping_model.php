@@ -9,6 +9,39 @@ class scraping_model extends CI_Model
 		$this->load->database();
 	}
 
+	public function add_fpts_of_new_site()
+	{
+		ini_set('max_execution_time', 10800); // 10800 seconds = 3 hours
+
+		$sql = 'SELECT * FROM `irlstats`';
+		$s = $this->db->conn_id->prepare($sql);
+		$s->execute(); 	
+
+		$irlstats = $s->fetchAll(PDO::FETCH_ASSOC);	
+
+		foreach ($irlstats as &$value) 
+		{
+			$fpts_fd = $value['pts'] +
+								($value['reb'] * 1.2) +
+								($value['ast'] * 1.5) +
+								($value['blk'] * 2) +
+								($value['stl'] * 2) +
+								($value['turnovers'] * -1);
+
+			$sql = 'UPDATE `irlstats` SET `fpts_fd` = :fpts_fd WHERE `id` = :id';
+			$s = $this->db->conn_id->prepare($sql);
+			$s->bindValue(':fpts_fd', $fpts_fd);
+			$s->bindValue(':id', $value['id']);
+			$s->execute();
+		}
+
+		unset($value);
+
+		echo '<pre>';
+		var_dump($irlstats);
+		echo '</pre>'; exit();		
+	}
+
 	public function scrape_fd_salaries($form_data, $today_year)
 	{
 		$url = $form_data['url'];

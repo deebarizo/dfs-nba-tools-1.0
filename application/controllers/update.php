@@ -22,6 +22,12 @@ class Update extends CI_Controller
 		$this->load->model('scraping_model');
 	}
 
+	public function add_fpts_of_new_site()
+	{
+		$this->load->model('scraping_model');
+		$this->scraping_model->add_fpts_of_new_site();
+	}
+
 	public function fd()
 	{
 		$data['page_type'] = 'Update';
