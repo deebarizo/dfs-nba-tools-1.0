@@ -50,10 +50,17 @@
 
 			<ul class="mainnav">
 				
-				<li class="<?php echo ($page_type === 'Daily' ? 'active' : ''); ?>">
+				<li class="<?php echo ($page_type === 'Daily DS' ? 'active' : ''); ?>">
 					<a href="<?php echo base_url(); ?>">
 						<i class="fa fa-dashboard"></i>
-						<span>Daily</span>
+						<span>Daily DS</span>
+					</a>	    				
+				</li>
+
+				<li class="<?php echo ($page_type === 'Daily FD' ? 'active' : ''); ?>">
+					<a href="<?php echo base_url().'daily/fd'; ?>">
+						<i class="fa fa-dashboard"></i>
+						<span>Daily FD</span>
 					</a>	    				
 				</li>
 

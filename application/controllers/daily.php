@@ -29,10 +29,9 @@ class Daily extends CI_Controller
 
 	public function get_stats_ds($date)
 	{
-		$data['page_type'] = 'Daily';
-		$data['page_title'] = 'Daily - DFS NBA Tools';
-		$data['h2_tag'] = 'Daily';
-		$data['subhead'] = 'DFS NBA Tools';
+		$data['page_type'] = 'Daily DS';
+		$data['page_title'] = 'Daily DS - DFS NBA Tools';
+		$data['h2_tag'] = 'Daily DS';
 
 		$data['chosen_date'] = $date;
 
