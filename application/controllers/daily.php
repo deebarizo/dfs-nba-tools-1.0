@@ -27,11 +27,11 @@ class Daily extends CI_Controller
 		$this->get_stats_ds($this->date);
 	}
 
-	public function get_stats_ds($date)
+	public function setup_stats($site, $date)
 	{
-		$data['page_type'] = 'Daily DS';
-		$data['page_title'] = 'Daily DS - DFS NBA Tools';
-		$data['h2_tag'] = 'Daily DS';
+		$data['page_type'] = 'Daily '.$site;
+		$data['page_title'] = 'Daily '.$site.' - DFS NBA Tools';
+		$data['h2_tag'] = 'Daily '.$site;
 
 		$data['chosen_date'] = $date;
 
@@ -42,6 +42,45 @@ class Daily extends CI_Controller
 
 			$data['dates'][] = $dates_in_dropdown->format('Y-m-d');
 		}
+
+		return $data;
+	}
+
+	public function get_stats_fd($date = 'latest_irlstats')
+	{
+		if ($date == 'latest_irlstats')
+		{
+			$date = $this->date;
+		}
+
+		$data = $this->setup_stats('FD', $date);
+
+		$sql = 'SELECT * FROM `fstats_fd` WHERE `date` = :date';
+		$s = $this->db->conn_id->prepare($sql);
+		$s->bindValue(':date', $date);
+		$s->execute(); 
+
+		$fstats_fd = $s->fetchAll(PDO::FETCH_ASSOC);
+
+		if (!empty($fstats_fd))	
+		{
+			
+		}
+		else
+		{
+			$data['error'] = "The FD salaries are missing.";
+
+			// views
+		}
+
+		echo '<pre>';
+		var_dump($fstats_fd);
+		echo '</pre>'; exit();
+	}
+
+	public function get_stats_ds($date)
+	{
+		$data = $this->setup_stats('DS', $date);
 
 		$url_segment = preg_replace('/\d\d(\d\d)-(\d\d)-(\d\d)/', '$2$3$1', $date);
 

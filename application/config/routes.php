@@ -43,6 +43,9 @@ $route['404_override'] = '';
 
 $route['daily/ds/(:any)'] = 'daily/get_stats_ds/$1';
 
+$route['daily/fd'] = 'daily/get_stats_fd';
+$route['daily/fd/(:any)'] = 'daily/get_stats_fd/$1';
+
 $route['evaluation/(:any)'] = 'evaluation/stats/$1';
 
 /* End of file routes.php */
