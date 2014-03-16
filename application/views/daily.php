@@ -13,7 +13,7 @@
 					<form action="">
 						<select class="date-drop-down" name="date-drop-down">
 			      			<?php foreach ($dates as $key => $date) { ?>
-			      				<option value="<?php echo base_url().$date; ?>"<?php echo $chosen_date == $date ? ' selected' : ''; ?>><?php echo $date; ?></option>
+			      				<option value="<?php echo base_url().'daily/ds/'.$date; ?>"<?php echo $chosen_date == $date ? ' selected' : ''; ?>><?php echo $date; ?></option>
 			      			<?php } ?>
 						</select>
 					</form>

@@ -41,25 +41,9 @@
 $route['default_controller'] = 'daily';
 $route['404_override'] = '';
 
+$route['daily/ds/(:any)'] = 'daily/get_stats_ds/$1';
+
 $route['evaluation/(:any)'] = 'evaluation/stats/$1';
-
-$route['teams/overview/(:any)'] = 'teams/overview/$1';
-
-$route['search'] = 'search';
-$route['update'] = 'update';
-$route['update/test'] = 'update/test';
-$route['update/fd'] = 'update/fd';
-
-$route['players/game_log/(:any)'] = 'players/game_log/$1';
-
-$route['daily/notes'] = 'daily/notes';
-$route['daily/save_lineup'] = 'daily/save_lineup';
-$route['daily/get_team_dvp/(:any)'] = 'daily/get_team_dvp/$1';
-$route['daily/get_team_rotation/(:any)'] = 'daily/get_team_rotation/$1';
-$route['daily/get_base_url'] = 'daily/get_base_url';
-
-$route['(:any)'] = 'daily/get_stats/$1';
-
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

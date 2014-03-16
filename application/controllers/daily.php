@@ -24,10 +24,10 @@ class Daily extends CI_Controller
 
 	public function index()
 	{
-		$this->get_stats($this->date);
+		$this->get_stats_ds($this->date);
 	}
 
-	public function get_stats($date)
+	public function get_stats_ds($date)
 	{
 		$data['page_type'] = 'Daily';
 		$data['page_title'] = 'Daily - DFS NBA Tools';
